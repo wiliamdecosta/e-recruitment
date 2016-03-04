@@ -14,7 +14,12 @@
 		<link rel="stylesheet" href="<?php echo BS_CSS_PATH; ?>font-awesome.css" />
 
 		<!-- page specific plugin styles -->
-
+		<!-- jQgrid -->
+		<link rel="stylesheet" href="<?php echo BS_CSS_PATH; ?>ui.jqgrid.css" />
+		
+		<!-- Date picker -->
+        <link rel="stylesheet" href="<?php echo BS_CSS_PATH; ?>datepicker.css" />
+    
 		<!-- text fonts -->
 		<link rel="stylesheet" href="<?php echo BS_CSS_PATH; ?>ace-fonts.css" />
 
@@ -62,7 +67,10 @@
 		<script src="<?php echo BS_JS_PATH; ?>bootstrap.js"></script>
 
 		<!-- page specific plugin scripts -->
-
+        <script src="<?php echo BS_JS_PATH; ?>date-time/bootstrap-datepicker.js"></script>
+		<script src="<?php echo BS_JS_PATH; ?>jqGrid/jquery.jqGrid.src.js"></script>
+		<script src="<?php echo BS_JS_PATH; ?>jqGrid/i18n/grid.locale-en.js"></script>
+		
 		<!--[if lte IE 8]>
 		  <script src="<?php echo BS_JS_PATH; ?>excanvas.js"></script>
 		<![endif]-->
