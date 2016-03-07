@@ -133,12 +133,12 @@
                 // options for the Edit Dialog
                 closeAfterEdit: true,
                 closeOnEscape:true,
-                serializeEditData: createJSON,
+                recreateForm: true,
+                serializeEditData: serializeJSON,
                 width: 'auto',
                 errorTextFormat: function (data) {
                     return 'Error: ' + data.responseText
                 },
-                recreateForm: true,
                 beforeShowForm: function (e, form) {
                     var form = $(e[0]);
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
@@ -159,11 +159,12 @@
                 closeAfterAdd: false,
                 clearAfterAdd : true,
                 closeOnEscape:true,
+                recreateForm: true,
                 width: 'auto',
                 errorTextFormat: function (data) {
                     return 'Error: ' + data.responseText
                 },
-                serializeEditData: createJSON,
+                serializeEditData: serializeJSON,
                 viewPagerButtons: false,
                 beforeShowForm: function (e, form) {
                     var form = $(e[0]);
@@ -176,13 +177,17 @@
                     if(response.success == false) {
                         return [false,response.message,response.responseText];
                     }
-
+                    
+                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>'); 
+                    var tinfoel = $(".tinfo").show();
+                    tinfoel.delay(3000).fadeOut();
+                          
                     return [true,"",response.responseText];
                 }
             },
             {
                 //delete record form
-                serializeDelData: createJSON,
+                serializeDelData: serializeJSON,
                 recreateForm: true,
                 beforeShowForm: function (e) {
                     var form = $(e[0]);
@@ -229,10 +234,9 @@
 
     });
 
-    function createJSON(postdata) {
+    function serializeJSON(postdata) {
 
         var oper = postdata.oper;
-
         var items;
         if(oper != 'del') {
             items = JSON.stringify(postdata);
