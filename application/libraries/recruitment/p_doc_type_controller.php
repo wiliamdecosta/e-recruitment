@@ -1,16 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class P_role_controller
+* @class P_doc_type_controller
 * @version 07/05/2015 12:18:00
 */
-class P_job_controller {
+class P_doc_type_controller {
     
     function read() {
 		
 		$page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',10);
-        $sidx = getVarClean('sidx','str','job_id');
+        $sidx = getVarClean('sidx','str','p_doc_type_id');
         $sord = getVarClean('sord','str','DESC');
             	       
     	$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
@@ -18,8 +18,8 @@ class P_job_controller {
     	try {
             
             $ci = & get_instance();
-		    $ci->load->model('recruitment/p_job');
-		    $table = $ci->p_job;
+		    $ci->load->model('recruitment/p_doc_type');
+		    $table = $ci->p_doc_type;
 		    
 		    $req_param = array(
                 "sort_by" => $sidx,
@@ -95,8 +95,8 @@ class P_job_controller {
     function create() {
 
     	$ci = & get_instance();
-		$ci->load->model('recruitment/p_job');
-		$table = $ci->p_job;
+		$ci->load->model('recruitment/p_doc_type');
+		$table = $ci->p_doc_type;
 				
 		$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
 
@@ -166,8 +166,8 @@ class P_job_controller {
     function update() {
 
     	$ci = & get_instance();
-		$ci->load->model('recruitment/p_job');
-		$table = $ci->p_job;
+		$ci->load->model('recruitment/p_doc_type');
+		$table = $ci->p_doc_type;
 
 		$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
 
@@ -237,8 +237,8 @@ class P_job_controller {
 
     function destroy() {
     	$ci = & get_instance();
-		$ci->load->model('recruitment/p_job');
-		$table = $ci->p_job;
+		$ci->load->model('recruitment/p_doc_type');
+		$table = $ci->p_doc_type;
 
 		$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
 
@@ -285,5 +285,5 @@ class P_job_controller {
     }
 }
 
-/* End of file p_job_controller.php */
-/* Location: ./application/libraries/p_job_controller.php */
+/* End of file p_doc_type_controller.php */
+/* Location: ./application/libraries/p_doc_type_controller.php */

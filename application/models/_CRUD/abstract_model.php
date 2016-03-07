@@ -554,7 +554,7 @@ class Abstract_model extends  CI_Model {
     }
     
     public function generate_id($owner, $table_name, $col_name) {
-        $sql = "SELECT recruitment.generate_id('$owner','$table_name','$col_name') AS generated_id";    
+        $sql = "SELECT recruitment.generate_id('$owner','$table_name','$col_name') AS generated_id";  
         $query = $this->db->query($sql);
 		$row = $query->row_array();
 		
