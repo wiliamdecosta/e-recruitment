@@ -4,50 +4,64 @@
 * @class P_role_controller
 * @version 07/05/2015 12:18:00
 */
-class P_application_controller {
-
+class P_job_controller {
+    
     function read() {
 		
-		$start = getVarClean('current','int',0);
-    	$limit = getVarClean('rowCount','int',10);
-
-    	$sort = getVarClean('sort','str','listing_no');
-    	$dir  = getVarClean('dir','str','ASC');
-    	
-        $searchPhrase = getVarClean('searchPhrase', 'str', '');
-        $p_application_id = getVarClean('p_application_id', 'int', 0);
-    	       
-    	$data = array('rows' => array(), 'success' => false, 'message' => '', 'current' => $start, 'rowCount' => $limit, 'total' => 0);
+		$page = getVarClean('page','int',1);
+        $limit = getVarClean('rows','int',10);
+        $sidx = getVarClean('sidx','str','job_id');
+        $sord = getVarClean('sord','str','DESC');
+            	       
+    	$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
 
     	try {
             
             $ci = & get_instance();
-		    $ci->load->model('adm_sistem/p_application');
-		    $table = $ci->p_application;
+		    $ci->load->model('recruitment/p_job');
+		    $table = $ci->p_job;
 		    
-		    //Set default criteria. You can override this if you want
-            foreach ($table->fields as $key => $field){
-                if (!empty($$key)){ // <-- Perhatikan simbol $$
-                    if ($field['type'] == 'str'){
-                        $table->setCriteria($table->getAlias().$key.$table->likeOperator." '".$$key."' ");
-                    }else{
-                        $table->setCriteria($table->getAlias().$key." = ".$$key);
-                    }
-                }
-            }
-		    
-		    if(!empty($searchPhrase)) {
-		        $table->setCriteria("(application.code ".$table->likeOperator." '%".$searchPhrase."%')"); 
-		    }
-		    		    
-            $start = ($start-1) * $limit;
-        	$items = $table->getAll($start, $limit, $sort, $dir);
-        	$totalcount = $table->countAll();
+		    $req_param = array(
+                "sort_by" => $sidx,
+                "sord" => $sord,
+                "limit" => null,
+                "field" => null,
+                "where" => null,
+                "where_in" => null,
+                "where_not_in" => null,
+                "search" => $_REQUEST['_search'],
+                "search_field" => isset($_REQUEST['searchField']) ? $_REQUEST['searchField'] : null,
+                "search_operator" => isset($_REQUEST['searchOper']) ? $_REQUEST['searchOper'] : null,
+                "search_str" => isset($_REQUEST['searchString']) ? $_REQUEST['searchString'] : null
+            );
+
+            // Filter Table
+            $req_param['where'] = array();
+            
+            $table->setJQGridParam($req_param);
+            $count = $table->countAll();
+            
+            if ($count > 0) $total_pages = ceil($count / $limit);
+            else $total_pages = 0;
+            
+            if ($page > $total_pages) $page = $total_pages;
+            $start = $limit * $page - ($limit); // do not put $limit*($page - 1)
     
-        	$data['rows'] = $items;
-        	$data['success'] = true;
-        	$data['total'] = $totalcount;
-        	
+            $req_param['limit'] = array(
+                'start' => $start,
+                'end' => $limit
+            );
+            $table->setJQGridParam($req_param);
+            
+            if ($page == 0) $data['page'] = 1;
+            else $data['page'] = $page;
+            
+            $data['total'] = $total_pages;
+            $data['records'] = $count;
+    
+            $data['rows'] = $table->getAll();
+            $data['success'] = true;
+            
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }
@@ -55,14 +69,36 @@ class P_application_controller {
     	return $data;
     }
 
-
+    
+    function crud() {
+        
+        $data = array();
+        $oper = getVarClean('oper', 'str', '');                
+        switch ($oper) {
+            case 'add' :
+                $data = $this->create();
+            break;
+            
+            case 'edit' :
+                $data = $this->update();    
+            break;
+            
+            case 'del' :
+                $data = $this->destroy();   
+            break;
+        }
+        
+        return $data;
+    }
+    
+    
     function create() {
 
     	$ci = & get_instance();
-		$ci->load->model('adm_sistem/p_application');
-		$table = $ci->p_application;
+		$ci->load->model('recruitment/p_job');
+		$table = $ci->p_job;
 				
-		$data = array('rows' => array(), 'success' => false, 'message' => '');
+		$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
 
 		$jsonItems = getVarClean('items', 'str', '');
         $items = jsonDecode($jsonItems);
@@ -81,7 +117,7 @@ class P_application_controller {
         		try{
         		    
         		    $table->db->trans_begin(); //Begin Trans
-                	
+
                     	$table->setRecord($items[$i]);
                     	$table->create();
             		            		
@@ -130,10 +166,10 @@ class P_application_controller {
     function update() {
 
     	$ci = & get_instance();
-		$ci->load->model('adm_sistem/p_application');
-		$table = $ci->p_application;
+		$ci->load->model('recruitment/p_job');
+		$table = $ci->p_job;
 
-		$data = array('rows' => array(), 'success' => false, 'message' => '');
+		$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
 
 		$jsonItems = getVarClean('items', 'str', '');
         $items = jsonDecode($jsonItems);
@@ -201,10 +237,10 @@ class P_application_controller {
 
     function destroy() {
     	$ci = & get_instance();
-		$ci->load->model('adm_sistem/p_application');
-		$table = $ci->p_application;
+		$ci->load->model('recruitment/p_job');
+		$table = $ci->p_job;
 
-		$data = array('rows' => array(), 'success' => false, 'message' => '');
+		$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
 
 		$jsonItems = getVarClean('items', 'str', '');
         $items = jsonDecode($jsonItems);
@@ -249,5 +285,5 @@ class P_application_controller {
     }
 }
 
-/* End of file P_application_controller.php */
-/* Location: ./application/libraries/P_application_controller.php */
+/* End of file P_job_applicant.php */
+/* Location: ./application/libraries/p_job_applicant_controller.php */

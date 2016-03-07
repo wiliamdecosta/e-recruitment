@@ -178,8 +178,8 @@
         		        if(response.success == false) {
     	                    showBootDialog(false, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
     	                }else {
-            		        setThemeSkin( response.items );
-            		        $("#skin-colorpicker option[data-skin='"+ response.items +"']").attr("selected","selected");
+            		        setThemeSkin( response.rows );
+            		        $("#skin-colorpicker option[data-skin='"+ response.rows +"']").attr("selected","selected");
             		        $(".colorpick-btn").removeClass("selected");
                             $(".btn-colorpicker").css("background-color", $("#skin-colorpicker").val());
                         }

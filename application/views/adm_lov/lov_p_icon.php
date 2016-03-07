@@ -101,7 +101,7 @@
     	        }
     	        return response;
     	     },
-       	     url: '<?php echo WS_URL2."adm_sistem.p_icon_controller/read"; ?>',
+       	     url: '<?php echo WS_URL."adm_sistem.p_icon_controller/read"; ?>',
     	     selection: true,
     	     sorting:true,
     	     labels: {

@@ -67,7 +67,9 @@ class Abstract_model extends  CI_Model {
 	public $comboDisplay = array();
 	
 	public $likeOperator = '';
-
+    
+    public $jqGridParamSearch = array();
+    
 	function __construct() {
 	    	    
 		parent::__construct();
@@ -106,15 +108,94 @@ class Abstract_model extends  CI_Model {
 		$condition = $this->getCriteria();
 		
 		$whereCondition = join(" AND ", $condition);
-		if($whereCondition != "")
+		
+		$wh = "";
+		if(count($this->jqGridParamSearch) > 0) {
+		    if($this->jqGridParamSearch['search'] != null && $this->jqGridParamSearch['search'] === 'true'){
+                $wh = "UPPER(".$this->jqGridParamSearch['search_field'].")";
+                switch ($this->jqGridParamSearch['search_operator']) {
+                    case "bw": // begin with
+                        $wh .= " LIKE UPPER('".$this->jqGridParamSearch['search_str']."%')";
+                        break;
+                    case "ew": // end with
+                        $wh .= " LIKE UPPER('%".$this->jqGridParamSearch['search_str']."')";
+                        break;
+                    case "cn": // contain %param%
+                        $wh .= " LIKE UPPER('%".$this->jqGridParamSearch['search_str']."%')";
+                        break;
+                    case "eq": // equal =
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " = ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " = UPPER('".$this->jqGridParamSearch['search_str']."')";
+                        }
+                        break;
+                    case "ne": // not equal
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " <> ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " <> UPPER('".$this->jqGridParamSearch['search_str']."')";
+                        }
+                        break;
+                    case "lt":
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " < ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " < '".$this->jqGridParamSearch['search_str']."'";
+                        }
+                        break;
+                    case "le":
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " <= ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " <= '".$this->jqGridParamSearch['search_str']."'";
+                        }
+                        break;
+                    case "gt":
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " > ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " > '".$this->jqGridParamSearch['search_str']."'";
+                        }
+                        break;
+                    case "ge":
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " >= ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " >= '".$this->jqGridParamSearch['search_str']."'";
+                        }
+                        break;
+                    default :
+                        $wh = "";
+                }
+            }    
+		}
+			
+		if(!empty($wh)) {
+            if(!empty($whereCondition)) 
+                $whereCondition .= " AND ".$wh;
+            else
+                $whereCondition = $wh;
+        }
+        
+		if($whereCondition != "") {
 		    $this->db->where($whereCondition, null, false);
-
-		if(empty($orderby)) $orderby = $this->pkey;
-		$this->db->order_by($orderby, $ordertype);
-
-		if($limit != -1)
+		}
+        
+        
+        if(count($this->jqGridParamSearch) > 0) {
+            $this->db->order_by($this->jqGridParamSearch['sort_by'], $this->jqGridParamSearch['sord']);
+        }else {
+            if(empty($orderby)) $orderby = $this->pkey;
+		    $this->db->order_by($orderby, $ordertype);
+        }
+        
+        
+        if(count($this->jqGridParamSearch) > 0) {
+            $this->db->limit($this->jqGridParamSearch['limit']['end'], $this->jqGridParamSearch['limit']['start']);
+        }else if($limit != -1) {
 			$this->db->limit($limit, $start);
-
+        }
 
 		$queryResult = $this->db->get();
 		$items = $queryResult->result_array(); 
@@ -191,10 +272,79 @@ class Abstract_model extends  CI_Model {
 		$condition = $this->getCriteria();
 		
 		$whereCondition = join(" AND ", $condition);
-		if(!empty($whereCondition)) {
-			$query = $query. " WHERE ".$whereCondition;
+		$wh = "";
+		if(count($this->jqGridParamSearch) > 0) {
+		    if($this->jqGridParamSearch['search'] != null && $this->jqGridParamSearch['search'] === 'true'){
+                $wh = "UPPER(".$this->jqGridParamSearch['search_field'].")";
+                switch ($this->jqGridParamSearch['search_operator']) {
+                    case "bw": // begin with
+                        $wh .= " LIKE UPPER('".$this->jqGridParamSearch['search_str']."%')";
+                        break;
+                    case "ew": // end with
+                        $wh .= " LIKE UPPER('%".$this->jqGridParamSearch['search_str']."')";
+                        break;
+                    case "cn": // contain %param%
+                        $wh .= " LIKE UPPER('%".$this->jqGridParamSearch['search_str']."%')";
+                        break;
+                    case "eq": // equal =
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " = ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " = UPPER('".$this->jqGridParamSearch['search_str']."')";
+                        }
+                        break;
+                    case "ne": // not equal
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " <> ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " <> UPPER('".$this->jqGridParamSearch['search_str']."')";
+                        }
+                        break;
+                    case "lt":
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " < ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " < '".$this->jqGridParamSearch['search_str']."'";
+                        }
+                        break;
+                    case "le":
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " <= ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " <= '".$this->jqGridParamSearch['search_str']."'";
+                        }
+                        break;
+                    case "gt":
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " > ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " > '".$this->jqGridParamSearch['search_str']."'";
+                        }
+                        break;
+                    case "ge":
+                        if(is_numeric($this->jqGridParamSearch['search_str'])) {
+                            $wh .= " >= ".$this->jqGridParamSearch['search_str'];
+                        } else {
+                            $wh .= " >= '".$this->jqGridParamSearch['search_str']."'";
+                        }
+                        break;
+                    default :
+                        $wh = "";
+                }
+            }    
 		}
 
+		if(!empty($wh)) {
+            if(!empty($whereCondition)) 
+                $whereCondition .= " AND ".$wh;
+            else
+                $whereCondition = $wh;
+        }
+        
+        if(!empty($whereCondition)) {
+            $query = $query. " WHERE ".$whereCondition;
+        }    
+        
 		$query = $this->db->query($query);
 		$row = $query->row_array();
 		
@@ -409,6 +559,10 @@ class Abstract_model extends  CI_Model {
 		$row = $query->row_array();
 		
 		return $row['generated_id'];
+    }
+    
+    public function setJQGridParam($param) {
+        $this->jqGridParamSearch = $param;
     }
 
 }

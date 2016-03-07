@@ -105,7 +105,7 @@
                 if(response.success == false) {
                     showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
                 }else {
-        	        var obj = response.items[0];
+        	        var obj = response.rows[0];
         	        
         	        $("#form_p_role_id").val(obj.p_role_id);
         	        $("#form_code").val(obj.code);

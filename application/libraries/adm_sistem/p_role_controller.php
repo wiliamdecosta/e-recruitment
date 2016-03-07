@@ -17,7 +17,7 @@ class P_role_controller {
         $searchPhrase = getVarClean('searchPhrase', 'str', '');
         $p_role_id = getVarClean('p_role_id', 'int', 0);
     	       
-    	$data = array('items' => array(), 'success' => false, 'message' => '', 'current' => $start, 'rowCount' => $limit, 'total' => 0);
+    	$data = array('rows' => array(), 'success' => false, 'message' => '', 'current' => $start, 'rowCount' => $limit, 'total' => 0);
 
     	try {
             
@@ -44,7 +44,7 @@ class P_role_controller {
         	$items = $table->getAll($start, $limit, $sort, $dir);
         	$totalcount = $table->countAll();
     
-        	$data['items'] = $items;
+        	$data['rows'] = $items;
         	$data['success'] = true;
         	$data['total'] = $totalcount;
         	
@@ -62,7 +62,7 @@ class P_role_controller {
 		$ci->load->model('adm_sistem/p_role');
 		$table = $ci->p_role;
 				
-		$data = array('items' => array(), 'success' => false, 'message' => '');
+		$data = array('rows' => array(), 'success' => false, 'message' => '');
 
 		$jsonItems = getVarClean('items', 'str', '');
         $items = jsonDecode($jsonItems);
@@ -101,7 +101,7 @@ class P_role_controller {
         		$data['success'] = true;
         		$data['message'] = 'Data added successfully';
         	}
-        	$data['items'] =$items;
+        	$data['rows'] =$items;
 		}else {
 
 			try{
@@ -119,7 +119,7 @@ class P_role_controller {
 	            $table->db->trans_rollback(); //Rollback Trans
 	            
 	            $data['message'] = $e->getMessage();
-                $data['items'] = $items;
+                $data['rows'] = $items;
 	        }
 
 		}
@@ -133,7 +133,7 @@ class P_role_controller {
 		$ci->load->model('adm_sistem/p_role');
 		$table = $ci->p_role;
 
-		$data = array('items' => array(), 'success' => false, 'message' => '');
+		$data = array('rows' => array(), 'success' => false, 'message' => '');
 
 		$jsonItems = getVarClean('items', 'str', '');
         $items = jsonDecode($jsonItems);
@@ -172,7 +172,7 @@ class P_role_controller {
         		$data['success'] = true;
         		$data['message'] = 'Data update successfully';
         	}
-        	$data['items'] =$items;
+        	$data['rows'] =$items;
 		}else {
 
 			try{
@@ -186,12 +186,12 @@ class P_role_controller {
     	        $data['success'] = true;
     	        $data['message'] = 'Data update successfully';
 
-	            $data['items'] = $table->get($items[$table->pkey]);
+	            $data['rows'] = $table->get($items[$table->pkey]);
 	        }catch (Exception $e) {
 	            $table->db->trans_rollback(); //Rollback Trans
 	            
 	            $data['message'] = $e->getMessage();
-                $data['items'] = $items;
+                $data['rows'] = $items;
 	        }
 
 		}
@@ -204,7 +204,7 @@ class P_role_controller {
 		$ci->load->model('adm_sistem/p_role');
 		$table = $ci->p_role;
 
-		$data = array('items' => array(), 'success' => false, 'message' => '');
+		$data = array('rows' => array(), 'success' => false, 'message' => '');
 
 		$jsonItems = getVarClean('items', 'str', '');
         $items = jsonDecode($jsonItems);
@@ -218,7 +218,7 @@ class P_role_controller {
                     if (empty($value)) throw new Exception('Empty parameter');
 
                     $table->remove($value);
-                    $data['items'][] = array($table->pkey => $value);
+                    $data['rows'][] = array($table->pkey => $value);
                     $total++;
                 }
             }else{
@@ -228,7 +228,7 @@ class P_role_controller {
                 }
 
                 $table->remove($items);
-                $data['items'][] = array($table->pkey => $items);
+                $data['rows'][] = array($table->pkey => $items);
                 $data['total'] = $total = 1;
             }
 
@@ -240,7 +240,7 @@ class P_role_controller {
         }catch (Exception $e) {
             $table->db->trans_rollback(); //Rollback Trans
             $data['message'] = $e->getMessage();
-            $data['items'] = array();
+            $data['rows'] = array();
             $data['total'] = 0;
         }
 

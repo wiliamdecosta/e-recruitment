@@ -131,7 +131,7 @@
 <script>
     jQuery(function($) {
         $.post( "<?php echo WS_URL.'adm_sistem.p_user_controller/getInfo'; ?>", function( response ) {
-            var item = response.data;
+            var item = response.rows;
             
             $("#form-field-userid").val( item.p_user_id );
             $("#form-field-username").val( item.user_name );

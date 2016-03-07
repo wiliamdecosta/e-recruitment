@@ -131,7 +131,7 @@
     	        }
     	        return response;
     	     },
-       	     url: '<?php echo WS_URL2."adm_sistem.p_user_role_controller/read"; ?>',
+       	     url: '<?php echo WS_URL."adm_sistem.p_user_role_controller/read"; ?>',
        	     post: function () {
     	         return { p_user_id : $("#form_p_user_id").val() };
     	     },

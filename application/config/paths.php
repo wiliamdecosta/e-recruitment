@@ -9,7 +9,7 @@ $ci = & get_instance();
 $ci->load->helper('url');
 
 $config['WS_URL'] = define('WS_URL',base_url().'index.php/ws/json/');
-$config['WS_URL2'] = define('WS_URL2',base_url().'index.php/ws/json2/');
+$config['WS_JQGRID'] = define('WS_JQGRID',base_url().'index.php/ws/json_jqgrid/');
 $config['BASE_URL'] = define('BASE_URL',base_url().'index.php/');
 $config['IMAGE_APP_PATH'] = define('IMAGE_APP_PATH',base_url().'application/third_party/images/');
 

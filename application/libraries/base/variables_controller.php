@@ -10,7 +10,7 @@ class Variables_controller {
 
 		$var_name = getVarClean('var_name','str','');
     	
-    	$data = array('items' => array(), 'success' => false, 'message' => '');
+    	$data = array('rows' => array(), 'success' => false, 'message' => '');
 
     	try {
 
@@ -18,7 +18,7 @@ class Variables_controller {
 		    $ci->load->model('base/variables');
 		    $table = $ci->variables;
             
-        	$data['items'] = $table->get_var($var_name);
+        	$data['rows'] = $table->get_var($var_name);
         	$data['success'] = true;
         	$data['total'] = 1;
 
@@ -33,7 +33,7 @@ class Variables_controller {
         $var_name = getVarClean('var_name','str','');
         $var_value = getVarClean('var_value','str','');
         
-        $data = array('items' => array(), 'success' => false, 'message' => '');
+        $data = array('rows' => array(), 'success' => false, 'message' => '');
 
     	try {
 
@@ -58,7 +58,7 @@ class Variables_controller {
 
 		$var_name = getVarClean('var_name','str','');
     	
-    	$data = array('items' => array(), 'success' => false, 'message' => '');
+    	$data = array('rows' => array(), 'success' => false, 'message' => '');
 
     	try {
 
@@ -67,7 +67,7 @@ class Variables_controller {
 		    $table = $ci->variables;
             
             $skin = $table->get_theme($ci->session->userdata('user_name'), $var_name);
-        	$data['items'] =  empty($skin) ? "no-skin" : $skin;
+        	$data['rows'] =  empty($skin) ? "no-skin" : $skin;
         	$data['success'] = true;
         	$data['total'] = 1;
 
@@ -82,7 +82,7 @@ class Variables_controller {
         $var_name = getVarClean('var_name','str','');
         $var_value = getVarClean('var_value','str','');
         
-        $data = array('items' => array(), 'success' => false, 'message' => '');
+        $data = array('rows' => array(), 'success' => false, 'message' => '');
 
     	try {
 
@@ -107,7 +107,7 @@ class Variables_controller {
         $ci = & get_instance();
         $module_id = getVarClean('module_id','str','');
         
-        $data = array('items' => array(), 'success' => false, 'message' => '');
+        $data = array('rows' => array(), 'success' => false, 'message' => '');
         try {
             check_login(true);
             

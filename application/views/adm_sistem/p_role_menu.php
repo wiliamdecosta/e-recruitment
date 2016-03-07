@@ -153,7 +153,7 @@
     	        }
     	        return response;
     	     },
-       	     url: '<?php echo WS_URL2."adm_sistem.p_role_menu_controller/read"; ?>',
+       	     url: '<?php echo WS_URL."adm_sistem.p_role_menu_controller/read"; ?>',
        	     post: function () {
     	         return { 
                     p_role_id : $("#form_p_role_id").val(),

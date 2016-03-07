@@ -340,7 +340,7 @@
         		        if(response.success == false) {
     	                    showBootDialog(false, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
     	                }else {
-    	                    setThemeSkin2( response.items );
+    	                    setThemeSkin2( response.rows );
                         }
         		    }
     		    );

@@ -123,7 +123,7 @@
     	        }
     	        return response;
     	     },
-       	     url: '<?php echo WS_URL2."adm_sistem.p_user_controller/read"; ?>',
+       	     url: '<?php echo WS_URL."adm_sistem.p_user_controller/read"; ?>',
     	     selection: true,
     	     multiSelect: true,
     	     sorting:true,
