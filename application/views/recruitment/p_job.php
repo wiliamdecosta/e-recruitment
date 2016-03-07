@@ -31,15 +31,15 @@
 </div>
 
 <script>
-    
+
     jQuery(function($) {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
-        
+
         $(window).on("resize", function () {
             responsive_jqgrid(grid_selector, pager_selector);
         });
-        
+
         jQuery("#grid-table").jqGrid({
             url: '<?php echo WS_JQGRID."recruitment.p_job_controller/read"; ?>',
             datatype: "json",
@@ -84,7 +84,7 @@
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 var celValue = $('#grid-table').jqGrid('getCell', rowid, 'job_id');
-                
+
             },
             onSortCol: clearSelection,
             onPaging: clearSelection,
@@ -107,7 +107,7 @@
             caption: "Divisi Lowongan"
 
         });
-        
+
         jQuery('#grid-table').jqGrid('navGrid', '#grid-pager',
             { 	//navbar options
                 edit: true,
@@ -123,12 +123,12 @@
                     // some code here
                     jQuery("#detailsPlaceholder").hide();
                 },
-                
+
                 refreshicon: 'ace-icon fa fa-refresh green',
                 view: false,
                 viewicon: 'ace-icon fa fa-search-plus grey'
             },
-            
+
             {
                 // options for the Edit Dialog
                 closeAfterEdit: true,
@@ -143,7 +143,7 @@
                     var form = $(e[0]);
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
-                    
+
                     /*$("#USER_NAME").prop("readonly", true);*/
                 },
                 afterSubmit:function(response,postdata) {
@@ -151,12 +151,13 @@
                     if(response.success == false) {
                         return [false,response.message,response.responseText];
                     }
-                    return [true,"",response.responseText];    
+                    return [true,"",response.responseText];
                 }
             },
             {
                 //new record form
-                closeAfterAdd: true,
+                closeAfterAdd: false,
+                clearAfterAdd : true,
                 closeOnEscape:true,
                 width: 'auto',
                 errorTextFormat: function (data) {
@@ -175,7 +176,7 @@
                     if(response.success == false) {
                         return [false,response.message,response.responseText];
                     }
-                    
+
                     return [true,"",response.responseText];
                 }
             },
@@ -186,10 +187,10 @@
                 beforeShowForm: function (e) {
                     var form = $(e[0]);
                     if (form.data('styled')) return false;
-    
+
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_delete_form(form);
-    
+
                     form.data('styled', true);
                 },
                 onClick: function (e) {
@@ -200,7 +201,7 @@
                     if(response.success == false) {
                         return [false,response.message,response.responseText];
                     }
-                    return [true,"",response.responseText];    
+                    return [true,"",response.responseText];
                 }
             },
             {
@@ -225,37 +226,29 @@
                 }
             }
         );
-        
-        
-        jQuery.extend(jQuery.jgrid.edit, {
-            closeAfterAdd: true, 
-            closeAfterEdit: true,
-            recreateForm:true,
-            savekey: [true,13]
-        });
+
     });
-    
+
     function createJSON(postdata) {
-        
+
         var oper = postdata.oper;
-        delete postdata.oper;
-        
+
         var items;
         if(oper != 'del') {
             items = JSON.stringify(postdata);
         }else {
-            items = postdata.id;    
+            items = postdata.id;
         }
-        
+
         var jsondata = {items:items, oper:oper, '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'};
         return jsondata;
     }
-    
+
     function clearSelection() {
-        
+
         return null;
     }
-    
+
     function style_edit_form(form) {
         //enable datepicker on "sdate" field and switches for "stock" field
         form.find('input[name=sdate]').datepicker({format: 'yyyy-mm-dd', autoclose: true})
@@ -314,7 +307,7 @@
         form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
         style_edit_form(form);
     }
-    
+
     function updatePagerIcons(table) {
         var replacement =
         {
@@ -330,16 +323,16 @@
             if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
         })
     }
-    
+
     function responsive_jqgrid(grid_selector, pager_selector) {
         var $grid = $(grid_selector);
         var $pager = $(pager_selector);
-        
+
         newWidthGrid = $grid.closest(".ui-jqgrid").parent().width();
         newWidthPager = $pager.closest(".ui-jqgrid").parent().width();
-        
+
         $grid.jqGrid("setGridWidth", newWidthGrid, true);
         $pager.jqGrid("setGridWidth", newWidthPager, true);
     }
-        
+
 </script>
