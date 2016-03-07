@@ -236,15 +236,14 @@
 
     function serializeJSON(postdata) {
 
-        var oper = postdata.oper;
         var items;
-        if(oper != 'del') {
+        if(postdata.oper != 'del') {
             items = JSON.stringify(postdata);
         }else {
             items = postdata.id;
         }
 
-        var jsondata = {items:items, oper:oper, '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'};
+        var jsondata = {items:items, oper:postdata.oper, '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'};
         return jsondata;
     }
 
