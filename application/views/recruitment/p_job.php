@@ -1,4 +1,6 @@
 <script src="<?php echo BS_PATH; ?>tinymce/tinymce.min.js"></script>
+<script src="<?php echo BS_PATH; ?>tinymce/jquery.tinymce.min.js"></script>
+
 
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
