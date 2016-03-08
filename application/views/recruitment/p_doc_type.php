@@ -138,6 +138,9 @@
 
                     /*$("#USER_NAME").prop("readonly", true);*/
                 },
+                afterShowForm: function(form) {
+                    form.closest('.ui-jqdialog').center();
+                },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
                     if(response.success == false) {
@@ -163,6 +166,9 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
                         .wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
+                },
+                afterShowForm: function(form) {
+                    form.closest('.ui-jqdialog').center();
                 },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);

@@ -1,3 +1,5 @@
+<script src="<?php echo BS_PATH; ?>tinymce/tinymce.min.js"></script>
+
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
 	    <ul class="breadcrumb">
@@ -181,6 +183,9 @@
 
                     /*$("#USER_NAME").prop("readonly", true);*/
                 },
+                afterShowForm: function(form) {
+                    form.closest('.ui-jqdialog').center();
+                },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
                     if(response.success == false) {
@@ -206,6 +211,9 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
                         .wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
+                },
+                afterShowForm: function(form) {
+                    form.closest('.ui-jqdialog').center();
                 },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
@@ -304,13 +312,38 @@
                     formatter: 'select',
                     editoptions: {value: {'Y': 'YES', 'N': 'NO'}}
                 },
-                {label: 'Vacancy Letter', name: 'description', width: 150, editable: true,
-                        align: "left",
-                        edittype: 'textarea',
-                        editoptions: {
-                            rows: "2",
-                            cols: "40"
+                {label: 'Vacancy Letter', name: 'description', width: 150, editable: true, 
+                    editrules:{
+                       required:true, 
+                       edithidden:true
+                    }, 
+                    hidden:true,
+                    align: "left",
+                    edittype: 'custom',
+                    editoptions: {
+                        "custom_element":function( value  , options) {
+                            var elm = $('<textarea class="mceEditor"></textarea>');
+                            elm.val( value );
+                            // give the editor time to initialize
+                            setTimeout( function() {
+                                try {
+                                    tinymce.remove("#" + options.id);
+                                } catch(ex) {}
+                                tinymce.init({ mode:"specific_textareas", height:"245", editor_selector : "mceEditor", statusbar:false, menubar:false});
+                            }, 100);
+                            
+                            return elm;
+                        },
+                        "custom_value":function( element, oper, gridval) {
+                            if(oper === 'get') {
+                                return tinymce.get('description').getContent({format: 'row'});
+                            } else if( oper === 'set') {
+                                if(tinymce.get('description')) {
+                                    tinymce.get('description').setContent( gridval );
+                                }
+                            }
                         }
+                    }
                 },
                 {label: 'Tgl Pembuatan', name: 'created_date', width: 120, align: "left", editable: false},
                 {label: 'Dibuat Oleh', name: 'created_by', width: 120, align: "left", editable: false},
@@ -376,8 +409,12 @@
                     var form = $(e[0]);
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
-    
+                    
+                    
                     /*$("#USER_NAME").prop("readonly", true);*/
+                },
+                afterShowForm: function(form) {
+                    form.closest('.ui-jqdialog').center();
                 },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
@@ -386,6 +423,7 @@
                     }
                     return [true,"",response.responseText];
                 }
+                
             },
             {
                 //new record form
@@ -410,6 +448,10 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
                         .wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
+                    
+                },
+                afterShowForm: function(form) {
+                    form.closest('.ui-jqdialog').center();
                 },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
