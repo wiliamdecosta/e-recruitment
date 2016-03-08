@@ -16,7 +16,6 @@
 		<!-- page specific plugin styles -->
 		<!-- jQgrid -->
 		<link rel="stylesheet" href="<?php echo BS_CSS_PATH; ?>ui.jqgrid.css" />
-		<link rel="stylesheet" href="<?php echo BS_CSS_PATH; ?>jqgrid-responsive.css" />
 		
 		<!-- Date picker -->
         <link rel="stylesheet" href="<?php echo BS_CSS_PATH; ?>datepicker.css" />

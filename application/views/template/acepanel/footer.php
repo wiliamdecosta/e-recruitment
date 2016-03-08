@@ -48,7 +48,7 @@
         
         <!-- start blocked page when there is a post/get request -->
         <script src="<?php echo BS_JS_PATH; ?>jquery.blockUI.js"></script>
-        <script src="<?php echo BS_JS_PATH; ?>jquery-ui.js"></script>
+        <script src="<?php echo BS_JS_PATH; ?>jquery.ui.touch-punch.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
                 // Ajax setup csrf token.

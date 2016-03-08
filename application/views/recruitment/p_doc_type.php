@@ -228,16 +228,20 @@
     });
 
     function serializeJSON(postdata) {
-
-        var oper = postdata.oper;
         var items;
-        if(oper != 'del') {
-            items = JSON.stringify(postdata);
+        if(postdata.oper != 'del') {
+            items = JSON.stringify(postdata, function(key,value){
+                if (typeof value === 'function') {
+                    return value();
+                } else {
+                  return value;
+                }
+            });
         }else {
             items = postdata.id;
         }
 
-        var jsondata = {items:items, oper:oper, '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'};
+        var jsondata = {items:items, oper:postdata.oper, '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'};
         return jsondata;
     }
 
@@ -322,14 +326,11 @@
     }
 
     function responsive_jqgrid(grid_selector, pager_selector) {
-        var $grid = $(grid_selector);
-        var $pager = $(pager_selector);
-
-        newWidthGrid = $grid.closest(".ui-jqgrid").parent().width();
-        newWidthPager = $pager.closest(".ui-jqgrid").parent().width();
-
-        $grid.jqGrid("setGridWidth", newWidthGrid, true);
-        $pager.jqGrid("setGridWidth", newWidthPager, true);
+                
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
+        $(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
+ 
     }
 
 </script>
