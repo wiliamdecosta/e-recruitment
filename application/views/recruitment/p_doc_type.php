@@ -20,7 +20,6 @@
     		<!-- PAGE CONTENT BEGINS -->
     		<div class="row">
     		    <div class="col-xs-12">
-    		        <div id="notif"></div>
                     <table id="grid-table"></table>
                     <div id="grid-pager"></div>
     		    </div>
