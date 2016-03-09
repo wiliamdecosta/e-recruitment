@@ -40,7 +40,8 @@ class P_job_posting_controller {
             );
 
             // Filter Table
-            $table->setCriteria("job_posting.job_id = ".$job_id);
+            //bisa pakai cara ini juga --> : $table->setCriteria("job_posting.job_id = ".$job_id);
+            $req_param['where'] = array("job_posting.job_id = ".$job_id);
             
             $table->setJQGridParam($req_param);
             $count = $table->countAll();

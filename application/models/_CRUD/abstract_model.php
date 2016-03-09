@@ -108,6 +108,7 @@ class Abstract_model extends  CI_Model {
 		$condition = $this->getCriteria();
 		
 		$whereCondition = join(" AND ", $condition);
+		$whereCondition .= join(" AND ", $this->jqGridParamSearch['where']);
 		
 		$wh = "";
 		if(count($this->jqGridParamSearch) > 0) {
@@ -272,6 +273,8 @@ class Abstract_model extends  CI_Model {
 		$condition = $this->getCriteria();
 		
 		$whereCondition = join(" AND ", $condition);
+		$whereCondition .= join(" AND ", $this->jqGridParamSearch['where']);
+		
 		$wh = "";
 		if(count($this->jqGridParamSearch) > 0) {
 		    if($this->jqGridParamSearch['search'] != null && $this->jqGridParamSearch['search'] === 'true'){

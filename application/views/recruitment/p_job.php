@@ -303,7 +303,8 @@
                            $(element).datepicker({
     			    			autoclose: true,
     			    			format: 'yyyy-mm-dd',
-    			    			orientation : 'bottom'
+    			    			orientation : 'top',
+    			    			todayHighlight : true
                             });
                         }
                     }
