@@ -416,7 +416,9 @@
                     /*$("#USER_NAME").prop("readonly", true);*/
                 },
                 afterShowForm: function(form) {
-                    form.closest('.ui-jqdialog').center();
+                    setTimeout( function() {
+                        form.closest('.ui-jqdialog').center();
+                    },500);
                 },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
@@ -453,7 +455,9 @@
                     
                 },
                 afterShowForm: function(form) {
-                    form.closest('.ui-jqdialog').center();
+                    setTimeout( function() {
+                        form.closest('.ui-jqdialog').center();
+                    },500);
                 },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
