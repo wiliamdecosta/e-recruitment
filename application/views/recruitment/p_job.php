@@ -412,7 +412,7 @@
                     var form = $(e[0]);
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
-                    
+                    form.css({"max-height": 0.50*screen.height+"px"});
                     
                     /*$("#USER_NAME").prop("readonly", true);*/
                 },
@@ -453,6 +453,7 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
                         .wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
+                    form.css({"max-height": 0.50*screen.height+"px"});
                     
                 },
                 afterShowForm: function(form) {
