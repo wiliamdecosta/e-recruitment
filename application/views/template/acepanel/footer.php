@@ -76,6 +76,42 @@
         
                 })).ajaxStop($.unblockUI);
             });
+            
+            
+            $(window).on('resize.jqGrid', function () {
+                
+                /*form modal*/
+                if($("#editmodgrid-table").width() > $(window).width()) {
+                    $("#editmodgrid-table").css("width", $(window).width()-20);        
+                }else {
+                    $("#editmodgrid-table").css("width", getMaxChildWidth($("#editmodgrid-table")) + 120);  
+                }
+                
+                $("#editmodgrid-table").css("top",($(window).height() - $("#editmodgrid-table").height() ) / 2+$(window).scrollTop() + "px");
+                $("#editmodgrid-table").css("left",( $(window).width() - $("#editmodgrid-table").width() ) / 2+$(window).scrollLeft() + "px");
+                
+                /*search modal */
+                
+                if($("#searchmodfbox_grid-table").width() > $(window).width()) {
+                    $("#searchmodfbox_grid-table").css("width", $(window).width()-20);        
+                }else {
+                    $("#searchmodfbox_grid-table").css("width", 500);  
+                }
+            
+            });
+            
+            
+            function getMaxChildWidth(sel) {
+                max = 0;
+                $(sel).find('input[type=text],input[type=password],textarea,select,iframe').each(function() {
+                    c_width = parseInt($(this).width());
+                    if (c_width > max) {
+                        max = c_width;
+                    }    
+                })
+                return max;
+            }
+
         </script>
         <!-- end blocked page -->
         
