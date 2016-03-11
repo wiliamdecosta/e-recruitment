@@ -332,7 +332,7 @@
                                 try {
                                     tinymce.remove("#" + options.id);
                                 } catch(ex) {}
-                                tinymce.init({ mode:"specific_textareas", height:"245", editor_selector : "mceEditor", statusbar:false, menubar:false});
+                                tinymce.init({ mode:"specific_textareas", width:650, height:"300", editor_selector : "mceEditor", statusbar:false, menubar:false});
                             }, 100);
                             
                             return elm;
@@ -413,7 +413,7 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
                     form.css({"max-height": 0.50*screen.height+"px"});
-                    
+                    form.css({"width": 0.60*screen.width+"px"});
                     /*$("#USER_NAME").prop("readonly", true);*/
                 },
                 afterShowForm: function(form) {
@@ -454,6 +454,7 @@
                         .wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
                     form.css({"max-height": 0.50*screen.height+"px"});
+                    form.css({"width": 0.60*screen.width+"px"});
                     
                 },
                 afterShowForm: function(form) {
