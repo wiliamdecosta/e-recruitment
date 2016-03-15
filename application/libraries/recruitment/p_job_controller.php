@@ -68,7 +68,25 @@ class P_job_controller {
 
     	return $data;
     }
-
+    
+    function html_select_options_job() {
+        try {
+            $ci = & get_instance();
+		    $ci->load->model('recruitment/p_job');
+		    $table = $ci->p_job;
+		    
+		    $items = $table->getAll(0,-1);
+		    echo '<select>';
+            foreach($items  as $item ){
+                echo '<option value="'.$item['job_id'].'">'.$item['job_code'].' - '.$item['job_name'].'</option>';
+            }
+            echo '</select>';
+            exit;
+        }catch (Exception $e) {
+            echo $e->getMessage();
+            exit;
+        }
+    }
     
     function crud() {
         
