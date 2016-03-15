@@ -27,8 +27,12 @@ class P_job_posting extends Abstract_model {
 								'updated_by'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Updated By')
 							);
 
-	public $selectClause 	= "job_posting.*";
-	public $fromClause 		= "recruitment.p_job_posting as job_posting";
+	public $selectClause 	= "job_posting.job_posting_id, job_posting.job_id, job_posting.posting_date, job_posting.posting_no, job_posting.is_active, job_posting.description,
+	                                job_posting.created_date, job_posting.created_by, job_posting.updated_date, job_posting.updated_by,
+	                                job.job_code
+	                            ";
+	public $fromClause 		= "recruitment.p_job_posting as job_posting
+	                            LEFT JOIN recruitment.p_job AS job ON job_posting.job_id = job.job_id";
 
 	public $refs			= array();
 
