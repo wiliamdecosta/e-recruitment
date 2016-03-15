@@ -1,7 +1,3 @@
-<script src="<?php echo BS_PATH; ?>tinymce/tinymce.min.js"></script>
-<script src="<?php echo BS_PATH; ?>tinymce/jquery.tinymce.min.js"></script>
-
-
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
 	    <ul class="breadcrumb">
@@ -28,13 +24,6 @@
                    <div id="grid-pager"></div>
     		    </div>    
     	    </div>
-    	    <div class="space-10"></div>
-    	    <div class="row" id="detailsPlaceholder" style="display:none;">
-    	        <div class="col-xs-12">
-    		        <table id="grid-detail-table"></table>
-                    <div id="grid-detail-pager"></div> 
-    		    </div>
-    	    </div>
             <!-- PAGE CONTENT ENDS -->
     	</div><!-- /.col -->
     </div><!-- /.row -->
@@ -46,19 +35,13 @@
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
         
-        var grid_detail_selector = "#grid-detail-table";
-        var pager_detail_selector = "#grid-detail-pager";
-        
-        
         $(window).on('resize.jqGrid', function () {
             responsive_jqgrid(grid_selector, pager_selector);
-            responsive_jqgrid(grid_detail_selector, pager_detail_selector);
         });
         
         $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
             if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
                responsive_jqgrid(grid_selector, pager_selector);
-               responsive_jqgrid(grid_detail_selector, pager_detail_selector);
             }
         });
         
@@ -107,22 +90,6 @@
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 var celValue = $('#grid-table').jqGrid('getCell', rowid, 'job_id');
-                var celCode = $('#grid-table').jqGrid('getCell', rowid, 'job_code');
-                
-                var grid_id = jQuery("#grid-detail-table");
-                if (rowid != null) {
-                    grid_id.jqGrid('setGridParam', {
-                        url: '<?php echo WS_JQGRID."recruitment.p_job_posting_controller/read"; ?>',
-                        datatype: 'json',
-                        postData: {job_id: rowid},
-                        userData: {row: rowid}
-                    });
-                    grid_id.jqGrid('setCaption', 'Job Vacancy :: ' + celCode);
-                    jQuery("#detailsPlaceholder").show();
-                    jQuery("#grid-detail-table").trigger("reloadGrid");
-                    
-                    responsive_jqgrid(grid_detail_selector, pager_detail_selector);
-                }
                 
             },
             onSortCol: clearSelection,
@@ -277,253 +244,6 @@
             }
         );
         
-        
-        
-        /*----------------------------------- jqGrid Detail ------------------------------- */
-        $("#grid-detail-table").jqGrid({
-            mtype: "POST",
-            datatype: "json",
-            colModel: [
-                {label: 'ID',name: 'job_posting_id', key: true, width: 35, sorttype: 'number', sortable: true, editable: false, hidden: true},
-                
-                {label: 'Nomor Lowongan',name: 'posting_no', width: 120, sortable: true, editable: true,
-                    editoptions: {
-                        size: 30,
-                        maxlength:10
-                    },
-                    editrules: {required: true}
-                },
-                {label: 'Tgl Posting', name: 'posting_date', width: 120, editable: true,
-                    edittype:"text",
-                    editrules: {required: true},
-                    editoptions: {
-                        // dataInit is the client-side event that fires upon initializing the toolbar search field for a column
-                        // use it to place a third party control to customize the toolbar
-                        dataInit: function (element) {
-                           $(element).datepicker({
-    			    			autoclose: true,
-    			    			format: 'yyyy-mm-dd',
-    			    			orientation : 'top',
-    			    			todayHighlight : true
-                            });
-                        }
-                    }
-                },
-                {label: 'Is Active ?',name: 'is_active', width: 100, sortable: true, editable: true,
-                    align: 'center',
-                    edittype: 'select',
-                    formatter: 'select',
-                    editoptions: {value: {'Y': 'YES', 'N': 'NO'}}
-                },
-                {label: 'Vacancy Letter', name: 'description', width: 150, editable: true, 
-                    editrules:{
-                       required:true, 
-                       edithidden:true
-                    }, 
-                    hidden:true,
-                    align: "left",
-                    edittype: 'custom',
-                    editoptions: {
-                        "custom_element":function( value  , options) {
-                            var elm = $('<textarea class="mceEditor"></textarea>');
-                            elm.val( value );
-                            // give the editor time to initialize
-                            setTimeout( function() {
-                                try {
-                                    tinymce.remove("#" + options.id);
-                                } catch(ex) {}
-                                tinymce.init({ mode:"specific_textareas", width:650, height:"300", editor_selector : "mceEditor", statusbar:false, menubar:false});
-                            }, 100);
-                            
-                            return elm;
-                        },
-                        "custom_value":function( element, oper, gridval) {
-                            if(oper === 'get') {
-                                return tinymce.get('description').getContent({format: 'row'});
-                            } else if( oper === 'set') {
-                                if(tinymce.get('description')) {
-                                    tinymce.get('description').setContent( gridval );
-                                }
-                            }
-                        }
-                    }
-                },
-                {label: 'Tgl Pembuatan', name: 'created_date', width: 120, align: "left", editable: false},
-                {label: 'Dibuat Oleh', name: 'created_by', width: 120, align: "left", editable: false},
-                {label: 'Tgl Update', name: 'updated_date', width: 120, align: "left", editable: false},
-                {label: 'Diupdate Oleh', name: 'created_by', width: 120, align: "left", editable: false}
-            ],
-            
-            height: '100%',
-            autowidth: true,
-            rowNum: 5,
-            viewrecords: true,
-            rowList: [5, 10, 20],
-            rownumbers: true, // show row numbers
-            rownumWidth: 35, // the width of the row numbers columns
-            altRows: true,
-            shrinkToFit: true,
-            multiboxonly: true,
-            onSortCol: clearSelection,
-            onPaging: clearSelection,
-            caption: 'Job Vacancy',
-            pager: "#grid-detail-pager",
-            jsonReader: {
-                root: 'rows',
-                id: 'id',
-                repeatitems: false
-            },
-            loadComplete: function () {
-                var table = this;
-                setTimeout(function () {
-                    
-                    updatePagerIcons(table);
-                }, 0);
-            },
-            editurl: '<?php echo WS_JQGRID."recruitment.p_job_posting_controller/crud"; ?>'
-        });
-    
-        jQuery('#grid-detail-table').jqGrid('navGrid', '#grid-detail-pager',
-            { 	//navbar options
-                edit: true,
-                excel: true,
-                editicon: 'ace-icon fa fa-pencil blue',
-                add: true,
-                addicon: 'ace-icon fa fa-plus-circle purple',
-                del: true,
-                delicon: 'ace-icon fa fa-trash-o red',
-                search: true,
-                searchicon: 'ace-icon fa fa-search orange',
-                refresh: true,
-                refreshicon: 'ace-icon fa fa-refresh green',
-                view: false,
-                viewicon: 'ace-icon fa fa-search-plus grey'
-            },
-            {
-                closeAfterEdit: true,
-                closeOnEscape:true,
-                recreateForm: true,
-                serializeEditData: serializeJSON,
-                width: 'auto',
-                errorTextFormat: function (data) {
-                        return 'Error: ' + data.responseText
-                },
-                beforeShowForm: function (e, form) {
-                    var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-                    style_edit_form(form);
-                    form.css({"max-height": 0.50*screen.height+"px"});
-                    form.css({"width": 0.60*screen.width+"px"});
-                    /*$("#USER_NAME").prop("readonly", true);*/
-                },
-                afterShowForm: function(form) {
-                    setTimeout( function() {
-                        form.closest('.ui-jqdialog').center();
-                    },500);
-                },
-                afterSubmit:function(response,postdata) {
-                    var response = jQuery.parseJSON(response.responseText);
-                    if(response.success == false) {
-                        return [false,response.message,response.responseText];
-                    }
-                    return [true,"",response.responseText];
-                }
-                
-            },
-            {
-                //new record form
-                editData: { 
-                    job_id: function() {
-                        var data = jQuery("#grid-detail-table").jqGrid('getGridParam', 'postData');
-                        return data.job_id;
-                    }
-                },
-                closeAfterAdd: false,
-                clearAfterAdd : true,
-                closeOnEscape:true,
-                recreateForm: true,
-                width: 'auto',
-                errorTextFormat: function (data) {
-                    return 'Error: ' + data.responseText
-                },
-                serializeEditData: serializeJSON,
-                viewPagerButtons: false,
-                beforeShowForm: function (e, form) {
-                    var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
-                        .wrapInner('<div class="widget-header" />')
-                    style_edit_form(form);
-                    form.css({"max-height": 0.50*screen.height+"px"});
-                    form.css({"width": 0.60*screen.width+"px"});
-                    
-                },
-                afterShowForm: function(form) {
-                    setTimeout( function() {
-                        form.closest('.ui-jqdialog').center();
-                    },500);
-                },
-                afterSubmit:function(response,postdata) {
-                    var response = jQuery.parseJSON(response.responseText);
-                    if(response.success == false) {
-                        return [false,response.message,response.responseText];
-                    }
-                    
-                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>'); 
-                    var tinfoel = $(".tinfo").show();
-                    tinfoel.delay(3000).fadeOut();
-                          
-                    return [true,"",response.responseText];
-                }
-    
-            },
-            {
-                //delete record form
-                serializeDelData: serializeJSON,
-                recreateForm: true,
-                beforeShowForm: function (e) {
-                    var form = $(e[0]);
-                    if (form.data('styled')) return false;
-    
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-                    style_delete_form(form);
-    
-                    form.data('styled', true);
-                },
-                onClick: function (e) {
-                    //alert(1);
-                },
-                afterSubmit:function(response,postdata) {
-                    var response = jQuery.parseJSON(response.responseText);
-                    if(response.success == false) {
-                        return [false,response.message,response.responseText];
-                    }
-                    return [true,"",response.responseText];
-                }
-            },
-            {
-                //search form
-                closeAfterSearch: false,
-                recreateForm: true,
-                afterShowSearch: function (e) {
-                    var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-                    style_search_form(form);
-                },
-                afterRedraw: function () {
-                    style_search_filters($(this));
-                }
-            },
-            {
-                //view record form
-                recreateForm: true,
-                beforeShowForm: function (e) {
-                    var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-                }
-            }
-        );
-    
-    
     }); /* end jquery onload */
     
     
@@ -548,8 +268,7 @@
 
     function clearSelection() {
 
-        jQuery("#grid-detail-table").jqGrid('setCaption', 'Job Vacancy');
-        jQuery("#grid-detail-table").trigger("reloadGrid");
+        return;
     }
 
     function style_edit_form(form) {
