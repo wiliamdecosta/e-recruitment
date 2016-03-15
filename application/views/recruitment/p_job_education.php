@@ -43,8 +43,7 @@
     		            </ul>
     		            <input type="hidden" id="tab_job_posting_id" value="<?php echo getVarClean('job_posting_id','int',0); ?>">
     		            <input type="hidden" id="tab_job_code" value="<?php echo getVarClean('job_code','str',''); ?>">
-    		        
-    		            <input type="hidden" id="oper_for_option" value="add">
+
     		        </div>
     		        
     		        <div class="tab-content no-border">
@@ -109,8 +108,7 @@
                             education_id : function(){
                                 var selRowId =  jQuery("#grid-table").jqGrid ('getGridParam', 'selrow');
                                 var education_id = jQuery("#grid-table").jqGrid('getCell', selRowId, 'education_id'); 
-                                
-                                if($("#oper_for_option").val() == "add") return null;
+
                                 return education_id;
                             }
                         }
@@ -198,10 +196,6 @@
                     /*$("#USER_NAME").prop("readonly", true);*/
                     
                 },
-                beforeInitData:function(form_id) {
-                    $("#oper_for_option").val("edit");
-                    return true;
-                },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
                 },
@@ -237,7 +231,7 @@
                     style_edit_form(form);
                 },
                 beforeInitData:function(form_id) {
-                    $("#oper_for_option").val("add");
+                    jQuery("#grid-table").jqGrid('resetSelection');
                     return true;
                 },
                 afterShowForm: function(form) {
