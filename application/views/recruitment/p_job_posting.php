@@ -205,8 +205,10 @@
                 var celValue = $('#grid-table').jqGrid('getCell', rowid, 'job_posting_id');
                 var celCode = $('#grid-table').jqGrid('getCell', rowid, 'job_code');
                 
+                var posting_no = $('#grid-table').jqGrid('getCell', rowid, 'posting_no');
+                
                 $('#tab_job_posting_id').val(celValue);
-                $('#tab_job_code').val(celCode);
+                $('#tab_job_code').val(celCode + " - " + posting_no);
             },
             onSortCol: clearSelection,
             onPaging: clearSelection,
