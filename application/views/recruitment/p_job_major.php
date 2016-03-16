@@ -48,6 +48,16 @@
 
     		        <div class="tab-content no-border">
     		            <div class="row">
+    		                <div class="col-xs-12">     
+                                <div class="alert alert-block alert-success">
+                                    <button data-dismiss="alert" class="close" type="button">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+                                    <i class="ace-icon fa fa-lightbulb-o green"></i> Jika lowongan yang bersangkutan terbuka untuk semua jurusan perkuliahan, maka syarat jurusan tidak perlu diisi.
+                                </div>
+                            </div>
+                        </div>
+    		            <div class="row">
                             <div class="col-xs-12">
                                <table id="grid-table"></table>
                                <div id="grid-pager"></div>
