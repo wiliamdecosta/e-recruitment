@@ -384,6 +384,7 @@ class Abstract_model extends  CI_Model {
 		$queryResult = $this->db->get();
 		$item = $queryResult->row_array();
 		
+		$queryResult->free_result();
 				
 		return $item;
 	}
@@ -563,7 +564,10 @@ class Abstract_model extends  CI_Model {
         $query = $this->db->query($sql);
 		$row = $query->row_array();
 		
+		$query->free_result();
+		
 		return $row['generated_id'];
+		
     }
     
     public function setJQGridParam($param) {
