@@ -274,6 +274,7 @@
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
+                    $(".mce-widget").hide();
                 },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
@@ -306,6 +307,7 @@
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
+                    $(".mce-widget").hide();
                 },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
