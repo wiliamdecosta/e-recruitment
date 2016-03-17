@@ -67,11 +67,10 @@
                     css: {
                         border: 'none',
                         padding: '5px',
-                        backgroundColor: '#000',
+                        backgroundColor: 'transparent',
                         '-webkit-border-radius': '10px',
                         '-moz-border-radius': '10px', 
-                        color: '#fff',                       
-                        opacity: .9
+                        color: '#ff892a'
                     }
         
                 })).ajaxStop($.unblockUI);
