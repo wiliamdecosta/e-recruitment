@@ -34,7 +34,8 @@ class P_job_posting extends Abstract_model {
 	public $fromClause 		= "recruitment.p_job_posting as job_posting
 	                            LEFT JOIN recruitment.p_job AS job ON job_posting.job_id = job.job_id";
 
-	public $refs			= array();
+	public $refs			= array('recruitment.p_job_education' => 'job_posting_id',
+	                                'recruitment.p_job_major' => 'job_posting_id');
 
 	public $comboDisplay	= array();
 
