@@ -210,6 +210,9 @@
 
                     form.data('styled', true);
                 },
+                afterShowForm: function(form) {
+                    form.closest('.ui-jqdialog').center();
+                },
                 onClick: function (e) {
                     //alert(1);
                 },
@@ -229,6 +232,8 @@
                     var form = $(e[0]);
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
                     style_search_form(form);
+                    
+                    form.closest('.ui-jqdialog').center();
                 },
                 afterRedraw: function () {
                     style_search_filters($(this));
