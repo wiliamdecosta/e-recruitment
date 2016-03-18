@@ -77,6 +77,7 @@ class P_education_controller {
 		    
 		    $items = $table->getAll(0,-1);
 		    echo '<select>';
+		    echo '<option value=""> Pilih Pendidikan Terakhir </option>';
             foreach($items  as $item ){
                 echo '<option value="'.$item['education_id'].'">'.$item['education_code'].'</option>';
             }
