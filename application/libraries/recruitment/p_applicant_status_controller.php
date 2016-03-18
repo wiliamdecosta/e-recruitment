@@ -68,7 +68,26 @@ class P_applicant_status_controller {
 
     	return $data;
     }
-
+    
+    function html_select_options_status() {
+        try {
+            $ci = & get_instance();
+		    $ci->load->model('recruitment/p_applicant_status');
+		    $table = $ci->p_applicant_status;
+		    
+		    $items = $table->getAll(0,-1);
+		    echo '<select>';
+		    echo '<option value=""> Pilih Status Pelamar </option>';
+            foreach($items  as $item ){
+                echo '<option value="'.$item['applicant_status_id'].'">'.$item['code'].'</option>';
+            }
+            echo '</select>';
+            exit;
+        }catch (Exception $e) {
+            echo $e->getMessage();
+            exit;
+        }
+    }
     
     function crud() {
         
