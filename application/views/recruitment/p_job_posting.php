@@ -9,7 +9,7 @@
 	    		<a href="<?php echo base_url("index.php/panel/index"); ?>">Home</a>
 	    	</li>
             <li>
-	    		<a href="#">Recruitment</a>
+	    		<a href="#">Lowongan</a>
 	    	</li>
             <li class="active">Pembukaan Lowongan</li>
 	    </ul><!-- /.breadcrumb --
@@ -124,6 +124,13 @@
                     editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_job_controller/html_select_options_job"; ?>'}
                 },
                 {label: 'Divisi', name: 'job_code', width: 150, align: "left", editable: false},
+                {label: 'Deskripsi',name: 'posting_short_desc', width: 200, sortable: true, editable: true,
+                    editoptions: {
+                        size: 50,
+                        maxlength:255
+                    },
+                    editrules: {required: true}
+                },
                 {label: 'Nomor Lowongan',name: 'posting_no', width: 200, sortable: true, editable: true,
                     editoptions: {
                         size: 30,
