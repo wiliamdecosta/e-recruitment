@@ -6,7 +6,7 @@
 	    		<a href="<?php echo base_url("index.php/panel/index"); ?>">Home</a>
 	    	</li>
             <li>
-	    		<a href="#">Recruitment</a>
+	    		<a href="#">Lowongan</a>
 	    	</li>
             <li class="active">Syarat Jurusan</li>
 	    </ul><!-- /.breadcrumb --
