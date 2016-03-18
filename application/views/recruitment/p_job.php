@@ -8,7 +8,7 @@
             <li>
 	    		<a href="#">Parameter</a>
 	    	</li>
-            <li class="active">Divisi Lowongan</li>
+            <li class="active">Kode Lamaran</li>
 	    </ul><!-- /.breadcrumb --
 	    <!-- /section:basics/content.searchbox -->
     </div>
@@ -52,14 +52,14 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'job_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Kode Divisi',name: 'job_code',width: 150, align: "left",editable: true,
+                {label: 'Kode Lamaran',name: 'job_code',width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:10
                     },
                     editrules: {required: true}
                 },
-                {label: 'Divisi Lowongan',name: 'job_name',width: 200, align: "left",editable: true,
+                {label: 'Nama Lamaran',name: 'job_name',width: 200, align: "left",editable: true,
                     editoptions: {
                         size: 50,
                         maxlength:100
@@ -110,7 +110,7 @@
 
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."recruitment.p_job_controller/crud"; ?>',
-            caption: "Divisi Lowongan"
+            caption: "Kode Lamaran"
 
         });
 
