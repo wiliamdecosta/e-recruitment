@@ -420,12 +420,12 @@ class Abstract_model extends  CI_Model {
 			if($field['nullable'] == false) {
 				if($this->actionType == 'CREATE') {
 					if(!isset($record[$key]) or $record[$key] == '') {
-						throw new Exception($field['display']." required");
+						throw new Exception($field['display']." harus diisi");
 					}
 				}else {
 					if (!isset($record[$key])) continue;
 					if($record[$key] == '') {
-						throw new Exception($field['display']." required");
+						throw new Exception($field['display']." harus diisi");
 					}
 				}
 			}
@@ -435,11 +435,11 @@ class Abstract_model extends  CI_Model {
 				if($field['unique'] === true) {
 					if($this->actionType == 'CREATE') {
 						if(!$this->isUnique($key, $record[$key])) {
-							throw new Exception($field['display']. " must be a unique value");
+							throw new Exception($field['display']. " harus unik");
 						}
 					}else {
 						if(!$this->isUnique($key, $record[$key], $this->record[$this->pkey])) {
-							throw new Exception($field['display']. " must be a unique value");
+							throw new Exception($field['display']. " harus unik");
 						}
 					}
 				}
@@ -449,7 +449,7 @@ class Abstract_model extends  CI_Model {
 				}elseif($field['type'] == 'int' || $field['type'] == 'float') {
 					$value = $record[$key];
 					if(!is_numeric($value)) {
-						throw new Exception($field['display']." must be a number");
+						throw new Exception($field['display']." harus angka");
 					}
 				}elseif($field['type'] == 'date') {
 					$date = $record[$key];
@@ -534,7 +534,7 @@ class Abstract_model extends  CI_Model {
 		if(empty($id)) throw new Exception("ID is empty");
 
 		if ($this->isRefferenced($id)){
-            throw new Exception('ID '.$id.' cannot be removed because it was in reference to another data');
+            throw new Exception('ID '.$id.' tidak dapat dihapus karena tereferensi oleh data lain.');
         }
 
         try {
@@ -560,11 +560,9 @@ class Abstract_model extends  CI_Model {
     }
     
     public function generate_id($owner, $table_name, $col_name) {
-        $sql = "SELECT recruitment.generate_id('$owner','$table_name','$col_name') AS generated_id";  
+        $sql = "SELECT (coalesce(MAX($col_name),0) + 1) AS generated_id FROM $owner.$table_name";  
         $query = $this->db->query($sql);
 		$row = $query->row_array();
-		
-		$query->free_result();
 		
 		return $row['generated_id'];
 		
