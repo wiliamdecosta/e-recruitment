@@ -17,8 +17,9 @@ class P_job_posting extends Abstract_model {
 								'job_id'	            => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'ID Job'),
 								'posting_date'	        => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Posting Date'),
 								'posting_no'	        => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'No Posting'),
+								'posting_short_desc'	=> array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Deskripsi'),
 								'is_active'	            => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Is Active'),
-								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Description'),
+								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Vacancy Letter'),
 								
 								/* khusus untuk created_date, created_by, updated_date, updated_by --> nullable : true */
 								'created_date'	        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Creation Date'),
@@ -27,7 +28,7 @@ class P_job_posting extends Abstract_model {
 								'updated_by'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Updated By')
 							);
 
-	public $selectClause 	= "job_posting.job_posting_id, job_posting.job_id, job_posting.posting_date, job_posting.posting_no, job_posting.is_active, job_posting.description,
+	public $selectClause 	= "job_posting.job_posting_id, job_posting.job_id, job_posting.posting_date, job_posting.posting_short_desc, job_posting.posting_no, job_posting.is_active, job_posting.description,
 	                                job_posting.created_date, job_posting.created_by, job_posting.updated_date, job_posting.updated_by,
 	                                job.job_code
 	                            ";
