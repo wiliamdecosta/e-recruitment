@@ -8,7 +8,7 @@
             <li>
 	    		<a href="#">Parameter</a>
 	    	</li>
-            <li class="active">Jenis Dokumen Pelamar</li>
+            <li class="active">Jenis Dokumen Lamaran</li>
 	    </ul><!-- /.breadcrumb --
 	    <!-- /section:basics/content.searchbox -->
     </div>
@@ -96,7 +96,7 @@
 
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."recruitment.p_doc_type_controller/crud"; ?>',
-            caption: "Jenis Dokumen Pelamar"
+            caption: "Jenis Dokumen Lamaran"
 
         });
 
