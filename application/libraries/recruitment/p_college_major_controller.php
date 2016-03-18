@@ -77,6 +77,7 @@ class P_college_major_controller {
 		    
 		    $items = $table->getAll(0,-1);
 		    echo '<select>';
+		    echo '<option value=""> Pilih Jurusan Perkuliahan </option>';
             foreach($items  as $item ){
                 echo '<option value="'.$item['major_id'].'">'.$item['major_code'].'</option>';
             }
