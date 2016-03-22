@@ -222,7 +222,17 @@
 
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."recruitment.p_applicant_controller/crud"; ?>',
-            caption: "Daftar Pelamar"
+            caption: "Daftar Pelamar",
+            
+            subGrid: true, // set the subGrid property to true to show expand buttons for each row
+            subGridRowExpanded: showApplicantDocs, // javascript function that will take care of showing the child grid
+            subGridOptions : {
+                reloadOnExpand :false,
+                selectOnExpand : false,
+                plusicon : "ace-icon fa fa-folder center bigger-110 pink",
+                minusicon  : "ace-icon fa fa-folder-open center bigger-110 pink"
+                // openicon : "ace-icon fa fa-chevron-right center orange"
+            }
 
         });
 
@@ -368,7 +378,226 @@
         );
 
     });
+    
+    function showApplicantDocs(parentRowID, parentRowKey) {
+        var childGridID = parentRowID + "_table";
+        var childGridPagerID = parentRowID + "_pager";
+        
+        var parentGrid = $('#grid-table');
+        var celValue = parentGrid.jqGrid ('getCell', parentRowKey, 'applicant_fullname');
+        
+        $('#' + parentRowID).append('<br><span class="label label-pink">'+
+                                    'Data Dokumen Pelamar :: '+ celValue +
+                                    '</span>');
+        // add a table and pager HTML elements to the parent grid row - we will render the child grid here
+        $('#' + parentRowID).append('<table id="' + childGridID + '"></table><div id="' + childGridPagerID + '"></div>');
 
+        $("#" + childGridID).jqGrid({
+            url: '<?php echo WS_JQGRID."recruitment.p_applicant_doc_controller/read"; ?>',
+            mtype: "POST",
+            datatype: "json",
+            page: 1,
+            rowNum: 10,
+            height: 'auto',
+            autowidth: true,
+            rownumbers: true, // show row numbers
+            rownumWidth: 35, // the width of the row numbers columns
+            altRows: true,
+            shrinkToFit: true,
+            multiboxonly: true,
+            onSortCol: clearSelection,
+            onPaging: clearSelection,
+            postData:{ applicant_id: encodeURIComponent(parentRowKey) },
+            colModel: [
+                {label: 'ID', name: 'p_applicant_doc_id', key: true, width:125, sorttype:'number', editable: true, hidden:true },
+                {label: 'Jenis Dokumen', name: 'p_doc_type_id', width: 150, align: "left", editable: true, hidden:true, 
+                    editrules: {edithidden: true, required:true},
+                    edittype: 'select',
+                    editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_doc_type_controller/html_select_options_doc_type"; ?>'}
+                },
+                {label: 'Download',name: 'link_file',width: 80, align: "center",editable: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        return '<a href="<?php echo UPLOAD_PATH."'+ cellvalue +'#"; ?>" target="_blank"> <i class="ace-icon fa fa-download bigger-120"></i> </a>';
+                    }
+                },
+                {label: 'Jenis Dokumen', name: 'doc_type_code', width: 150, align: "left", editable: false},
+                {label: 'Nama File',name: 'applicant_doc_file',width: 350, align: "left",editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:255
+                    },
+                    editrules: {required: true}
+                },
+                {label: 'Tgl Pembuatan', name: 'created_date', width: 120, align: "left", editable: false},
+                {label: 'Dibuat Oleh', name: 'created_by', width: 120, align: "left", editable: false},
+                {label: 'Tgl Update', name: 'updated_date', width: 120, align: "left", editable: false},
+                {label: 'Diupdate Oleh', name: 'created_by', width: 120, align: "left", editable: false}
+            ],
+            jsonReader: {
+                root: 'rows',
+                id: 'id',
+                repeatitems: false
+            },
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                }, 0);
+            },
+            pager:childGridPagerID,
+            editurl: '<?php echo WS_JQGRID."recruitment.p_applicant_doc_controller/crud"; ?>',
+            rowList: [],        // disable page size dropdown
+            pgbuttons: false,     // disable page control like next, back button
+            pgtext: null,         // disable pager text like 'Page 0 of 10'
+            viewrecords: false    // disable current view record text like 'View 1-10 of 100'
+        });
+        
+        jQuery("#"+childGridID).jqGrid('navGrid',"#"+childGridPagerID,
+            {   
+                edit: true,
+                editicon: 'ace-icon fa fa-pencil blue',
+                add: true,
+                addicon: 'ace-icon fa fa-plus-circle purple',
+                del: true,
+                delicon: 'ace-icon fa fa-trash-o red',
+                search: true,
+                searchicon: 'ace-icon fa fa-search orange',
+                refresh: true,
+                afterRefresh: function () {
+                    // some code here
+                },
+                refreshicon: 'ace-icon fa fa-refresh green',
+                view: false,
+                viewicon: 'ace-icon fa fa-search-plus grey'
+            },
+            {
+                // options for the Edit Dialog
+                editData: {
+                    applicant_id: function () {
+                        var data = $("#"+childGridID).jqGrid('getGridParam', 'postData');
+                        return data.applicant_id;
+                    }
+                },
+                closeAfterEdit: true,
+                closeOnEscape:true,
+                recreateForm: true,
+                serializeEditData: serializeJSON,
+                width: 'auto',
+                errorTextFormat: function (data) {
+                    return 'Error: ' + data.responseText
+                },
+                beforeShowForm: function (e, form) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                    style_edit_form(form);
+                },
+                afterShowForm: function(form) {
+                    form.closest('.ui-jqdialog').center();
+                },
+                afterSubmit:function(response,postdata) {
+                    var response = jQuery.parseJSON(response.responseText);
+                    if(response.success == false) {
+                        return [false,response.message,response.responseText];
+                    }
+                    return [true,"",response.responseText];
+                }
+            },
+            {
+                //new record form
+                editData: {
+                    applicant_id: function () {
+                        var data = $("#"+childGridID).jqGrid('getGridParam', 'postData');
+                        return data.applicant_id;
+                    }
+                },
+                closeAfterAdd: false,
+                clearAfterAdd : true,
+                closeOnEscape:true,
+                recreateForm: true,
+                width: 'auto',
+                errorTextFormat: function (data) {
+                    return 'Error: ' + data.responseText
+                },
+                serializeEditData: serializeJSON,
+                viewPagerButtons: false,
+                beforeShowForm: function (e, form) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
+                        .wrapInner('<div class="widget-header" />')
+                    style_edit_form(form);
+                },
+                afterShowForm: function(form) {
+                    form.closest('.ui-jqdialog').center();
+                },
+                afterSubmit:function(response,postdata) {
+                    var response = jQuery.parseJSON(response.responseText);
+                    if(response.success == false) {
+                        return [false,response.message,response.responseText];
+                    }
+                    
+                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>'); 
+                    var tinfoel = $(".tinfo").show();
+                    tinfoel.delay(3000).fadeOut();
+                          
+                    return [true,"",response.responseText];
+                }
+            },
+            {
+                //delete record form
+                serializeDelData: serializeJSON,
+                recreateForm: true,
+                beforeShowForm: function (e) {
+                    var form = $(e[0]);
+                    if (form.data('styled')) return false;
+
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                    style_delete_form(form);
+
+                    form.data('styled', true);
+                },
+                afterShowForm: function(form) {
+                    form.closest('.ui-jqdialog').center();
+                },
+                onClick: function (e) {
+                    //alert(1);
+                },
+                afterSubmit:function(response,postdata) {
+                    var response = jQuery.parseJSON(response.responseText);
+                    if(response.success == false) {
+                        return [false,response.message,response.responseText];
+                    }
+                    return [true,"",response.responseText];
+                }
+            },
+            {
+                //search form
+                closeAfterSearch: false,
+                recreateForm: true,
+                afterShowSearch: function (e) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                    style_search_form(form);
+                    
+                    form.closest('.ui-jqdialog').center();
+                },
+                afterRedraw: function () {
+                    style_search_filters($(this));
+                }
+            },
+            {
+                //view record form
+                recreateForm: true,
+                beforeShowForm: function (e) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                }
+            }
+            
+            
+        );    
+        
+    }
+    
     function serializeJSON(postdata) {
         var items;
         if(postdata.oper != 'del') {
