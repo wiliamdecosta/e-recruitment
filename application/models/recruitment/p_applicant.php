@@ -112,13 +112,10 @@ class P_applicant extends Abstract_model {
 			$this->record['applicant_fullname'] = strtoupper(trim($this->record['applicant_fullname']));
             $this->record['applicant_city'] = strtoupper(trim($this->record['applicant_city']));
             
-            /*if (isset($this->record['applicant_password'])){
-                if (strlen($this->record['applicant_password']) < 8) throw new Exception('Mininum password 8 Karakter');
+            unset($this->record['applicant_username']); /* asumsi : username tidak boleh diupdate */
                 
-                $this->record['applicant_password'] = md5($this->record['applicant_password']);
-            }*/
-            if(!$this->fromFrontPage) {
-                unset($this->record['applicant_username']);
+                
+            if(isset($this->record['applicant_password']) and empty($this->record['applicant_password'])) {
                 unset($this->record['applicant_password']);
             }
             
