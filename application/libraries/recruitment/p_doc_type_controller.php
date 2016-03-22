@@ -68,7 +68,26 @@ class P_doc_type_controller {
 
     	return $data;
     }
-
+    
+    function html_select_options_doc_type() {
+        try {
+            $ci = & get_instance();
+		    $ci->load->model('recruitment/p_doc_type');
+		    $table = $ci->p_doc_type;
+		    
+		    $items = $table->getAll(0,-1);
+		    echo '<select>';
+		    echo '<option value=""> -- Pilih Jenis Dokumen -- </option>';
+            foreach($items  as $item ){
+                echo '<option value="'.$item['p_doc_type_id'].'">'.$item['code'].'</option>';
+            }
+            echo '</select>';
+            exit;
+        }catch (Exception $e) {
+            echo $e->getMessage();
+            exit;
+        }
+    }
     
     function crud() {
         
