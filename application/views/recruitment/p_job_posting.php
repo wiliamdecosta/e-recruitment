@@ -118,12 +118,12 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID',name: 'job_posting_id', key: true, width: 35, sorttype: 'number', sortable: true, editable: true, hidden:true},
-                {label: 'Divisi', name: 'job_id', width: 120, align: "left", editable: true, hidden:true, 
+                {label: 'Kode Lamaran', name: 'job_id', width: 120, align: "left", editable: true, hidden:true, 
                     editrules: {edithidden: true},
                     edittype: 'select',
                     editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_job_controller/html_select_options_job"; ?>'}
                 },
-                {label: 'Divisi', name: 'job_code', width: 150, align: "left", editable: false},
+                {label: 'Kode Lamaran', name: 'job_code', width: 150, align: "left", editable: false},
                 {label: 'Deskripsi',name: 'posting_short_desc', width: 200, sortable: true, editable: true,
                     editoptions: {
                         size: 50,
