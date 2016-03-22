@@ -226,11 +226,12 @@
             
             subGrid: true, // set the subGrid property to true to show expand buttons for each row
             subGridRowExpanded: showApplicantDocs, // javascript function that will take care of showing the child grid
+            subGridWidth : 40,
             subGridOptions : {
                 reloadOnExpand :false,
                 selectOnExpand : false,
-                plusicon : "ace-icon fa fa-folder center bigger-110 pink",
-                minusicon  : "ace-icon fa fa-folder-open center bigger-110 pink"
+                plusicon : "ace-icon fa fa-folder center bigger-150 pink",
+                minusicon  : "ace-icon fa fa-folder-open center bigger-150 pink"
                 // openicon : "ace-icon fa fa-chevron-right center orange"
             }
 
@@ -379,7 +380,26 @@
 
     });
     
+    function showDocFile(url) {
+        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+        var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+        var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+        var left = ((width / 2) - ((0.5 * width) / 2)) + dualScreenLeft;
+        var top = ((height / 2) - ((0.7 * height) / 2)) + dualScreenTop;
+        var newWindow = window.open(url, "Dokumen Pelamar", 'location=no,toolbar=no,menubar=no, scrollbars=yes, width=' + (0.5 * width) + ', height=' + (0.7 * height) + ', top=' + top + ', left=' + left);
+
+        // Puts focus on the newWindow
+        if (window.focus) {
+            newWindow.focus();
+        }
+        return;         
+    }
+    
     function showApplicantDocs(parentRowID, parentRowKey) {
+        
         var childGridID = parentRowID + "_table";
         var childGridPagerID = parentRowID + "_pager";
         
@@ -417,7 +437,7 @@
                 },
                 {label: 'Download',name: 'link_file',width: 80, align: "center",editable: false,
                     formatter: function(cellvalue, options, rowObject) {
-                        return '<a href="<?php echo UPLOAD_PATH."'+ cellvalue +'#"; ?>" target="_blank"> <i class="ace-icon fa fa-download bigger-120"></i> </a>';
+                        return '<a href="#" onclick="showDocFile(\'<?php echo UPLOAD_PATH;?>'+cellvalue+'\');"> <i class="ace-icon fa fa-download bigger-130"></i> </a>';
                     }
                 },
                 {label: 'Jenis Dokumen', name: 'doc_type_code', width: 150, align: "left", editable: false},
