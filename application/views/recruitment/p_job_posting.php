@@ -177,7 +177,17 @@
                                 try {
                                     tinymce.remove("#" + options.id);
                                 } catch(ex) {}
-                                tinymce.init({ mode:"specific_textareas", width:650, height:"300", editor_selector : "mceEditor", statusbar:false, menubar:false});
+                                tinymce.init({ mode:"specific_textareas", width:650, height:"300", editor_selector : "mceEditor", statusbar:false, menubar:false,
+                                    plugins: [
+                                        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                                        'searchreplace wordcount visualblocks visualchars code fullscreen',
+                                        'insertdatetime media nonbreaking save table contextmenu directionality',
+                                        'emoticons template paste textcolor colorpicker textpattern imagetools'
+                                    ],
+                                    toolbar1: 'insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+                                    toolbar2: 'print | forecolor backcolor emoticons',
+                                    image_advtab: true
+                                });
                             }, 100);
                             
                             return elm;
