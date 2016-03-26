@@ -43,8 +43,8 @@ class MenuBuilder {
       }
       
       function beauty_menu($text) {
-        if(strlen($text) > 16) {
-            //return substr($text,0,14)."..";
+        if(strlen($text) > 21) {
+            return substr($text,0,16)."..";
         } 
         return $text;
       }
@@ -127,7 +127,7 @@ class MenuBuilder {
                                       '%1$s<li class="nav-menu-content" data-source="%2$s" title="%3$s">
                                                 <a href="#">
                                                     <i class="%4$s"></i>
-                                                	<span class="menu-text"> <i>%5$s</i> </span>
+                                                	<span class="menu-text"> %5$s </span>
                                                 </a>
                                                 <b class="arrow"></b>
                                             </li>',
