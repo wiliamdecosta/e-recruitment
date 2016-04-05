@@ -10,12 +10,12 @@ class P_job_posting_controller {
 		
 		$page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',10);
-        $sidx = getVarClean('sidx','str','job_posting_id');
+        $sidx = getVarClean('sidx','str','is_active DESC, job_posting_id');
         $sord = getVarClean('sord','str','DESC');
         
         
         $job_id = getVarClean('job_id','int',0);
-        
+        $is_active = getVarClean('is_active','str','');
         
     	$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
 
@@ -41,7 +41,8 @@ class P_job_posting_controller {
 
             // Filter Table
             //bisa pakai cara ini juga --> : $table->setCriteria("job_posting.job_id = ".$job_id);
-            $req_param['where'] = array();
+            if(!empty($is_active))
+                $req_param['where'] = array("job_posting.is_active = '".$is_active."'");
             
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
