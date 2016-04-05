@@ -162,7 +162,7 @@
                         url: '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/read"; ?>',
                         postData: {job_posting_id: rowid}
                     });
-                    grid_detail.jqGrid('setCaption', 'Pelamar :: ' + celCode + ' - ' + no_lowongan);
+                    grid_detail.jqGrid('setCaption', 'Daftar Pelamar :: ' + celCode + ' - ' + no_lowongan);
                     jQuery("#send_email_pelamar_text").html('Email Interview Ke Pelamar Approve ('+ celCode + ' - ' + no_lowongan +')');
                     jQuery("#grid-table-detail").trigger("reloadGrid");
                     jQuery("#detail_placeholder").show();
