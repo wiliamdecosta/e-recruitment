@@ -71,7 +71,7 @@ class MenuBuilder {
               $this->html[] = '<li class="nav-menu-content active" title ="DASHBOARD" data-source="dashboard.php">
                                    <a href="#">
                                        <i class="menu-icon fa fa-tachometer"></i>
-                                   	<span class="menu-text"> <i> DASHBOARD </i></span>
+                                   	<span class="menu-text"> Dashboard </span>
                                    </a>
                                </li>';
              
