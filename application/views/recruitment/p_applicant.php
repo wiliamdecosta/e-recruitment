@@ -3,7 +3,7 @@
 	    <ul class="breadcrumb">
 	    	<li>
 	    		<i class="ace-icon fa fa-home home-icon"></i>
-	    		<a href="<?php echo base_url("index.php/panel/index"); ?>">Home</a>
+	    		<a href="<?php echo base_url("panel/index"); ?>">Home</a>
 	    	</li>
             <li>
 	    		<a href="#">Rekrutment</a>
@@ -52,7 +52,16 @@
                     },
                     editrules: {required: true}
                 },
-                
+                {label: 'IPK',name: 'applicant_ipk', width: 85, hidden:false, sortable: true, editable: true,
+                    editoptions: {
+                        size: 10,
+                        maxlength:4
+                    },
+                    editrules: {required: true, number:true, minValue:0, maxValue: 4},
+                    formoptions: {
+                        elmsuffix:'<i data-placement="left" class="orange"> Contoh : 2.75 </i>'
+                    }
+                },
                 {label: 'Pendidikan Terakhir', name: 'education_id', width: 120, align: "left", editable: true, hidden:true, 
                     editrules: {edithidden: true, required:true},
                     edittype: 'select',
@@ -185,7 +194,7 @@
                     },
                     editrules: {edithidden: true, required: true}
                 },
-                {label: 'Tgl Pembuatan', name: 'created_date', width: 120, align: "left", editable: false},
+                {label: 'Tgl Daftar', name: 'created_date', width: 120, align: "left", editable: false},
                 {label: 'Dibuat Oleh', name: 'created_by', width: 120, align: "left", editable: false},
                 {label: 'Tgl Update', name: 'updated_date', width: 120, align: "left", editable: false},
                 {label: 'Diupdate Oleh', name: 'created_by', width: 120, align: "left", editable: false}
@@ -448,10 +457,10 @@
                     },
                     editrules: {required: true}
                 },
-                {label: 'Tgl Pembuatan', name: 'created_date', width: 120, align: "left", editable: false},
-                {label: 'Dibuat Oleh', name: 'created_by', width: 120, align: "left", editable: false},
-                {label: 'Tgl Update', name: 'updated_date', width: 120, align: "left", editable: false},
-                {label: 'Diupdate Oleh', name: 'created_by', width: 120, align: "left", editable: false}
+                {label: 'Tgl Upload', name: 'created_date', width: 120, align: "left", editable: false},
+                {label: 'Diupload Oleh', name: 'created_by', width: 120, align: "left", editable: false},
+                {label: 'Tgl Update', name: 'updated_date', width: 120, hidden:true, align: "left", editable: false},
+                {label: 'Diupdate Oleh', name: 'created_by', width: 120, hidden:true, align: "left", editable: false}
             ],
             jsonReader: {
                 root: 'rows',
@@ -474,9 +483,9 @@
         
         jQuery("#"+childGridID).jqGrid('navGrid',"#"+childGridPagerID,
             {   
-                edit: true,
+                edit: false,
                 editicon: 'ace-icon fa fa-pencil blue',
-                add: true,
+                add: false,
                 addicon: 'ace-icon fa fa-plus-circle purple',
                 del: true,
                 delicon: 'ace-icon fa fa-trash-o red',
@@ -615,6 +624,8 @@
             
             
         );    
+
+        responsive_jqgrid("#"+childGridID, "#"+childGridPagerID); 
         
     }
     
@@ -720,7 +731,7 @@
                 
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
-        $(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
+        $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
  
     }
 
