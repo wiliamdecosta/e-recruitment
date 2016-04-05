@@ -3,7 +3,7 @@
 	    <ul class="breadcrumb">
 	    	<li>
 	    		<i class="ace-icon fa fa-home home-icon"></i>
-	    		<a href="<?php echo base_url("index.php/panel/index"); ?>">Home</a>
+	    		<a href="<?php echo base_url("panel/index"); ?>">Home</a>
 	    	</li>
             <li>
 	    		<a href="#">Setting</a>
