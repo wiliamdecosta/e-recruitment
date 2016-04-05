@@ -6,7 +6,7 @@
 	    <ul class="breadcrumb">
 	    	<li>
 	    		<i class="ace-icon fa fa-home home-icon"></i>
-	    		<a href="<?php echo base_url("index.php/panel/index"); ?>">Home</a>
+	    		<a href="<?php echo base_url("panel/index"); ?>">Home</a>
 	    	</li>
             <li>
 	    		<a href="#">Lowongan</a>
@@ -131,6 +131,16 @@
                     },
                     editrules: {required: true}
                 },
+                {label: 'Min.IPK',name: 'posting_min_ipk', width: 125, sortable: true, editable: true,
+                    editoptions: {
+                        size: 10,
+                        maxlength:4
+                    },
+                    editrules: {required: true, number:true, minValue:0, maxValue: 4},
+                    formoptions: {
+                        elmsuffix:'<i data-placement="left" class="orange"> Contoh : 2.75 </i>'
+                    }
+                },
                 {label: 'Nomor Lowongan',name: 'posting_no', width: 200, sortable: true, editable: true,
                     editoptions: {
                         size: 30,
@@ -245,7 +255,12 @@
 
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."recruitment.p_job_posting_controller/crud"; ?>',
-            caption: "Pembukaan Lowongan"
+            caption: "Pembukaan Lowongan",
+            rowattr: function (rd) {
+                if (rd.is_active == 'N') {
+                    return {"style": "background:#FFD2D2"};
+                }
+            }
 
         });
 
@@ -497,7 +512,7 @@
                 
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
-        $(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
+        $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
     }
 
 </script>
