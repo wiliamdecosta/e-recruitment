@@ -188,7 +188,7 @@
 
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."recruitment.p_job_posting_controller/crud"; ?>',
-            caption: "Pembukaan Lowongan"
+            caption: "Daftar Lowongan Aktif"
 
         });
 
