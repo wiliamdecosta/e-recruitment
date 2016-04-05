@@ -26,6 +26,7 @@ class P_applicant extends Abstract_model {
 								'applicant_telp'	    => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'No.Telp'),
 								'applicant_hp'	        => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'No.HP'),
 								'applicant_date_of_birth' => array('nullable' => false, 'type' => 'date', 'unique' => false, 'display' => 'Tgl.Lahir'),
+								'applicant_ipk'         => array('nullable' => false, 'type' => 'float', 'unique' => false, 'display' => 'IPK'),
 								'applicant_address'     => array('nullable' =>  false, 'type' => 'str', 'unique' => false, 'display' => 'Alamat'),
 								'applicant_city'        => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Kota'),
 								
@@ -39,7 +40,7 @@ class P_applicant extends Abstract_model {
 	public $selectClause 	= "applicant.applicant_id, applicant.major_id, applicant.education_id,  applicant.applicant_status_id,
 	                           applicant.applicant_username, applicant.applicant_fullname,  applicant.applicant_ktp_no,
 	                           applicant.applicant_email, applicant.applicant_telp,  applicant.applicant_hp,
-	                           applicant.applicant_date_of_birth, applicant.applicant_address,  applicant.applicant_city,
+	                           applicant.applicant_date_of_birth, applicant.applicant_ipk, applicant.applicant_address,  applicant.applicant_city,
 	                                applicant_status.code AS status_code,
 	                                education.education_code,
 	                                major.major_code,
