@@ -3,7 +3,7 @@
 	    <ul class="breadcrumb">
 	    	<li>
 	    		<i class="ace-icon fa fa-home home-icon"></i>
-	    		<a href="<?php echo base_url("index.php/panel/index"); ?>">Home</a>
+	    		<a href="<?php echo base_url("panel/index"); ?>">Home</a>
 	    	</li>
             <li>
 	    		<a href="#">Lowongan</a>
@@ -416,7 +416,7 @@
 
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
-        $(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
+        $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
 
     }
 
