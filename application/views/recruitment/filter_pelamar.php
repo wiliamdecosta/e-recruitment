@@ -30,8 +30,14 @@
             <div class="space-10"></div>
             <div class="row" id="detail_placeholder" style="background:#F4F4F4;display:none;">
                 <div class="space-4"></div>
+                <div class="col-xs-12" style="margin-bottom:15px;">
+                    <div class="space-2"></div>
+                    <span class="bigger-120 light grey"> <i>Keterangan : </i></span> <br>
+                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="light blue">biru muda</label> adalah penanda bahwa pelamar tersebut telah <label class="light blue">diapprove</label></i></span>   
+                </div>
+                
                 <div class="col-xs-2" style="float:left;">
-                    <button class="btn btn-warning" id="set_approve_pelamar">
+                    <button class="btn btn-primary" id="set_approve_pelamar">
                         <i class="ace-icon glyphicon glyphicon-check"></i>
                         Approve Pelamar
                     </button>
@@ -44,10 +50,7 @@
                     </button>
                 </div>
                 <div class="clear"></div>
-                <div class="col-xs-12">
-                    <div class="space-2"></div>
-                    <span class="ace-icon fa fa-info-circle bigger-90 light blue"> <i> Baris data yang berwarna <label class="orange">orange</label> adalah penanda bahwa pelamar tersebut telah <label class="orange">diapprove</label></i></span>   
-                </div>
+                
                 <div class="col-xs-12">
                     <div class="space-4"></div>
                     <table id="grid-table-detail"></table>
@@ -491,7 +494,7 @@
                 {label: 'ID Applicant', name: 'applicant_id', width: 5, sorttype: 'number', editable: true, hidden: true},
                 {label: 'No.Registrasi',name: 'applicant_no_reg',width: 120, align: "left",editable: true,
                     editoptions: {
-                        size: 50,
+                        size: 20,
                         maxlength:60
                     },
                     editrules: {required: true}
@@ -706,7 +709,7 @@
             },
             rowattr: function (rd) {
                 if (rd.is_approve == 'Y') {
-                    return {"style": "background:#FFD295;"};
+                    return {"style": "background:#CAE4FF;"};
                 }
             }
 
