@@ -38,7 +38,8 @@ class T_applicant_job_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("applicant_job.job_posting_id = ".$job_posting_id);
+            $req_param['where'] = array("applicant_job.job_posting_id = ".$job_posting_id,
+                                        "upper(applicant_status.code) = 'ACTIVE'");
             
             $table->setJQGridParam($req_param);
             $count = $table->countAll();

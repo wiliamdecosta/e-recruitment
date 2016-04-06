@@ -40,8 +40,11 @@
                         <span id="send_email_pelamar_text">Email Interview</span>
                     </button>
                 </div>
-                
                 <div class="clear"></div>
+                <div class="col-xs-12">
+                    <div class="space-2"></div>
+                    <span class="ace-icon fa fa-info-circle bigger-90 purple"> <i>Background baris data yang berwarna ungu adalah penanda bahwa pelamar tersebut telah diapprove</i></span>   
+                </div>
                 <div class="col-xs-12">
                     <div class="space-4"></div>
                     <table id="grid-table-detail"></table>
@@ -341,7 +344,7 @@
              BootstrapDialog.confirm({
 			     title:'Email Interview',
 			     type : BootstrapDialog.TYPE_WARNING,
-			     message: 'Apakah Anda yakin untuk mengirim email ke pelamar-pelamar yang disetujui?',
+			     message: 'Apakah Anda yakin untuk mengirim email ke pelamar-pelamar yang diapprove?',
 			     btnCancelLabel: 'Tidak, Batalkan',
                  btnOKLabel: 'Ya, Yakin',
 			     callback: function(result) {
@@ -667,7 +670,7 @@
             },
             rowattr: function (rd) {
                 if (rd.is_approve == 'Y') {
-                    return {"style": "background:#CBCBE4;"};
+                    return {"style": "background:#D0D0E8;"};
                 }
             }
 
