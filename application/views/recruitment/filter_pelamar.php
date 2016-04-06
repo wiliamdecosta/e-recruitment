@@ -50,7 +50,7 @@
                                     <i class="ace-icon fa fa-users"></i>
                                 </div>
                                 <div class="infobox-data">
-                                    <span class="infobox-data-number">3</span>
+                                    <span class="infobox-data-number" id="info-box-pelamar">...</span>
                                     <div class="infobox-content">Pelamar</div>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                     <i class="ace-icon glyphicon glyphicon-check"></i>
                                 </div>
                                 <div class="infobox-data">
-                                    <span class="infobox-data-number">2</span>
+                                    <span class="infobox-data-number" id="info-box-pelamar-approve">...</span>
                                     <div class="infobox-content">Pelamar Approve</div>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                                     <i class="ace-icon fa fa-envelope"></i>
                                 </div>
                                 <div class="infobox-data">
-                                    <span class="infobox-data-number">1</span>
+                                    <span class="infobox-data-number" id="info-box-email-terkirim">...</span>
                                     <div class="infobox-content">Email Terkirim</div>
                                 </div>
                             </div>
@@ -85,11 +85,11 @@
                 </div>
                 
                 <div class="col-xs-12">
-                    <button class="btn btn-white btn-primary" id="set_approve_pelamar">
+                    <button class="btn btn-primary" id="set_approve_pelamar">
                         <i class="ace-icon glyphicon glyphicon-check"></i>
                         Approve Pelamar
                     </button>
-                    <button class="btn btn-white btn-danger" id="send_email_pelamar">
+                    <button class="btn btn-success" id="send_email_pelamar">
                         <i class="ace-icon fa fa-envelope bigger-120"></i>
                         <span id="send_email_pelamar_text">Email Interview</span>
                     </button>
@@ -703,6 +703,7 @@
                 var table = this;
                 setTimeout(function () {
                     updatePagerIcons(table);
+                    statisticInformation();
                 }, 0);
 
             },
@@ -1218,6 +1219,25 @@
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
+    }
+    
+    function statisticInformation() {
+        var grid = $("#grid-table-detail");
+        var data = grid.jqGrid('getGridParam', 'postData');
+        var job_posting_id = data.job_posting_id;
+        
+        $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/statistic_information"; ?>',
+            {job_posting_id: job_posting_id },
+            function( response ) {
+                if(response.success == false) {
+                    showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Perhatian', response.message);
+                }else {
+                    $("#info-box-pelamar").html( response.total_pelamar);
+                    $("#info-box-pelamar-approve").html( response.total_pelamar_approve );
+                    $("#info-box-email-terkirim").html( response.email_terkirim );
+                }
+            }
+        );
     }
 
 </script>

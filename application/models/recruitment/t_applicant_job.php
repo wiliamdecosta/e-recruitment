@@ -114,6 +114,38 @@ class T_applicant_job extends Abstract_model {
 	            WHERE applicant_job_id = ".$applicant_job_id;
 	    $this->db->query($sql);
 	}
+	
+	function statisticInformation($info, $job_posting_id) {
+	    
+	    switch($info) {
+	        case 'total_pelamar' :
+	            $sql = "SELECT COUNT(1) AS total_pelamar FROM recruitment.t_applicant_job
+                        WHERE job_posting_id = ".$job_posting_id;
+	        
+	        break;
+	        
+	        case 'total_pelamar_approve' :
+	            $sql = "SELECT COUNT(1) AS total_pelamar_approve FROM recruitment.t_applicant_job
+                        WHERE job_posting_id = ".$job_posting_id."
+                        AND is_approve = 'Y' and is_send_email = 'N'";
+	        break;
+	        
+	        case 'email_terkirim' :
+	            $sql = "SELECT COUNT(1) AS email_terkirim FROM recruitment.t_applicant_job
+                        WHERE job_posting_id = ".$job_posting_id."
+                        AND is_approve = 'Y'";
+	        break;
+	        
+	        default :
+	            return "";
+	        break;
+	    }
+	    
+	    $query = $this->db->query($sql);
+		$row = $query->row_array();
+	    
+	    return $row[$info];
+	}
 }
 
 /* End of file T_applicant_job.php */

@@ -380,6 +380,36 @@ class T_applicant_job_controller {
         return $data;
 
     }
+    
+    
+    function statistic_information() {
+    	$ci = & get_instance();
+		$ci->load->model('recruitment/t_applicant_job');
+		$table = $ci->t_applicant_job;
+
+		$data = array('success' => false, 'message' => '');
+		$job_posting_id = getVarClean('job_posting_id', 'int', 0);
+		
+		try{
+		    $table->db->trans_begin(); //Begin Trans
+    		    
+    		    $data['total_pelamar'] = $table->statisticInformation('total_pelamar', $job_posting_id);
+    		    $data['total_pelamar_approve'] = $table->statisticInformation('total_pelamar_approve', $job_posting_id);
+    		    $data['email_terkirim'] = $table->statisticInformation('email_terkirim', $job_posting_id);
+    		    
+                $data['success'] = true;
+                $data['message'] = '';
+            
+            $table->db->trans_commit(); //Commit Trans
+            
+        }catch (Exception $e) {
+            $table->db->trans_rollback(); //Rollback Trans
+            $data['message'] = $e->getMessage();
+        }
+
+        return $data;
+
+    }
 }
 
 /* End of file T_applicant_job_controller.php */
