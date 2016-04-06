@@ -44,7 +44,7 @@
                 
                 <div class="col-xs-4" style="margin-bottom:20px; float:left;">
                     <div class="space-2"></div>
-                    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> Keterangan Warna Baris Data: <br>
+                    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> Keterangan Warna Baris Data:  <br>
                     <label class="approve-bg" style="padding:5px;"> &nbsp; </label> Pelamar Diapprove <br>
                     <label class="email-sent-bg" style="padding:5px;"> &nbsp; </label> Email telah dikirim ke Pelamar
                 </div>
@@ -86,15 +86,17 @@
                 
                 
                 <div class="col-xs-12">
-                    <button class="btn btn-primary" id="set_approve_pelamar">
-                        <i class="ace-icon glyphicon glyphicon-check"></i>
-                        Approve Pelamar
-                    </button>
-                    <button class="btn btn-success" id="send_email_pelamar">
-                        <i class="ace-icon fa fa-envelope bigger-120"></i>
-                        <span id="send_email_pelamar_text">Email Interview</span>
-                    </button>
-                </div> 
+                    <div>
+                        <button class="btn btn-primary" id="set_approve_pelamar">
+                            <i class="ace-icon glyphicon glyphicon-check"></i>
+                            Approve Pelamar
+                        </button>
+                        <button class="btn btn-success" id="send_email_pelamar">
+                            <i class="ace-icon fa fa-envelope bigger-120"></i>
+                            <span id="send_email_pelamar_text">Email Interview</span>
+                        </button>
+                    </div>
+                </div>
                 
                 <div class="clear"></div>
                 
