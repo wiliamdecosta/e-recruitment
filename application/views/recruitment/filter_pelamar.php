@@ -28,14 +28,14 @@
             <div class="row" id="detail_placeholder" style="background:#F4F4F4;">
                 <div class="space-4"></div>
                 <div class="col-xs-2" style="float:left;">
-                    <button class="btn btn-danger" id="set_disapprove_pelamar">
-                        <i class="ace-icon glyphicon glyphicon-trash bigger-120"></i>
-                        Disapprove Pelamar
+                    <button class="btn btn-purple" id="set_approve_pelamar">
+                        <i class="ace-icon glyphicon glyphicon-check"></i>
+                        Approve Pelamar
                     </button>
                 </div>
                 
                 <div class="col-xs-4" style="float:right;">
-                    <button class="btn btn-yellow" id="send_email_pelamar">
+                    <button class="btn btn-warning" id="send_email_pelamar">
                         <i class="ace-icon fa fa-envelope bigger-120"></i>
                         <span id="send_email_pelamar_text">Email Interview</span>
                     </button>
@@ -341,7 +341,7 @@
              BootstrapDialog.confirm({
 			     title:'Email Interview',
 			     type : BootstrapDialog.TYPE_WARNING,
-			     message: 'Apakah Anda yakin untuk mengirim email ke pelamar yang disetujui?',
+			     message: 'Apakah Anda yakin untuk mengirim email ke pelamar-pelamar yang disetujui?',
 			     btnCancelLabel: 'Tidak, Batalkan',
                  btnOKLabel: 'Ya, Yakin',
 			     callback: function(result) {
@@ -362,7 +362,7 @@
         });
         
         
-        $('#set_disapprove_pelamar').on('click', function() {
+        /*$('#set_disapprove_pelamar').on('click', function() {
             
             var grid = $("#grid-table-detail");
             var cellIDs = grid.jqGrid("getGridParam", "selarrrow");
@@ -377,7 +377,7 @@
                     btnOKLabel: 'Ya, Yakin',
 				    callback: function(result) {
     			        if(result) {
-    			            $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/dissaprove_applicants"; ?>',
+    			            $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/disapprove_applicants"; ?>',
                                 {items: cellIDs.toString() },
                                 function( response ) {
                                     if(response.success == false) {
@@ -394,6 +394,42 @@
                 
             }else {
                 showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Silahkan checklist pelamar-pelamar yang tidak disetujui');
+            }
+             
+        });*/
+        
+        $('#set_approve_pelamar').on('click', function() {
+            
+            var grid = $("#grid-table-detail");
+            var cellIDs = grid.jqGrid("getGridParam", "selarrrow");
+             
+            if( cellIDs.length > 0) {
+                
+                BootstrapDialog.confirm({
+				    title:'Approve Confirmation',
+				    type : BootstrapDialog.TYPE_INFO,
+				    message: 'Apakah Anda yakin untuk menyetujui pelamar-pelamar yang bersangkutan?',
+				    btnCancelLabel: 'Tidak, Batalkan',
+                    btnOKLabel: 'Ya, Yakin',
+				    callback: function(result) {
+    			        if(result) {
+    			            $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/approve_applicants"; ?>',
+                                {items: cellIDs.toString() },
+                                function( response ) {
+                                    if(response.success == false) {
+                                        showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Perhatian', response.message);
+                                    }else {
+                            	        showBootDialog(true, BootstrapDialog.TYPE_SUCCESS, 'Berhasil', response.message);
+                                        grid.trigger("reloadGrid");
+                                    }
+                                }
+                            );
+    			        }
+				    }
+				});
+                
+            }else {
+                showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Silahkan checklist pelamar-pelamar yang ingin diapprove');
             }
              
         });
@@ -630,8 +666,8 @@
                 // openicon : "ace-icon fa fa-chevron-right center orange"
             },
             rowattr: function (rd) {
-                if (rd.is_approve == 'N') {
-                    return {"style": "background:#FFD2D2"};
+                if (rd.is_approve == 'Y') {
+                    return {"style": "background:#CBCBE4;"};
                 }
             }
 

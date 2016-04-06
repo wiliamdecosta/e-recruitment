@@ -37,9 +37,11 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-$route['default_controller'] = "admin/index";
+
+$route['default_controller'] = "portal/index";
 $route['404_override'] = '';
 
+$route['admin'] = "base/index";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

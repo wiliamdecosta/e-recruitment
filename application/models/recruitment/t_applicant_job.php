@@ -94,7 +94,18 @@ class T_applicant_job extends Abstract_model {
 	             WHERE applicant_job_id IN (".$items.")";
 	    $this->db->query($sql);
 	}
-
+    
+    function approve_applicants($items) {
+	    $ci =& get_instance();
+	    $user_name = $ci->session->userdata('user_name');
+	    
+	    $sql = "UPDATE recruitment.t_applicant_job 
+	             SET is_approve = 'Y',
+	             updated_date = '".date('Y-m-d')."',
+	             updated_by = '".$user_name."'
+	             WHERE applicant_job_id IN (".$items.")";
+	    $this->db->query($sql);
+	}
 }
 
 /* End of file T_applicant_job.php */

@@ -287,7 +287,7 @@ class T_applicant_job_controller {
     
     
     
-    function dissaprove_applicants() {
+    function disapprove_applicants() {
     	$ci = & get_instance();
 		$ci->load->model('recruitment/t_applicant_job');
 		$table = $ci->t_applicant_job;
@@ -301,6 +301,32 @@ class T_applicant_job_controller {
     		    $table->disapprove_applicants($items);	
                 $data['success'] = true;
                 $data['message'] = $total_disapprove.' Pelamar telah dinyatakan tidak disetujui';
+            
+            $table->db->trans_commit(); //Commit Trans
+            
+        }catch (Exception $e) {
+            $table->db->trans_rollback(); //Rollback Trans
+            $data['message'] = $e->getMessage();
+        }
+
+        return $data;
+
+    }
+    
+    function approve_applicants() {
+    	$ci = & get_instance();
+		$ci->load->model('recruitment/t_applicant_job');
+		$table = $ci->t_applicant_job;
+
+		$data = array('success' => false, 'message' => '');
+		$items = getVarClean('items', 'str', '');
+        $total_disapprove = count(explode(",", $items));
+		try{
+		    $table->db->trans_begin(); //Begin Trans
+		    
+    		    $table->approve_applicants($items);	
+                $data['success'] = true;
+                $data['message'] = $total_disapprove.' Pelamar telah diapprove';
             
             $table->db->trans_commit(); //Commit Trans
             
