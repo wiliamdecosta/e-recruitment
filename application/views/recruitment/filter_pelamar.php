@@ -46,7 +46,7 @@
                 <div class="clear"></div>
                 <div class="col-xs-12">
                     <div class="space-2"></div>
-                    <span class="ace-icon fa fa-info-circle bigger-90 light blue"> <i> Baris data yang berwarna <label class="orange">orange</label> adalah penanda bahwa pelamar tersebut telah diapprove</i></span>   
+                    <span class="ace-icon fa fa-info-circle bigger-90 light blue"> <i> Baris data yang berwarna <label class="orange">orange</label> adalah penanda bahwa pelamar tersebut telah <label class="orange">diapprove</label></i></span>   
                 </div>
                 <div class="col-xs-12">
                     <div class="space-4"></div>
