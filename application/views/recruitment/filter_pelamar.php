@@ -1,3 +1,6 @@
+<script src="<?php echo BS_PATH; ?>tinymce/tinymce.min.js"></script>
+<script src="<?php echo BS_PATH; ?>tinymce/jquery.tinymce.min.js"></script>
+
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
 	    <ul class="breadcrumb">
@@ -25,7 +28,7 @@
     		    </div>
     	    </div>
             <div class="space-10"></div>
-            <div class="row" id="detail_placeholder" style="background:#F4F4F4;">
+            <div class="row" id="detail_placeholder" style="background:#F4F4F4;display:none;">
                 <div class="space-4"></div>
                 <div class="col-xs-2" style="float:left;">
                     <button class="btn btn-warning" id="set_approve_pelamar">
@@ -76,8 +79,6 @@
                responsive_jqgrid('#grid-table-detail', '#grid-pager-detail');
             }
         });
-
-        $('#detail_placeholder').hide();
 
         jQuery("#grid-table").jqGrid({
             url: '<?php echo WS_JQGRID."recruitment.p_job_posting_controller/read"; ?>',
@@ -138,6 +139,49 @@
                     formatter: 'select',
                     editoptions: {value: {'Y': 'YES', 'N': 'NO'}}
                 },
+                {label: 'Vacancy Letter', name: 'description', width: 150, editable: true, 
+                    editrules:{
+                       required:true, 
+                       edithidden:true
+                    }, 
+                    hidden:true,
+                    align: "left",
+                    edittype: 'custom',
+                    editoptions: {
+                        "custom_element":function( value  , options) {
+                            var elm = $('<textarea class="mceEditor"></textarea>');
+                            elm.val( value );
+                            // give the editor time to initialize
+                            setTimeout( function() {
+                                try {
+                                    tinymce.remove("#" + options.id);
+                                } catch(ex) {}
+                                tinymce.init({ mode:"specific_textareas", width:650, height:"300", editor_selector : "mceEditor", statusbar:false, menubar:false,
+                                    plugins: [
+                                        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                                        'searchreplace wordcount visualblocks visualchars code fullscreen',
+                                        'insertdatetime media nonbreaking save table contextmenu directionality',
+                                        'emoticons template paste textcolor colorpicker textpattern imagetools'
+                                    ],
+                                    toolbar1: 'insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+                                    toolbar2: 'print | forecolor backcolor emoticons',
+                                    image_advtab: true
+                                });
+                            }, 100);
+                            
+                            return elm;
+                        },
+                        "custom_value":function( element, oper, gridval) {
+                            if(oper === 'get') {
+                                return tinymce.get('description').getContent({format: 'row'});
+                            } else if( oper === 'set') {
+                                if(tinymce.get('description')) {
+                                    tinymce.get('description').setContent( gridval );
+                                }
+                            }
+                        }
+                    }
+                },
                 {label: 'Tgl Pembuatan', name: 'created_date', width: 120, align: "left", editable: false},
                 {label: 'Dibuat Oleh', name: 'created_by', width: 120, align: "left", editable: false},
                 {label: 'Tgl Update', name: 'updated_date', width: 120, align: "left", editable: false},
@@ -197,8 +241,8 @@
 
         jQuery('#grid-table').jqGrid('navGrid', '#grid-pager',
             { 	//navbar options
-                edit: false,
-                editicon: 'ace-icon fa fa-pencil blue',
+                edit: true,
+                editicon: 'ace-icon fa fa-search-plus grey',
                 add: false,
                 addicon: 'ace-icon fa fa-plus-circle purple',
                 del: false,
@@ -233,6 +277,7 @@
                     form.css({"height": 0.50*screen.height+"px"});
                     form.css({"width": 0.60*screen.width+"px"});
                     /*$("#USER_NAME").prop("readonly", true);*/
+                    form.parent().find('#sData').hide();
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
