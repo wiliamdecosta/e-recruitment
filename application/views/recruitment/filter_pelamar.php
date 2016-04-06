@@ -2,9 +2,15 @@
 <script src="<?php echo BS_PATH; ?>tinymce/jquery.tinymce.min.js"></script>
 <style>
     .approve-bg {
-        background: #CAE4FF; 
+        background: #CAE4FF !important; 
         font-size:inherit; 
     }
+    
+    .email-sent-bg {
+        background: #BFFA37 !important; 
+        font-size:inherit; 
+    }
+    
 </style>
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
@@ -38,7 +44,8 @@
                 <div class="col-xs-12" style="margin-bottom:15px;">
                     <div class="space-2"></div>
                     <span class="bigger-120 light grey"> <i>Keterangan : </i></span> <br>
-                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="approve-bg">biru muda</label> adalah penanda bahwa pelamar tersebut <label class="approve-bg">telah diapprove</label></i></span>   
+                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="approve-bg">biru muda</label> adalah penanda bahwa pelamar tersebut <label class="approve-bg">telah diapprove</label></i></span> <br>
+                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="email-sent-bg">stabilo</label> adalah penanda bahwa pelamar tersebut <label class="email-sent-bg">telah dikirim email interview</label></i></span>
                 </div>
                 
                 <div class="col-xs-2" style="float:left;">
@@ -393,7 +400,8 @@
         
         $('#send_email_pelamar').on('click', function() {
              var grid = $("#grid-table-detail");
-             var cellIDs = grid.jqGrid("getGridParam", "selarrrow");
+             var data = grid.jqGrid('getGridParam', 'postData');
+             var job_posting_id = data.job_posting_id;
              
              BootstrapDialog.confirm({
 			     title:'Email Interview',
@@ -404,6 +412,7 @@
 			     callback: function(result) {
     		         if(result) {
     		             $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/send_email_interview"; ?>',
+                             {job_posting_id: job_posting_id },
                              function( response ) {
                                  if(response.success == false) {
                                      showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Perhatian', response.message);
@@ -678,7 +687,9 @@
                 // openicon : "ace-icon fa fa-chevron-right center orange"
             },
             rowattr: function (rd) {
-                if (rd.is_approve == 'Y') {
+                if (rd.is_send_email == 'Y') {
+                    return {"class": "email-sent-bg"};
+                }else if(rd.is_approve == 'Y') {
                     return {"class": "approve-bg"};
                 }
             }

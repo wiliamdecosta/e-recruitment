@@ -346,15 +346,29 @@ class T_applicant_job_controller {
 		$table = $ci->t_applicant_job;
 
 		$data = array('success' => false, 'message' => '');
+		$job_posting_id = getVarClean('job_posting_id', 'int', 0);
 		
 		try{
 		    $table->db->trans_begin(); //Begin Trans
 		    
     		    /*execute send email query here */
+    		    $table->setCriteria("applicant_job.job_posting_id = ".$job_posting_id);
+    		    $table->setCriteria("upper(applicant_job.is_approve) = 'Y'");
+    		    $table->setCriteria("upper(applicant_status.code) = 'ACTIVE'");
     		    
+    		    $items = $table->getAll(0,-1);
+    		    $num_records = count($items);
+    		    
+    		    for($i = 0; $i < $num_records; $i++) {
+    		        /* Step 1: send email per applicant */
+    		        
+    		        
+    		        /* Step 2: update send email status and send date */
+    		        $table->setEmailStatus($items[$i]['applicant_job_id']);
+    		    }
     		    
                 $data['success'] = true;
-                $data['message'] = 'Email telah dikirim ke Pelamar-pelamar yang disetujui';
+                $data['message'] = $num_records.' email interview telah dikirim kepada '.$num_records.' Pelamar yang diapprove';
             
             $table->db->trans_commit(); //Commit Trans
             

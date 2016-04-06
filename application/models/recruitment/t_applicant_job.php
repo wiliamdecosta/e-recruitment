@@ -32,7 +32,7 @@ class T_applicant_job extends Abstract_model {
 							);
 
 	public $selectClause 	= "applicant_job.applicant_job_id, applicant_job.applicant_id, applicant_job.job_posting_id,
-								applicant_job.applicant_no_reg, applicant_job.is_approve, applicant_job.is_send_email,
+								applicant_job.applicant_no_reg, applicant_job.is_approve, applicant_job.is_send_email, applicant_job.send_email_date,
 	                           	applicant_job.created_by,
 								applicant_job.created_date,
 	                           	applicant_job.updated_date,
@@ -104,6 +104,14 @@ class T_applicant_job extends Abstract_model {
 	             updated_date = '".date('Y-m-d')."',
 	             updated_by = '".$user_name."'
 	             WHERE applicant_job_id IN (".$items.")";
+	    $this->db->query($sql);
+	}
+	
+	function setEmailStatus($applicant_job_id) {
+	    $sql = "UPDATE recruitment.t_applicant_job
+	            SET is_send_email = 'Y',
+	            send_email_date = '".date('Y-m-d')."'
+	            WHERE applicant_job_id = ".$applicant_job_id;
 	    $this->db->query($sql);
 	}
 }
