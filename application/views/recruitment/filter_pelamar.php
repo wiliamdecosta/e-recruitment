@@ -1,6 +1,11 @@
 <script src="<?php echo BS_PATH; ?>tinymce/tinymce.min.js"></script>
 <script src="<?php echo BS_PATH; ?>tinymce/jquery.tinymce.min.js"></script>
-
+<style>
+    .approve-bg {
+        background: #CAE4FF; 
+        font-size:inherit; 
+    }
+</style>
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
 	    <ul class="breadcrumb">
@@ -33,7 +38,7 @@
                 <div class="col-xs-12" style="margin-bottom:15px;">
                     <div class="space-2"></div>
                     <span class="bigger-120 light grey"> <i>Keterangan : </i></span> <br>
-                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="light blue">biru muda</label> adalah penanda bahwa pelamar tersebut telah <label class="light blue">diapprove</label></i></span>   
+                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="approve-bg">biru muda</label> adalah penanda bahwa pelamar tersebut <label class="approve-bg">telah diapprove</label></i></span>   
                 </div>
                 
                 <div class="col-xs-2" style="float:left;">
@@ -41,7 +46,7 @@
                         <i class="ace-icon glyphicon glyphicon-check"></i>
                         Approve Pelamar
                     </button>
-                </div>
+                </div> 
                 
                 <div class="col-xs-4" style="float:right;">
                     <button class="btn btn-danger" id="send_email_pelamar">
@@ -212,7 +217,8 @@
                         url: '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/read"; ?>',
                         postData: {job_posting_id: rowid}
                     });
-                    grid_detail.jqGrid('setCaption', 'Daftar Pelamar :: ' + celCode + ' - ' + no_lowongan);
+                    var strCaption = 'Daftar Pelamar :: ' + celCode + ' - ' + no_lowongan;
+                    grid_detail.jqGrid('setCaption', strCaption);
                     jQuery("#send_email_pelamar_text").html('Email Interview Ke Pelamar Approve ('+ celCode + ' - ' + no_lowongan +')');
                     jQuery("#grid-table-detail").trigger("reloadGrid");
                     jQuery("#detail_placeholder").show();
@@ -412,42 +418,6 @@
 			 });
         });
         
-        
-        /*$('#set_disapprove_pelamar').on('click', function() {
-            
-            var grid = $("#grid-table-detail");
-            var cellIDs = grid.jqGrid("getGridParam", "selarrrow");
-             
-            if( cellIDs.length > 0) {
-                
-                BootstrapDialog.confirm({
-				    title:'Dissaprove Confirmation',
-				    type : BootstrapDialog.TYPE_WARNING,
-				    message: 'Apakah Anda yakin untuk tidak menyetujui pelamar-pelamar yang bersangkutan?',
-				    btnCancelLabel: 'Tidak, Batalkan',
-                    btnOKLabel: 'Ya, Yakin',
-				    callback: function(result) {
-    			        if(result) {
-    			            $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/disapprove_applicants"; ?>',
-                                {items: cellIDs.toString() },
-                                function( response ) {
-                                    if(response.success == false) {
-                                        showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Perhatian', response.message);
-                                    }else {
-                            	        showBootDialog(true, BootstrapDialog.TYPE_SUCCESS, 'Berhasil', response.message);
-                                        grid.trigger("reloadGrid");
-                                    }
-                                }
-                            );
-    			        }
-				    }
-				});
-                
-            }else {
-                showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Silahkan checklist pelamar-pelamar yang tidak disetujui');
-            }
-             
-        });*/
         
         $('#set_approve_pelamar').on('click', function() {
             
@@ -709,7 +679,7 @@
             },
             rowattr: function (rd) {
                 if (rd.is_approve == 'Y') {
-                    return {"style": "background:#CAE4FF;"};
+                    return {"class": "approve-bg"};
                 }
             }
 
