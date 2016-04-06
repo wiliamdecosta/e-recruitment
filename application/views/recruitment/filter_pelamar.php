@@ -45,7 +45,7 @@
                 <div class="col-xs-7" style="margin-bottom:30px; float:right;">
                     <div class="space-2"></div>
                     <div>
-                            <div class="infobox infobox-orange">
+                            <div class="infobox infobox-dark infobox-orange">
                                 <div class="infobox-icon">
                                     <i class="ace-icon fa fa-users"></i>
                                 </div>
@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             
-                            <div class="infobox infobox-blue">
+                            <div class="infobox infobox-dark infobox-blue">
                                 <div class="infobox-icon">
                                     <i class="ace-icon glyphicon glyphicon-check"></i>
                                 </div>
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                             
-                            <div class="infobox infobox-red">
+                            <div class="infobox infobox-dark infobox-green">
                                 <div class="infobox-icon">
                                     <i class="ace-icon fa fa-envelope"></i>
                                 </div>
@@ -79,9 +79,9 @@
                 <div class="clear"></div>
                 <div class="col-xs-12" style="margin-bottom:20px;">
                     <div class="space-2"></div>
-                    <span class="bigger-120 light grey"> <i>Keterangan : </i></span> <br>
-                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="approve-bg">biru terang</label> adalah penanda bahwa pelamar tersebut <label class="approve-bg">telah diapprove</label></i></span> <br>
-                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="email-sent-bg">hijau terang</label> adalah penanda bahwa pelamar tersebut <label class="email-sent-bg">telah dikirim email interview</label></i></span>
+                    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> Keterangan Warna Baris Data: <br>
+                    <label class="approve-bg" style="padding:5px;"> &nbsp; </label> Pelamar Diapprove <br>
+                    <label class="email-sent-bg" style="padding:5px;"> &nbsp; </label> Email telah dikirim ke Pelamar
                 </div>
                 
                 <div class="col-xs-12">
