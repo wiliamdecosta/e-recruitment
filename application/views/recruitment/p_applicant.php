@@ -242,7 +242,13 @@
                 plusicon : "ace-icon fa fa-folder center bigger-150 pink",
                 minusicon  : "ace-icon fa fa-folder-open center bigger-150 pink"
                 // openicon : "ace-icon fa fa-chevron-right center orange"
+            },
+            rowattr: function (rd) {
+                if (rd.status_code == 'BLOCKED') {
+                    return {"style": "background:#FFD2D2"};
+                }
             }
+
 
         });
 
