@@ -508,10 +508,7 @@
                         size: 10,
                         maxlength:4
                     },
-                    editrules: {required: true, number:true, minValue:0, maxValue: 4},
-                    formoptions: {
-                        elmsuffix:'<i data-placement="left" class="orange"> Contoh : 2.75 </i>'
-                    }
+                    editrules: {required: true, number:true, minValue:0, maxValue: 4}
                 },
                 {label: 'Pendidikan Terakhir', name: 'education_id', width: 120, align: "left", editable: true, hidden:true,
                     editrules: {edithidden: true, required:true},
@@ -541,10 +538,7 @@
                         maxlength:32,
                         defaultValue: ''
                     },
-                    editrules: {required: true},
-                    formoptions: {
-                        elmsuffix:'<i data-placement="left" class="orange"> Minimum. 8 Karakter</i>'
-                    }
+                    editrules: {required: true}
                 },
                 {label: 'Password',name: 'applicant_password',width: 150, hidden:true, align: "left",editable: true,
                     edittype: 'password',
@@ -553,10 +547,7 @@
                         maxlength:15,
                         defaultValue: ''
                     },
-                    editrules: {required: false},
-                    formoptions: {
-                        elmsuffix:'<i data-placement="left" class="orange"> Minimum 8 Karakter</i>'
-                    }
+                    editrules: {required: false}
                 },
                 {label: 'Tgl.Lahir', name: 'applicant_date_of_birth', width: 120, editable: true,
                     edittype:"text",
@@ -585,10 +576,7 @@
                             });
                         }
                     },
-                    editrules: {edithidden: true, required: true},
-                    formoptions: {
-                        elmsuffix:'<i data-placement="left" class="orange"> 16 Karakter</i>'
-                    }
+                    editrules: {edithidden: true, required: true}
                 },
                 {label: 'Email',name: 'applicant_email',width: 150, hidden:true, align: "left",editable: true,
                     edittype: 'text',
@@ -648,25 +636,28 @@
                 {label: 'Tgl Apply', name: 'created_date', width: 120, align: "left", editable: false},
                 {label: 'Diapply Oleh', name: 'created_by', width: 120, align: "left", editable: false},
                 {label: 'Is Approve',name: 'is_approve',width: 120, align: "left",editable: true,
-                    editoptions: {
-                        size: 50,
-                        maxlength:60
-                    },
-                    editrules: {required: true}
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: {value: {'Y': 'YES', 'N': 'NO', '':'-'}}
                 },
                 {label: 'Send Email ?',name: 'is_send_email',width: 120, align: "left",editable: true,
-                    editoptions: {
-                        size: 50,
-                        maxlength:60
-                    },
-                    editrules: {required: true}
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: {value: {'Y': 'YES', 'N': 'NO', '':'-'}}
                 },
                 {label: 'Send Email Date',name: 'send_email_date',width: 130, align: "left",editable: true,
+                    edittype:"text",
+                    editrules: {required: true},
                     editoptions: {
-                        size: 50,
-                        maxlength:60
-                    },
-                    editrules: {required: true}
+                        dataInit: function (element) {
+                           $(element).datepicker({
+                                autoclose: true,
+                                format: 'yyyy-mm-dd',
+                                orientation : 'bottom',
+                                todayHighlight : true
+                            });
+                        }
+                    }
                 },
                 {label: 'Tgl Update', name: 'updated_date', width: 120, hidden:true, align: "left", editable: false},
                 {label: 'Diupdate Oleh', name: 'created_by', width: 120, hidden:true, align: "left", editable: false}
@@ -723,8 +714,8 @@
 
         jQuery('#grid-table-detail').jqGrid('navGrid', '#grid-pager-detail',
             {   //navbar options
-                edit: false,
-                editicon: 'ace-icon fa fa-pencil blue',
+                edit: true,
+                editicon: 'ace-icon fa fa-search-plus grey',
                 add: false,
                 addicon: 'ace-icon fa fa-plus-circle purple',
                 del: false,
@@ -760,6 +751,7 @@
                     form.css({"width": 0.60*screen.width+"px"});
 
                     $("#applicant_username").prop("readonly", true);
+                    form.parent().find('#sData').hide();
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
