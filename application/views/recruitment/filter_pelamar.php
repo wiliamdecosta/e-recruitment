@@ -2,7 +2,7 @@
 <script src="<?php echo BS_PATH; ?>tinymce/jquery.tinymce.min.js"></script>
 <style>
     .approve-bg {
-        background: #CAE4FF !important; 
+        background: #A6E4FD !important; 
         font-size:inherit; 
     }
     
@@ -41,26 +41,60 @@
             <div class="space-10"></div>
             <div class="row" id="detail_placeholder" style="background:#F4F4F4;display:none;">
                 <div class="space-4"></div>
-                <div class="col-xs-12" style="margin-bottom:15px;">
+                
+                <div class="col-xs-7" style="margin-bottom:30px; float:right;">
+                    <div class="space-2"></div>
+                    <div>
+                            <div class="infobox infobox-orange">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-users"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">3</span>
+                                    <div class="infobox-content">Pelamar</div>
+                                </div>
+                            </div>
+                            
+                            <div class="infobox infobox-blue">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon glyphicon glyphicon-check"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">2</span>
+                                    <div class="infobox-content">Pelamar Approve</div>
+                                </div>
+                            </div>
+                            
+                            <div class="infobox infobox-red">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-envelope"></i>
+                                </div>
+                                <div class="infobox-data">
+                                    <span class="infobox-data-number">1</span>
+                                    <div class="infobox-content">Email Terkirim</div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="col-xs-12" style="margin-bottom:20px;">
                     <div class="space-2"></div>
                     <span class="bigger-120 light grey"> <i>Keterangan : </i></span> <br>
-                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="approve-bg">biru muda</label> adalah penanda bahwa pelamar tersebut <label class="approve-bg">telah diapprove</label></i></span> <br>
-                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="email-sent-bg">stabilo</label> adalah penanda bahwa pelamar tersebut <label class="email-sent-bg">telah dikirim email interview</label></i></span>
+                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="approve-bg">biru terang</label> adalah penanda bahwa pelamar tersebut <label class="approve-bg">telah diapprove</label></i></span> <br>
+                    <span class="ace-icon fa fa-info-circle bigger-90 light grey"> <i> Baris data yang berwarna <label class="email-sent-bg">hijau terang</label> adalah penanda bahwa pelamar tersebut <label class="email-sent-bg">telah dikirim email interview</label></i></span>
                 </div>
                 
-                <div class="col-xs-2" style="float:left;">
-                    <button class="btn btn-primary" id="set_approve_pelamar">
+                <div class="col-xs-12">
+                    <button class="btn btn-white btn-primary" id="set_approve_pelamar">
                         <i class="ace-icon glyphicon glyphicon-check"></i>
                         Approve Pelamar
                     </button>
-                </div> 
-                
-                <div class="col-xs-4" style="float:right;">
-                    <button class="btn btn-danger" id="send_email_pelamar">
+                    <button class="btn btn-white btn-danger" id="send_email_pelamar">
                         <i class="ace-icon fa fa-envelope bigger-120"></i>
                         <span id="send_email_pelamar_text">Email Interview</span>
                     </button>
-                </div>
+                </div> 
+                
                 <div class="clear"></div>
                 
                 <div class="col-xs-12">
