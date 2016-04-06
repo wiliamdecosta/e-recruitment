@@ -28,14 +28,14 @@
             <div class="row" id="detail_placeholder" style="background:#F4F4F4;">
                 <div class="space-4"></div>
                 <div class="col-xs-2" style="float:left;">
-                    <button class="btn btn-purple" id="set_approve_pelamar">
+                    <button class="btn btn-warning" id="set_approve_pelamar">
                         <i class="ace-icon glyphicon glyphicon-check"></i>
                         Approve Pelamar
                     </button>
                 </div>
                 
                 <div class="col-xs-4" style="float:right;">
-                    <button class="btn btn-warning" id="send_email_pelamar">
+                    <button class="btn btn-danger" id="send_email_pelamar">
                         <i class="ace-icon fa fa-envelope bigger-120"></i>
                         <span id="send_email_pelamar_text">Email Interview</span>
                     </button>
@@ -43,7 +43,7 @@
                 <div class="clear"></div>
                 <div class="col-xs-12">
                     <div class="space-2"></div>
-                    <span class="ace-icon fa fa-info-circle bigger-90 purple"> <i>Background baris data yang berwarna ungu adalah penanda bahwa pelamar tersebut telah diapprove</i></span>   
+                    <span class="ace-icon fa fa-info-circle bigger-90"> <i>Background baris data yang berwarna <label class="orange">orange</label> adalah penanda bahwa pelamar tersebut telah diapprove</i></span>   
                 </div>
                 <div class="col-xs-12">
                     <div class="space-4"></div>
@@ -664,13 +664,13 @@
             subGridOptions : {
                 reloadOnExpand :false,
                 selectOnExpand : false,
-                plusicon : "ace-icon fa fa-folder center bigger-150 pink",
-                minusicon  : "ace-icon fa fa-folder-open center bigger-150 pink"
+                plusicon : "ace-icon fa fa-folder center bigger-150 green",
+                minusicon  : "ace-icon fa fa-folder-open center bigger-150 green"
                 // openicon : "ace-icon fa fa-chevron-right center orange"
             },
             rowattr: function (rd) {
                 if (rd.is_approve == 'Y') {
-                    return {"style": "background:#D0D0E8;"};
+                    return {"style": "background:#FFD295;"};
                 }
             }
 
@@ -846,7 +846,7 @@
         
         var applicant_id = parentGrid.jqGrid ('getCell', parentRowKey, 'applicant_id');
         
-        $('#' + parentRowID).append('<br><span class="label label-pink">'+
+        $('#' + parentRowID).append('<br><span class="label label-success">'+
                                     'Data Dokumen Pelamar :: '+ celValue +
                                     '</span>');
         // add a table and pager HTML elements to the parent grid row - we will render the child grid here

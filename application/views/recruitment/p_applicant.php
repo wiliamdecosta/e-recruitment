@@ -239,8 +239,8 @@
             subGridOptions : {
                 reloadOnExpand :false,
                 selectOnExpand : false,
-                plusicon : "ace-icon fa fa-folder center bigger-150 pink",
-                minusicon  : "ace-icon fa fa-folder-open center bigger-150 pink"
+                plusicon : "ace-icon fa fa-folder center bigger-150 green",
+                minusicon  : "ace-icon fa fa-folder-open center bigger-150 green"
                 // openicon : "ace-icon fa fa-chevron-right center orange"
             },
             rowattr: function (rd) {
@@ -421,7 +421,7 @@
         var parentGrid = $('#grid-table');
         var celValue = parentGrid.jqGrid ('getCell', parentRowKey, 'applicant_fullname');
         
-        $('#' + parentRowID).append('<br><span class="label label-pink">'+
+        $('#' + parentRowID).append('<br><span class="label label-success">'+
                                     'Data Dokumen Pelamar :: '+ celValue +
                                     '</span>');
         // add a table and pager HTML elements to the parent grid row - we will render the child grid here
