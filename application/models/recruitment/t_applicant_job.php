@@ -127,7 +127,7 @@ class T_applicant_job extends Abstract_model {
 	        case 'total_pelamar_approve' :
 	            $sql = "SELECT COUNT(1) AS total_pelamar_approve FROM recruitment.t_applicant_job
                         WHERE job_posting_id = ".$job_posting_id."
-                        AND is_approve = 'Y' and is_send_email = 'N'";
+                        AND is_approve = 'Y'";
 	        break;
 	        
 	        case 'email_terkirim' :

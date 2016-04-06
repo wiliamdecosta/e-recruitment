@@ -42,10 +42,16 @@
             <div class="row" id="detail_placeholder" style="background:#F4F4F4;display:none;">
                 <div class="space-4"></div>
                 
+                <div class="col-xs-4" style="margin-bottom:20px; float:left;">
+                    <div class="space-2"></div>
+                    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> Keterangan Warna Baris Data: <br>
+                    <label class="approve-bg" style="padding:5px;"> &nbsp; </label> Pelamar Diapprove <br>
+                    <label class="email-sent-bg" style="padding:5px;"> &nbsp; </label> Email telah dikirim ke Pelamar
+                </div>
                 <div class="col-xs-7" style="margin-bottom:30px; float:right;">
                     <div class="space-2"></div>
                     <div>
-                            <div class="infobox infobox-dark infobox-orange">
+                            <div class="infobox infobox-dark infobox-red">
                                 <div class="infobox-icon">
                                     <i class="ace-icon fa fa-users"></i>
                                 </div>
@@ -77,12 +83,7 @@
                     </div>
                 </div>
                 <div class="clear"></div>
-                <div class="col-xs-12" style="margin-bottom:20px;">
-                    <div class="space-2"></div>
-                    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> Keterangan Warna Baris Data: <br>
-                    <label class="approve-bg" style="padding:5px;"> &nbsp; </label> Pelamar Diapprove <br>
-                    <label class="email-sent-bg" style="padding:5px;"> &nbsp; </label> Email telah dikirim ke Pelamar
-                </div>
+                
                 
                 <div class="col-xs-12">
                     <button class="btn btn-primary" id="set_approve_pelamar">
