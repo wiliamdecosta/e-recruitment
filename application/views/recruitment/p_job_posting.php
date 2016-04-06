@@ -1,6 +1,11 @@
 <script src="<?php echo BS_PATH; ?>tinymce/tinymce.min.js"></script>
 <script src="<?php echo BS_PATH; ?>tinymce/jquery.tinymce.min.js"></script>
-
+<style>
+    .blocked-bg {
+        background: #FFD2D2 !important; 
+        font-size:inherit; 
+    }
+</style>
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
 	    <ul class="breadcrumb">
@@ -49,6 +54,13 @@
     		        </div>
     		        
     		        <div class="tab-content no-border">
+    		            <div class="row">
+                    		<div class="col-xs-offset-9">
+                    		    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong>Keterangan Warna Record:</strong>  <br>
+                                <label class="blocked-bg" style="padding:5px;"> &nbsp; </label> Status Blocked <br>
+                    		</div>
+                	    </div>
+                		<div class="space-4"></div>
     		            <div class="row">
                             <div class="col-xs-12">       
                                <table id="grid-table"></table>

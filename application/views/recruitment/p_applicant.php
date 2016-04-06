@@ -1,3 +1,10 @@
+<style>
+    .blocked-bg {
+        background: #FFD2D2 !important; 
+        font-size:inherit; 
+    }
+</style>
+
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
 	    <ul class="breadcrumb">
@@ -18,6 +25,13 @@
     <div class="row">
     	<div class="col-xs-12">
     		<!-- PAGE CONTENT BEGINS -->
+    		<div class="row">
+        		<div class="col-xs-offset-9">
+        		    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong>Keterangan Warna Record:</strong>  <br>
+                    <label class="blocked-bg" style="padding:5px;"> &nbsp; </label> Status Blocked <br>
+        		</div>
+    	    </div>
+    		<div class="space-4"></div>
     		<div class="row">
     		    <div class="col-xs-12">
                     <table id="grid-table"></table>
@@ -434,7 +448,7 @@
             page: 1,
             rowNum: 10,
             height: 'auto',
-            autowidth: true,
+            autowidth: false,
             rownumbers: true, // show row numbers
             rownumWidth: 35, // the width of the row numbers columns
             altRows: true,
@@ -456,7 +470,7 @@
                     }
                 },
                 {label: 'Jenis Dokumen', name: 'doc_type_code', width: 150, align: "left", editable: false},
-                {label: 'Nama File',name: 'applicant_doc_file',width: 350, align: "left",editable: true,
+                {label: 'Nama File',name: 'applicant_doc_file',width: 250, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:255
@@ -627,11 +641,7 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
                 }
             }
-            
-            
         );    
-
-        responsive_jqgrid("#"+childGridID, "#"+childGridPagerID); 
         
     }
     

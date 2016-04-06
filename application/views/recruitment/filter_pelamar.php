@@ -39,16 +39,16 @@
     		    </div>
     	    </div>
             <div class="space-10"></div>
-            <div class="row" id="detail_placeholder" style="background:#F4F4F4;display:none;">
+            <div class="row" id="detail_placeholder" style="display:none;">
                 <div class="space-4"></div>
                 
-                <div class="col-xs-4" style="margin-bottom:20px; float:left;">
+                <div class="col-xs-5">
                     <div class="space-2"></div>
-                    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> Keterangan Warna Baris Data:  <br>
+                    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong>Keterangan Warna Record:</strong>  <br>
                     <label class="approve-bg" style="padding:5px;"> &nbsp; </label> Pelamar Diapprove <br>
                     <label class="email-sent-bg" style="padding:5px;"> &nbsp; </label> Email telah dikirim ke Pelamar
                 </div>
-                <div class="col-xs-7" style="margin-bottom:30px; float:right;">
+                <div class="col-xs-7" style="margin-bottom:50px;">
                     <div class="space-2"></div>
                     <div>
                             <div class="infobox infobox-dark infobox-red">
@@ -82,9 +82,7 @@
                             </div>
                     </div>
                 </div>
-                <div class="clear"></div>
-                
-                
+                                
                 <div class="col-xs-12">
                     <div>
                         <button class="btn btn-primary" id="set_approve_pelamar">
@@ -97,8 +95,6 @@
                         </button>
                     </div>
                 </div>
-                
-                <div class="clear"></div>
                 
                 <div class="col-xs-12">
                     <div class="space-4"></div>
@@ -157,10 +153,7 @@
                         size: 10,
                         maxlength:4
                     },
-                    editrules: {required: true, number:true, minValue:0, maxValue: 4},
-                    formoptions: {
-                        elmsuffix:'<i data-placement="left" class="orange"> Contoh : 2.75 </i>'
-                    }
+                    editrules: {required: true, number:true, minValue:0, maxValue: 4}
                 },
                 {label: 'Nomor Lowongan',name: 'posting_no', width: 200, sortable: true, editable: true,
                     editoptions: {
@@ -315,6 +308,7 @@
 
             {
                 // options for the Edit Dialog
+                editCaption : 'View Record',
                 closeAfterEdit: true,
                 closeOnEscape:true,
                 recreateForm: true,
@@ -331,6 +325,8 @@
                     form.css({"width": 0.60*screen.width+"px"});
                     /*$("#USER_NAME").prop("readonly", true);*/
                     form.parent().find('#sData').hide();
+                    form.find('input[type="text"]').prop("style", "border:0px;");
+                    form.find('select').prop("style", "border:0px;-webkit-appearance: none;-moz-appearance: none;appearance: none;");
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
@@ -757,6 +753,7 @@
 
             {
                 // options for the Edit Dialog
+                editCaption : 'View Record',
                 closeAfterEdit: true,
                 closeOnEscape:true,
                 recreateForm: true,
@@ -772,8 +769,9 @@
                     form.css({"height": 0.50*screen.height+"px"});
                     form.css({"width": 0.60*screen.width+"px"});
 
-                    $("#applicant_username").prop("readonly", true);
                     form.parent().find('#sData').hide();
+                    form.find('input[type="text"], textarea').prop("style", "border:0px;");
+                    form.find('select').prop("style", "border:0px;-webkit-appearance: none;-moz-appearance: none;appearance: none;");
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
@@ -806,7 +804,6 @@
                     form.css({"height": 0.50*screen.height+"px"});
                     form.css({"width": 0.60*screen.width+"px"});
 
-                    $("#tr_applicant_password", form).show();
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
@@ -919,7 +916,7 @@
             page: 1,
             rowNum: 10,
             height: 'auto',
-            autowidth: true,
+            autowidth: false,
             rownumbers: true, // show row numbers
             rownumWidth: 35, // the width of the row numbers columns
             altRows: true,
