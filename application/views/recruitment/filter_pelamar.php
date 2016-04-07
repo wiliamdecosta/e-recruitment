@@ -51,6 +51,7 @@
                 <div class="col-xs-7" style="margin-bottom:50px;">
                     <div class="space-2"></div>
                     <div>
+                            <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong id="info-apply-job">Informasi Apply Job :</strong>  <br>
                             <div class="infobox infobox-dark infobox-red">
                                 <div class="infobox-icon">
                                     <i class="ace-icon fa fa-users"></i>
@@ -258,6 +259,7 @@
                     grid_detail.jqGrid('setCaption', strCaption);
                     jQuery("#send_email_pelamar_text").html('Email Interview Ke Pelamar Approve ('+ celCode + ' - ' + no_lowongan +')');
                     jQuery("#grid-table-detail").trigger("reloadGrid");
+                    jQuery("#info-apply-job").html("Informasi Apply Job ( "+ no_lowongan +" )");
                     jQuery("#detail_placeholder").show();
                     responsive_jqgrid('#grid-table-detail', '#grid-pager-detail');
                 }
@@ -439,7 +441,7 @@
              BootstrapDialog.confirm({
 			     title:'Email Interview',
 			     type : BootstrapDialog.TYPE_WARNING,
-			     message: 'Apakah Anda yakin untuk mengirim email ke pelamar-pelamar yang diapprove?',
+			     message: 'Apakah Anda yakin untuk mengirim email ke pelamar-pelamar yang telah diapprove?',
 			     btnCancelLabel: 'Tidak, Batalkan',
                  btnOKLabel: 'Ya, Yakin',
 			     callback: function(result) {
@@ -471,7 +473,7 @@
                 BootstrapDialog.confirm({
 				    title:'Approve Confirmation',
 				    type : BootstrapDialog.TYPE_INFO,
-				    message: 'Apakah Anda yakin untuk menyetujui pelamar-pelamar yang bersangkutan?',
+				    message: 'Apakah Anda yakin untuk menyetujui '+ cellIDs.length +' pelamar yang bersangkutan?',
 				    btnCancelLabel: 'Tidak, Batalkan',
                     btnOKLabel: 'Ya, Yakin',
 				    callback: function(result) {
