@@ -78,6 +78,7 @@
                 var celValue = $('#grid-table').jqGrid('getCell', rowid, 'major_id');
 
             },
+            sortorder:'',
             onSortCol: clearSelection,
             onPaging: clearSelection,
             pager: '#grid-pager',

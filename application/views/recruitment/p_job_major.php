@@ -144,6 +144,7 @@
                 var celValue = $('#grid-table').jqGrid('getCell', rowid, 'job_major_id');
 
             },
+            sortorder:'',
             onSortCol: clearSelection,
             onPaging: clearSelection,
             pager: '#grid-pager',

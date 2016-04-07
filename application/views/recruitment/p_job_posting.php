@@ -249,6 +249,7 @@
                 $('#tab_job_posting_id').val(celValue);
                 $('#tab_job_code').val(celCode + " - " + posting_no);
             },
+            sortorder:'',
             onSortCol: clearSelection,
             onPaging: clearSelection,
             pager: '#grid-pager',

@@ -78,6 +78,7 @@
                 var celValue = $('#grid-table').jqGrid('getCell', rowid, 'applicant_status_id');
 
             },
+            sortorder:'',
             onSortCol: clearSelection,
             onPaging: clearSelection,
             pager: '#grid-pager',

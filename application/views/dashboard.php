@@ -29,6 +29,39 @@
     ?>
     <div class="row">
         <div class="span12 infobox-container">
+            <div class="infobox infobox-red">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-users"></i>
+                </div>
+    
+                <div class="infobox-data">
+                    <span class="infobox-data-number"><?php echo $dasboard->getTotalApplicant(); ?> Data</span>
+                    <div class="infobox-content">Pelamar</div>
+                </div>
+            </div>
+            <div class="infobox infobox-purple">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-briefcase"></i>
+                </div>
+    
+                <div class="infobox-data">
+                    <span class="infobox-data-number"><?php echo $dasboard->getTotalJobVacancy(); ?> Data</span>
+                    <div class="infobox-content">Lowongan Pekerjaan</div>
+                </div>
+            </div>
+            
+            <div class="infobox infobox-orange">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-envelope"></i>
+                </div>
+    
+                <div class="infobox-data">
+                    <span class="infobox-data-number"><?php echo $dasboard->getTotalInterviewEmailSent(); ?> Data</span>
+                    <div class="infobox-content">Email Ke Pelamar</div>
+                </div>
+            </div>
+            
+            
             <div class="infobox infobox-green  ">
                 <div class="infobox-icon">
                     <i class="ace-icon glyphicon glyphicon-user"></i>
@@ -50,8 +83,8 @@
                     <div class="infobox-content">Roles</div>
                 </div>
             </div>
-        </div>    
-        
+            
+        </div>
     </div>
     
     

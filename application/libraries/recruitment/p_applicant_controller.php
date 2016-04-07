@@ -10,7 +10,7 @@ class P_applicant_controller {
 		
 		$page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',10);
-        $sidx = getVarClean('sidx','str','applicant_status_id');
+        $sidx = getVarClean('sidx','str','applicant_id');
         $sord = getVarClean('sord','str','DESC');
             	       
     	$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);

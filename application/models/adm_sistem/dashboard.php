@@ -55,6 +55,36 @@ class Dashboard extends Abstract_model {
 		
 		return $row['totalcount'];
 	}
+	
+	function getTotalApplicant() {
+	    $sql = "SELECT COUNT(1) AS totalcount FROM recruitment.p_applicant";
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		
+		$query->free_result();
+		
+		return $row['totalcount'];
+	}
+	
+	function getTotalJobVacancy() {
+	    $sql = "SELECT COUNT(1) AS totalcount FROM recruitment.p_job_posting";
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		
+		$query->free_result();
+		
+		return $row['totalcount'];
+	}
+	
+	function getTotalInterviewEmailSent() {
+	    $sql = "SELECT COUNT(1) AS totalcount FROM recruitment.t_applicant_job WHERE is_send_email = 'Y'";
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		
+		$query->free_result();
+		
+		return $row['totalcount'];
+	}
 }
 
 /* End of file P_icon.php */

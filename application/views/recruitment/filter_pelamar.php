@@ -265,6 +265,7 @@
                 }
 
             },
+            sortorder:'',
             onSortCol: clearSelection,
             onPaging: clearSelection,
             pager: '#grid-pager',
@@ -513,6 +514,7 @@
                     },
                     editrules: {required: true}
                 },
+                {label: 'Tgl Apply', name: 'created_date', width: 100, align: "left", editable: false},
                 {label: 'Nama Lengkap',name: 'applicant_fullname',width: 250, align: "left",editable: true,
                     editoptions: {
                         size: 50,
@@ -540,7 +542,7 @@
                     editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_college_major_controller/html_select_options_major"; ?>'}
                 },
                 {label: 'Jurusan', name: 'major_code', width: 150, align: "left", editable: false},
-
+                {label: 'Asal Kota', name: 'applicant_city', width: 150, align: "left", editable: false},
                 {label: 'Status', name: 'applicant_status_id', width: 120, align: "left", editable: true, hidden:true,
                     editrules: {edithidden: true, required:true},
                     edittype: 'select',
@@ -650,8 +652,7 @@
                     },
                     editrules: {edithidden: true, required: true}
                 },
-                {label: 'Tgl Apply', name: 'created_date', width: 120, align: "left", editable: false},
-                {label: 'Diapply Oleh', name: 'created_by', width: 120, align: "left", editable: false},
+                {label: 'Diapply Oleh', name: 'created_by', width: 120, hidden:true, align: "left", editable: false},
                 {label: 'Is Approve',name: 'is_approve',width: 120, align: "left",editable: true,
                     edittype: 'select',
                     formatter: 'select',
@@ -692,6 +693,7 @@
             onSelectRow: function (rowid) {
 
             },
+            sortorder:'',
             onSortCol: clearSelection,
             onPaging: clearSelection,
             pager: '#grid-pager-detail',
@@ -896,8 +898,8 @@
 
     function showApplicantDocs(parentRowID, parentRowKey) {
 
-        var childGridID = parentRowID + "_table";
-        var childGridPagerID = parentRowID + "_pager";
+        var childGridID = parentRowID + "_applicant_docs_table";
+        var childGridPagerID = parentRowID + "_applicant_docs_pager";
 
         var parentGrid = $('#grid-table-detail');
         var celValue = parentGrid.jqGrid ('getCell', parentRowKey, 'applicant_fullname');
@@ -924,6 +926,7 @@
             altRows: true,
             shrinkToFit: true,
             multiboxonly: true,
+            sortorder:'',
             onSortCol: clearSelection,
             onPaging: clearSelection,
             postData:{ applicant_id: encodeURIComponent(applicant_id) },
@@ -934,9 +937,9 @@
                     edittype: 'select',
                     editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_doc_type_controller/html_select_options_doc_type"; ?>'}
                 },
-                {label: 'Download',name: 'link_file',width: 80, align: "center",editable: false,
+                {label: 'Preview',name: 'link_file',width: 80, align: "center",editable: false,
                     formatter: function(cellvalue, options, rowObject) {
-                        return '<a href="#" onclick="showDocFile(\'<?php echo UPLOAD_PATH;?>'+cellvalue+'\');"> <i class="ace-icon fa fa-download bigger-130"></i> </a>';
+                        return '<a href="#'+childGridID+'" onclick="showDocFile(\'<?php echo UPLOAD_PATH;?>'+cellvalue+'\');"> <i class="ace-icon fa fa-download bigger-130"></i> </a>';
                     }
                 },
                 {label: 'Jenis Dokumen', name: 'doc_type_code', width: 150, align: "left", editable: false},
