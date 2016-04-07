@@ -27,6 +27,35 @@
 		$ci->load->model('adm_sistem/dashboard');
 		$dasboard = $ci->dashboard;
     ?>
+    <?php if( $ci->session->userdata('module_id') == 1 ) : /* admin dashboard */?>
+    
+    <div class="row">
+        <div class="span12 infobox-container">
+            <div class="infobox infobox-green">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-user"></i>
+                </div>
+    
+                <div class="infobox-data">
+                    <span class="infobox-data-number"><?php echo $dasboard->getTotalUser(); ?> Data</span>
+                    <div class="infobox-content">User</div>
+                </div>
+            </div>
+            <div class="infobox infobox-blue">
+                <div class="infobox-icon">
+                    <i class="ace-icon fa fa-users"></i>
+                </div>
+    
+                <div class="infobox-data">
+                    <span class="infobox-data-number"><?php echo $dasboard->getTotalRole(); ?> Data</span>
+                    <div class="infobox-content">Role</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <?php elseif($ci->session->userdata('module_id') == 2) : /* recruitment dashboard */ ?>
+    
     <div class="row">
         <div class="span12 infobox-container">
             <div class="infobox infobox-green">
@@ -63,6 +92,5 @@
             
         </div>
     </div>
-    
-    
+    <?php endif; ?>
 </div>
