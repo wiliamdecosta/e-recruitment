@@ -57,7 +57,7 @@
     		            <div class="row">
                     		<div class="col-xs-offset-9">
                     		    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong>Keterangan Warna Record:</strong>  <br>
-                                <label class="blocked-bg" style="padding:5px;"> &nbsp; </label> Status Blocked <br>
+                                <label class="blocked-bg" style="padding:5px;"> &nbsp; </label> Status Tidak Aktif <br>
                     		</div>
                 	    </div>
                 		<div class="space-4"></div>
