@@ -7681,6 +7681,12 @@ $.jgrid.extend({
 						if( $.inArray(this.edittype, ['text','textarea','password','select']) > -1) {
 							$(elc).addClass("ui-widget-content ui-corner-all");
 						}
+						
+						/*modified by wiliam 09/04/2016 13:25:52*/
+						if(this.editrules && this.editrules.required === true) {
+							$(elc).addClass("ui-state-required");
+						}
+						
 						trdata = $(tb).find("tr[rowpos="+rp+"]");
 						if(frmopt.rowabove) {
 							var newdata = $("<tr><td class='contentinfo' colspan='"+(maxcols*2)+"'>"+frmopt.rowcontent+"</td></tr>");

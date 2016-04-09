@@ -27,7 +27,7 @@
     		<!-- PAGE CONTENT BEGINS -->
     		<div class="row">
         		<div class="col-xs-offset-9">
-        		    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong>Keterangan Warna Record:</strong>  <br>
+        		    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong class="grey">Keterangan Warna Record:</strong>  <br>
                     <label class="blocked-bg" style="padding:5px;"> &nbsp; </label> Status Blocked <br>
         		</div>
     	    </div>

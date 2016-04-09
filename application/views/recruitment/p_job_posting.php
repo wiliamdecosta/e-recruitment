@@ -56,7 +56,7 @@
     		        <div class="tab-content no-border">
     		            <div class="row">
                     		<div class="col-xs-offset-9">
-                    		    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong>Keterangan Warna Record:</strong>  <br>
+                    		    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong class="grey">Keterangan Warna Record:</strong>  <br>
                                 <label class="blocked-bg" style="padding:5px;"> &nbsp; </label> Status Tidak Aktif <br>
                     		</div>
                 	    </div>
@@ -131,7 +131,7 @@
             colModel: [
                 {label: 'ID',name: 'job_posting_id', key: true, width: 35, sorttype: 'number', sortable: true, editable: true, hidden:true},
                 {label: 'Kode Lamaran', name: 'job_id', width: 120, align: "left", editable: true, hidden:true, 
-                    editrules: {edithidden: true},
+                    editrules: {required:true, edithidden: true},
                     edittype: 'select',
                     editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_job_controller/html_select_options_job"; ?>'}
                 },
@@ -178,13 +178,14 @@
                 },
                 {label: 'Is Active ?',name: 'is_active', width: 100, sortable: true, editable: true,
                     align: 'center',
+                    editrules: {required:true, edithidden: true},
                     edittype: 'select',
                     formatter: 'select',
                     editoptions: {value: {'Y': 'YES', 'N': 'NO'}}
                 },
                 {label: 'Vacancy Letter', name: 'description', width: 150, editable: true, 
                     editrules:{
-                       required:true, 
+                       required:false, 
                        edithidden:true
                     }, 
                     hidden:true,

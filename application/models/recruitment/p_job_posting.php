@@ -15,10 +15,10 @@ class P_job_posting extends Abstract_model {
 	public $fields 			= array(
 								'job_posting_id'        => array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'ID P_job_posting'),
 								'job_id'	            => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'ID Job'),
-								'posting_date'	        => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Posting Date'),
-								'posting_no'	        => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'No Posting'),
+								'posting_date'	        => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Tgl Posting'),
+								'posting_no'	        => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Nomor Lowongan'),
 								'posting_short_desc'	=> array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Deskripsi'),
-								'posting_min_ipk'	    => array('nullable' => false, 'type' => 'float', 'unique' => false, 'display' => 'Minimum IPK'),
+								'posting_min_ipk'	    => array('nullable' => false, 'type' => 'float', 'unique' => false, 'display' => 'Min.IPK'),
 								'is_active'	            => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Is Active'),
 								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Vacancy Letter'),
 								

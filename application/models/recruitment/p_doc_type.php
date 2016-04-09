@@ -15,7 +15,7 @@ class P_doc_type extends Abstract_model {
 	public $fields 			= array(
 								'p_doc_type_id' 		=> array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'ID P_doc_type'),
 								'code'	                => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Jenis Dokumen'),
-								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Description'),
+								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Keterangan'),
 								
 								/* khusus untuk created_date, created_by, updated_date, updated_by --> nullable : true */
 								'created_date'	        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Creation Date'),

@@ -38,47 +38,52 @@
                     <div id="grid-pager"></div>
     		    </div>
     	    </div>
-            <div class="space-10"></div>
+            <div class="space-4"></div>
             <div class="row" id="detail_placeholder" style="display:none;">
-                <div class="space-4"></div>
-                
+                <div class="col-xs-12">
+                    <div class="hr hr-dotted"></div>
+                </div>
                 <div class="col-xs-5">
                     <div class="space-2"></div>
-                    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong>Keterangan Warna Record:</strong>  <br>
+                    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong class="grey">Keterangan Warna Record:</strong>
+                    <div class="space-2"></div>
                     <label class="approve-bg" style="padding:5px;"> &nbsp; </label> Pelamar Diapprove <br>
                     <label class="email-sent-bg" style="padding:5px;"> &nbsp; </label> Email telah dikirim ke Pelamar
                 </div>
                 <div class="col-xs-7" style="margin-bottom:50px;">
                     <div class="space-2"></div>
                     <div>
-                            <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong id="info-apply-job">Informasi Apply Job :</strong>  <br>
-                            <div class="infobox infobox-dark infobox-red">
-                                <div class="infobox-icon">
-                                    <i class="ace-icon fa fa-users"></i>
+                            <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong id="info-apply-job" class="grey">Informasi Apply Job :</strong>
+                            <div class="space-2"></div>
+                            <div class="infobox-container">
+                                <div class="infobox infobox-red">
+                                    <div class="infobox-icon">
+                                        <i class="ace-icon fa fa-users"></i>
+                                    </div>
+                                    <div class="infobox-data">
+                                        <span class="infobox-data-number" id="info-box-pelamar">...</span>
+                                        <div class="infobox-content">Pelamar</div>
+                                    </div>
                                 </div>
-                                <div class="infobox-data">
-                                    <span class="infobox-data-number" id="info-box-pelamar">...</span>
-                                    <div class="infobox-content">Pelamar</div>
+                                
+                                <div class="infobox infobox-blue">
+                                    <div class="infobox-icon">
+                                        <i class="ace-icon glyphicon glyphicon-check"></i>
+                                    </div>
+                                    <div class="infobox-data">
+                                        <span class="infobox-data-number" id="info-box-pelamar-approve">...</span>
+                                        <div class="infobox-content">Pelamar Approve</div>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="infobox infobox-dark infobox-blue">
-                                <div class="infobox-icon">
-                                    <i class="ace-icon glyphicon glyphicon-check"></i>
-                                </div>
-                                <div class="infobox-data">
-                                    <span class="infobox-data-number" id="info-box-pelamar-approve">...</span>
-                                    <div class="infobox-content">Pelamar Approve</div>
-                                </div>
-                            </div>
-                            
-                            <div class="infobox infobox-dark infobox-green">
-                                <div class="infobox-icon">
-                                    <i class="ace-icon fa fa-envelope"></i>
-                                </div>
-                                <div class="infobox-data">
-                                    <span class="infobox-data-number" id="info-box-email-terkirim">...</span>
-                                    <div class="infobox-content">Email Terkirim</div>
+                                
+                                <div class="infobox infobox-green">
+                                    <div class="infobox-icon">
+                                        <i class="ace-icon fa fa-envelope"></i>
+                                    </div>
+                                    <div class="infobox-data">
+                                        <span class="infobox-data-number" id="info-box-email-terkirim">...</span>
+                                        <div class="infobox-content">Email Terkirim</div>
+                                    </div>
                                 </div>
                             </div>
                     </div>
@@ -147,37 +152,25 @@
                         size: 50,
                         maxlength:255
                     },
-                    editrules: {required: true}
+                    editrules: {required: false}
                 },
                 {label: 'Min.IPK',name: 'posting_min_ipk', width: 125, sortable: true, editable: true,
                     editoptions: {
                         size: 10,
                         maxlength:4
                     },
-                    editrules: {required: true, number:true, minValue:0, maxValue: 4}
+                    editrules: {required: false, number:true, minValue:0, maxValue: 4}
                 },
                 {label: 'Nomor Lowongan',name: 'posting_no', width: 200, sortable: true, editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:10
                     },
-                    editrules: {required: true}
+                    editrules: {required: false}
                 },
                 {label: 'Tgl Posting', name: 'posting_date', width: 120, editable: true,
                     edittype:"text",
-                    editrules: {required: true},
-                    editoptions: {
-                        // dataInit is the client-side event that fires upon initializing the toolbar search field for a column
-                        // use it to place a third party control to customize the toolbar
-                        dataInit: function (element) {
-                           $(element).datepicker({
-    			    			autoclose: true,
-    			    			format: 'yyyy-mm-dd',
-    			    			orientation : 'top',
-    			    			todayHighlight : true
-                            });
-                        }
-                    }
+                    editrules: {required: false}
                 },
                 {label: 'Is Active ?',name: 'is_active', width: 100, sortable: true, editable: true,
                     align: 'center',
@@ -187,7 +180,7 @@
                 },
                 {label: 'Vacancy Letter', name: 'description', width: 150, editable: true, 
                     editrules:{
-                       required:true, 
+                       required:false, 
                        edithidden:true
                     }, 
                     hidden:true,
@@ -204,13 +197,9 @@
                                 } catch(ex) {}
                                 tinymce.init({ mode:"specific_textareas", width:650, height:"300", editor_selector : "mceEditor", statusbar:false, menubar:false,
                                     plugins: [
-                                        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-                                        'searchreplace wordcount visualblocks visualchars code fullscreen',
-                                        'insertdatetime media nonbreaking save table contextmenu directionality',
-                                        'emoticons template paste textcolor colorpicker textpattern imagetools'
+                                        'print'
                                     ],
-                                    toolbar1: 'insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
-                                    toolbar2: 'print | forecolor backcolor emoticons',
+                                    toolbar1: 'print',
                                     image_advtab: true
                                 });
                             }, 100);
@@ -259,7 +248,7 @@
                     grid_detail.jqGrid('setCaption', strCaption);
                     jQuery("#send_email_pelamar_text").html('Email Interview Ke Pelamar Approve ('+ celCode + ' - ' + no_lowongan +')');
                     jQuery("#grid-table-detail").trigger("reloadGrid");
-                    jQuery("#info-apply-job").html("Informasi Apply Job ( "+ no_lowongan +" )");
+                    jQuery("#info-apply-job").html("Informasi Apply Job ( "+ no_lowongan +" ) : ");
                     jQuery("#detail_placeholder").show();
                     responsive_jqgrid('#grid-table-detail', '#grid-pager-detail');
                 }
@@ -328,8 +317,11 @@
                     form.css({"width": 0.60*screen.width+"px"});
                     /*$("#USER_NAME").prop("readonly", true);*/
                     form.parent().find('#sData').hide();
-                    form.find('input[type="text"]').prop("style", "border:0px;");
+                    form.find('input[type="text"], textarea').prop("style", "border:0px; background:#ffffff !important; ");
                     form.find('select').prop("style", "border:0px;-webkit-appearance: none;-moz-appearance: none;appearance: none;");
+                    
+                    form.find('input[type="text"]').prop("readonly", true);
+                    form.find('select').prop("disabled", true);
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
@@ -442,7 +434,7 @@
              BootstrapDialog.confirm({
 			     title:'Email Interview',
 			     type : BootstrapDialog.TYPE_WARNING,
-			     message: 'Apakah Anda yakin untuk mengirim email ke pelamar-pelamar yang telah diapprove?',
+			     message: 'Apakah Anda yakin untuk mengirim email interview ke pelamar-pelamar yang telah diapprove?',
 			     btnCancelLabel: 'Tidak, Batalkan',
                  btnOKLabel: 'Ya, Yakin',
 			     callback: function(result) {
@@ -512,7 +504,7 @@
                         size: 20,
                         maxlength:60
                     },
-                    editrules: {required: true}
+                    editrules: {required: false}
                 },
                 {label: 'Tgl Apply', name: 'created_date', width: 100, align: "left", editable: false},
                 {label: 'Nama Lengkap',name: 'applicant_fullname',width: 250, align: "left",editable: true,
@@ -520,31 +512,31 @@
                         size: 50,
                         maxlength:60
                     },
-                    editrules: {required: true}
+                    editrules: {required: false}
                 },
                 {label: 'IPK',name: 'applicant_ipk', width: 85, hidden:false, sortable: true, editable: true,
                     editoptions: {
                         size: 10,
                         maxlength:4
                     },
-                    editrules: {required: true, number:true, minValue:0, maxValue: 4}
+                    editrules: {required: false, number:true, minValue:0, maxValue: 4}
                 },
                 {label: 'Pendidikan Terakhir', name: 'education_id', width: 120, align: "left", editable: true, hidden:true,
-                    editrules: {edithidden: true, required:true},
+                    editrules: {edithidden: true, required:false},
                     edittype: 'select',
                     editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_education_controller/html_select_options_education"; ?>'}
                 },
                 {label: 'Pendidikan Terakhir', name: 'education_code', width: 150, align: "left", editable: false},
 
                 {label: 'Jurusan', name: 'major_id', width: 150, align: "left", editable: true, hidden:true,
-                    editrules: {edithidden: true, required:true},
+                    editrules: {edithidden: true, required:false},
                     edittype: 'select',
                     editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_college_major_controller/html_select_options_major"; ?>'}
                 },
                 {label: 'Jurusan', name: 'major_code', width: 150, align: "left", editable: false},
                 {label: 'Asal Kota', name: 'applicant_city', width: 150, align: "left", editable: false},
                 {label: 'Status', name: 'applicant_status_id', width: 120, align: "left", editable: true, hidden:true,
-                    editrules: {edithidden: true, required:true},
+                    editrules: {edithidden: true, required:false},
                     edittype: 'select',
                     editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_applicant_status_controller/html_select_options_status"; ?>'}
                 },
@@ -557,7 +549,7 @@
                         maxlength:32,
                         defaultValue: ''
                     },
-                    editrules: {required: true}
+                    editrules: {required: false}
                 },
                 {label: 'Password',name: 'applicant_password',width: 150, hidden:true, align: "left",editable: true,
                     edittype: 'password',
@@ -570,17 +562,7 @@
                 },
                 {label: 'Tgl.Lahir', name: 'applicant_date_of_birth', width: 120, editable: true,
                     edittype:"text",
-                    editrules: {required: true},
-                    editoptions: {
-                        dataInit: function (element) {
-                           $(element).datepicker({
-                                autoclose: true,
-                                format: 'yyyy-mm-dd',
-                                orientation : 'bottom',
-                                todayHighlight : true
-                            });
-                        }
-                    }
+                    editrules: {required: false}
                 },
                 {label: 'No.KTP',name: 'applicant_ktp_no',width: 150, hidden:true, align: "left",editable: true,
                     edittype: 'text',
@@ -595,7 +577,7 @@
                             });
                         }
                     },
-                    editrules: {edithidden: true, required: true}
+                    editrules: {edithidden: true, required: false}
                 },
                 {label: 'Email',name: 'applicant_email',width: 150, hidden:true, align: "left",editable: true,
                     edittype: 'text',
@@ -603,7 +585,7 @@
                         size: 30,
                         maxlength:60
                     },
-                    editrules: {edithidden: true, email:true, required: true}
+                    editrules: {edithidden: true, email:true, required: false}
                 },
                 {label: 'No.Telp',name: 'applicant_telp',width: 150, hidden:true, align: "left",editable: true,
                     edittype: 'text',
@@ -618,7 +600,7 @@
                             });
                         }
                     },
-                    editrules: {edithidden: true, required: true}
+                    editrules: {edithidden: true, required: false}
                 },
                 {label: 'No.HP',name: 'applicant_hp',width: 150, hidden:true, align: "left",editable: true,
                     edittype: 'text',
@@ -633,7 +615,7 @@
                             });
                         }
                     },
-                    editrules: {edithidden: true, required: true}
+                    editrules: {edithidden: true, required: false}
                 },
                 {label: 'Kota',name: 'applicant_city',width: 150, hidden:true, align: "center",editable: true,
                     edittype: 'text',
@@ -641,7 +623,7 @@
                         size: 32,
                         maxlength:32
                     },
-                    editrules: {edithidden: true, required: true}
+                    editrules: {edithidden: true, required: false}
                 },
                 {label: 'Alamat',name: 'applicant_address',width: 200, hidden:true, align: "left",editable: true,
                     edittype:'textarea',
@@ -650,7 +632,7 @@
                         cols:50,
                         maxlength:100
                     },
-                    editrules: {edithidden: true, required: true}
+                    editrules: {edithidden: true, required: false}
                 },
                 {label: 'Diapply Oleh', name: 'created_by', width: 120, hidden:true, align: "left", editable: false},
                 {label: 'Is Approve',name: 'is_approve',width: 120, align: "left",editable: true,
@@ -665,17 +647,7 @@
                 },
                 {label: 'Send Email Date',name: 'send_email_date',width: 130, align: "left",editable: true,
                     edittype:"text",
-                    editrules: {required: true},
-                    editoptions: {
-                        dataInit: function (element) {
-                           $(element).datepicker({
-                                autoclose: true,
-                                format: 'yyyy-mm-dd',
-                                orientation : 'bottom',
-                                todayHighlight : true
-                            });
-                        }
-                    }
+                    editrules: {required: false}
                 },
                 {label: 'Tgl Update', name: 'updated_date', width: 120, hidden:true, align: "left", editable: false},
                 {label: 'Diupdate Oleh', name: 'created_by', width: 120, hidden:true, align: "left", editable: false}
@@ -774,8 +746,11 @@
                     form.css({"width": 0.60*screen.width+"px"});
 
                     form.parent().find('#sData').hide();
-                    form.find('input[type="text"], textarea').prop("style", "border:0px;");
+                    form.find('input[type="text"], textarea').prop("style", "border:0px; background:#ffffff !important; ");
                     form.find('select').prop("style", "border:0px;-webkit-appearance: none;-moz-appearance: none;appearance: none;");
+                    
+                    form.find('input[type="text"]').prop("readonly", true);
+                    form.find('select').prop("disabled", true);
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();

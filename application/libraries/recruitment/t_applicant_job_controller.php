@@ -350,19 +350,32 @@ class T_applicant_job_controller {
 		
 		try{
 		    $table->db->trans_begin(); //Begin Trans
-		    
+		        
     		    /*execute send email query here */
     		    $table->setCriteria("applicant_job.job_posting_id = ".$job_posting_id);
     		    $table->setCriteria("upper(applicant_job.is_approve) = 'Y'");
+    		    $table->setCriteria("upper(applicant_job.is_send_email) = 'N'");
     		    $table->setCriteria("upper(applicant_status.code) = 'ACTIVE'");
     		    
     		    $items = $table->getAll(0,-1);
     		    $num_records = count($items);
     		    
+    		    if( $num_records > 0 ) {
+    		        $ci->load->model('email_sender');
+                    $email_sender = $ci->email_sender;
+                    $email_sender->email()->set_newline("\r\n");
+    		    }
+    		    
     		    for($i = 0; $i < $num_records; $i++) {
     		        /* Step 1: send email per applicant */
-    		        
-    		        
+    		        //$ci->email->clear();
+    		        $email_sender->email()->from('wiliamdecosta@gmail.com','PDAM Tirtawening');
+                    $email_sender->email()->to( trim(strtolower($items[$i]['applicant_email'])) );
+                    $email_sender->email()->subject('Recruitment Inteview');
+                    $email_sender->email()->message('Hi '.$items[$i]['applicant_fullname'].' Here is the info you requested.');
+                    if(! $email_sender->email()->send() ) {
+                        throw new Exception($email_sender->email()->print_debugger());    
+                    }
     		        /* Step 2: update send email status and send date */
     		        $table->setEmailStatus($items[$i]['applicant_job_id']);
     		    }

@@ -17413,6 +17413,10 @@ th[aria-selected=true] .ui-jqgrid-sortable {
   font-size: 13px;
 }
 
+.ui-state-required {
+  background: #ffffaa !important;    
+}
+
 .ui-jqdialog .ui-widget-header {
   background-image: -webkit-linear-gradient(top, #ffffff 0%, #eeeeee 100%);
   background-image: -o-linear-gradient(top, #ffffff 0%, #eeeeee 100%);

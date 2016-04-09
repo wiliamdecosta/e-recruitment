@@ -15,7 +15,7 @@ class P_applicant_status extends Abstract_model {
 	public $fields 			= array(
 								'applicant_status_id' 	=> array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'ID P_applicant_status'),
 								'code'	                => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Status Pelamar'),
-								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Description'),
+								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Keterangan'),
 								
 								/* khusus untuk created_date, created_by, updated_date, updated_by --> nullable : true */
 								'created_date'	        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Creation Date'),

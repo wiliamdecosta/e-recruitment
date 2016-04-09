@@ -14,8 +14,8 @@ class P_job extends Abstract_model {
 
 	public $fields 			= array(
 								'job_id' 		    => array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'ID P_job'),
-								'job_code'	        => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Kode Divisi'),
-								'job_name'	        => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Divisi Lowongan'),
+								'job_code'	        => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Kode Lamaran'),
+								'job_name'	        => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Nama Lamaran'),
 								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Description'),
 								
 								/* khusus untuk created_date, created_by, updated_date, updated_by --> nullable : true */
