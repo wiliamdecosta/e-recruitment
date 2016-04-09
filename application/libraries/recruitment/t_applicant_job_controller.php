@@ -369,7 +369,7 @@ class T_applicant_job_controller {
     		    for($i = 0; $i < $num_records; $i++) {
     		        /* Step 1: send email per applicant */
     		        //$ci->email->clear();
-    		        $email_sender->email()->from('wiliamdecosta@gmail.com','PDAM Tirtawening');
+    		        $email_sender->email()->from($email_sender->get_config('smtp_user'),'PDAM Tirtawening');
                     $email_sender->email()->to( trim(strtolower($items[$i]['applicant_email'])) );
                     $email_sender->email()->subject('Recruitment Inteview');
                     $email_sender->email()->message('Hi '.$items[$i]['applicant_fullname'].' Here is the info you requested.');

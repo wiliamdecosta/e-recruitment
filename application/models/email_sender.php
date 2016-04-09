@@ -34,7 +34,9 @@ class Email_sender extends  CI_Model {
 	    return $this->mail_;    
 	}
 	
-	public function get_config() {
-        return $this->config_email;
+	public function get_config($conf = "") {
+        if(empty($conf))
+            return $this->config_email;
+	    return $this->config_email[$conf];
 	}
 }
