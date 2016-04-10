@@ -121,6 +121,14 @@
 
                                 return education_id;
                             }
+                        },
+                        buildSelect: function (data) {
+                            var response = $.parseJSON(data);
+                            if(typeof response === 'object' && response.success == false) {
+                                showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                                return "";
+                            }
+                            return response;
                         }
                     }
                 },
@@ -153,14 +161,17 @@
                 id: 'id',
                 repeatitems: false
             },
-            loadComplete: function () {
+            loadComplete: function (response) {
+                if(response.success == false) { 
+                    showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                }
+                
                 var table = this;
                 setTimeout(function () {
                     updatePagerIcons(table);
                 }, 0);
 
             },
-
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."recruitment.p_job_education_controller/crud"; ?>',
             caption: "Syarat Pendidikan :: " + $("#tab_job_code").val()

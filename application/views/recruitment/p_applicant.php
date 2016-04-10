@@ -80,21 +80,51 @@
                 {label: 'Pendidikan Terakhir', name: 'education_id', width: 120, align: "left", editable: true, hidden:true, 
                     editrules: {edithidden: true, required:true},
                     edittype: 'select',
-                    editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_education_controller/html_select_options_education"; ?>'}
+                    editoptions: {
+                        dataUrl: '<?php echo WS_JQGRID."recruitment.p_education_controller/html_select_options_education"; ?>',
+                        buildSelect: function (data) {
+                            var response = $.parseJSON(data);
+                            if(typeof response === 'object' && response.success == false) {
+                                showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                                return "";
+                            }
+                            return response;
+                        }
+                    }
                 },
                 {label: 'Pendidikan Terakhir', name: 'education_code', width: 150, align: "left", editable: false},
                 
                 {label: 'Jurusan', name: 'major_id', width: 150, align: "left", editable: true, hidden:true, 
                     editrules: {edithidden: true, required:true},
                     edittype: 'select',
-                    editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_college_major_controller/html_select_options_major"; ?>'}
+                    editoptions: {
+                        dataUrl: '<?php echo WS_JQGRID."recruitment.p_college_major_controller/html_select_options_major"; ?>',
+                        buildSelect: function (data) {
+                            var response = $.parseJSON(data);
+                            if(typeof response === 'object' && response.success == false) {
+                                showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                                return "";
+                            }
+                            return response;
+                        }
+                    }
                 },
                 {label: 'Jurusan', name: 'major_code', width: 150, align: "left", editable: false},
                 {label: 'Asal Kota', name: 'applicant_city', width: 150, align: "left", editable: false},
                 {label: 'Status', name: 'applicant_status_id', width: 120, align: "left", editable: true, hidden:true, 
                     editrules: {edithidden: true, required:true},
                     edittype: 'select',
-                    editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_applicant_status_controller/html_select_options_status"; ?>'}
+                    editoptions: {
+                        dataUrl: '<?php echo WS_JQGRID."recruitment.p_applicant_status_controller/html_select_options_status"; ?>',
+                        buildSelect: function (data) {
+                            var response = $.parseJSON(data);
+                            if(typeof response === 'object' && response.success == false) {
+                                showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                                return "";
+                            }
+                            return response;
+                        }    
+                    }
                 },
                 {label: 'Status', name: 'status_code', width: 150, align: "left", editable: false},
                 
@@ -236,14 +266,17 @@
                 id: 'id',
                 repeatitems: false
             },
-            loadComplete: function () {
+            loadComplete: function (response) {
+                if(response.success == false) { 
+                    showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                }
+                
                 var table = this;
                 setTimeout(function () {
                     updatePagerIcons(table);
                 }, 0);
 
             },
-
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."recruitment.p_applicant_controller/crud"; ?>',
             caption: "Daftar Pelamar",
@@ -464,7 +497,17 @@
                 {label: 'Jenis Dokumen', name: 'p_doc_type_id', width: 150, align: "left", editable: true, hidden:true, 
                     editrules: {edithidden: true, required:true},
                     edittype: 'select',
-                    editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_doc_type_controller/html_select_options_doc_type"; ?>'}
+                    editoptions: {
+                        dataUrl: '<?php echo WS_JQGRID."recruitment.p_doc_type_controller/html_select_options_doc_type"; ?>',
+                        buildSelect: function (data) {
+                            var response = $.parseJSON(data);
+                            if(typeof response === 'object' && response.success == false) {
+                                showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                                return "";
+                            }
+                            return response;
+                        }
+                    }
                 },
                 {label: 'Preview',name: 'link_file',width: 80, align: "center",editable: false,
                     formatter: function(cellvalue, options, rowObject) {
@@ -489,7 +532,11 @@
                 id: 'id',
                 repeatitems: false
             },
-            loadComplete: function () {
+            loadComplete: function (response) {
+                if(response.success == false) { 
+                    showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                }
+                
                 var table = this;
                 setTimeout(function () {
                     updatePagerIcons(table);

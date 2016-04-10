@@ -85,7 +85,7 @@ class Ws extends CI_Controller {
 			$result['message'] = $result['message'];
 			$result['success'] = $result['success'];
 		}catch(Exception $e) {
-			$result = array('page' => 1, 'records' => 0, 'total' => 1, 'rows' => array(), 'message' => '', 'success' => '');
+			$result = array('message' => $e->getMessage(), 'success' => false);
 		}
 
 		header('Content-Type: application/json');

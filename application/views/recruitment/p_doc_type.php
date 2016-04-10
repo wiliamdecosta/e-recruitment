@@ -87,14 +87,17 @@
                 id: 'id',
                 repeatitems: false
             },
-            loadComplete: function () {
+            loadComplete: function (response) {
+                if(response.success == false) { 
+                    showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                }
+                
                 var table = this;
                 setTimeout(function () {
                     updatePagerIcons(table);
                 }, 0);
 
             },
-
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."recruitment.p_doc_type_controller/crud"; ?>',
             caption: "Jenis Dokumen Lamaran"

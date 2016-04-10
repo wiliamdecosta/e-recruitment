@@ -133,8 +133,18 @@
                 {label: 'Kode Lamaran', name: 'job_id', width: 120, align: "left", editable: true, hidden:true, 
                     editrules: {required:true, edithidden: true},
                     edittype: 'select',
-                    editoptions: {dataUrl: '<?php echo WS_JQGRID."recruitment.p_job_controller/html_select_options_job"; ?>'}
-                },
+                    editoptions: {
+                        dataUrl: '<?php echo WS_JQGRID."recruitment.p_job_controller/html_select_options_job"; ?>',
+                        buildSelect: function (data) {
+                            var response = $.parseJSON(data);
+                            if(typeof response === 'object' && response.success == false) {
+                                showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                                return "";
+                            }
+                            return response;
+                        }
+                    }
+                },  
                 {label: 'Kode Lamaran', name: 'job_code', width: 150, align: "left", editable: false},
                 {label: 'Deskripsi',name: 'posting_short_desc', width: 200, sortable: true, editable: true,
                     editoptions: {
@@ -259,14 +269,17 @@
                 id: 'id',
                 repeatitems: false
             },
-            loadComplete: function () {
+            loadComplete: function (response) {
+                if(response.success == false) { 
+                    showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+                }
+                
                 var table = this;
                 setTimeout(function () {
                     updatePagerIcons(table);
                 }, 0);
 
             },
-
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."recruitment.p_job_posting_controller/crud"; ?>',
             caption: "Pembukaan Lowongan",
