@@ -147,12 +147,13 @@
                     editoptions: {
                         dataUrl: '<?php echo WS_JQGRID."recruitment.p_job_controller/html_select_options_job"; ?>',
                         buildSelect: function (data) {
+                            if(data !== 'object' ) return data;
+
                             var response = $.parseJSON(data);
-                            if(typeof response === 'object' && response.success == false) {
+                            if(response.success == false) {
                                 showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
                                 return "";
                             }
-                            return response;
                         }
                     }
                 },
@@ -540,12 +541,13 @@
                     editoptions: {
                         dataUrl: '<?php echo WS_JQGRID."recruitment.p_education_controller/html_select_options_education"; ?>',
                         buildSelect: function (data) {
+                            if(data !== 'object' ) return data;
+
                             var response = $.parseJSON(data);
-                            if(typeof response === 'object' && response.success == false) {
+                            if(response.success == false) {
                                 showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
                                 return "";
                             }
-                            return response;
                         }
                     }
                 },
@@ -557,12 +559,13 @@
                     editoptions: {
                         dataUrl: '<?php echo WS_JQGRID."recruitment.p_college_major_controller/html_select_options_major"; ?>',
                         buildSelect: function (data) {
+                            if(data !== 'object' ) return data;
+
                             var response = $.parseJSON(data);
-                            if(typeof response === 'object' && response.success == false) {
+                            if(response.success == false) {
                                 showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
                                 return "";
                             }
-                            return response;
                         }
                     }
                 },
@@ -574,13 +577,14 @@
                     editoptions: {
                         dataUrl: '<?php echo WS_JQGRID."recruitment.p_applicant_status_controller/html_select_options_status"; ?>',
                         buildSelect: function (data) {
+                            if(data !== 'object' ) return data;
+
                             var response = $.parseJSON(data);
-                            if(typeof response === 'object' && response.success == false) {
+                            if(response.success == false) {
                                 showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
                                 return "";
                             }
-                            return response;
-                        }    
+                        }
                     }
                 },
                 {label: 'Status', name: 'status_code', width: 150, align: "left", editable: false},
@@ -959,12 +963,13 @@
                     editoptions: {
                         dataUrl: '<?php echo WS_JQGRID."recruitment.p_doc_type_controller/html_select_options_doc_type"; ?>',
                         buildSelect: function (data) {
+                            if(data !== 'object' ) return data;
+
                             var response = $.parseJSON(data);
-                            if(typeof response === 'object' && response.success == false) {
+                            if(response.success == false) {
                                 showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
                                 return "";
                             }
-                            return response;
                         }
                     }
                 },

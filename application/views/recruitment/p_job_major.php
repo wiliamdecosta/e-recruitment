@@ -123,12 +123,13 @@
                             }
                         },
                         buildSelect: function (data) {
+                            if(data !== 'object' ) return data;
+
                             var response = $.parseJSON(data);
-                            if(typeof response === 'object' && response.success == false) {
+                            if(response.success == false) {
                                 showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
                                 return "";
                             }
-                            return response;
                         }
                     }
                 },
