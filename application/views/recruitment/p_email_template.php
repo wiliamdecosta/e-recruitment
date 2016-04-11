@@ -1,3 +1,6 @@
+<script src="<?php echo BS_PATH; ?>tinymce/tinymce.min.js"></script>
+<script src="<?php echo BS_PATH; ?>tinymce/jquery.tinymce.min.js"></script>
+
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
 	    <ul class="breadcrumb">
@@ -8,7 +11,7 @@
             <li>
 	    		<a href="#">Lowongan</a>
 	    	</li>
-            <li class="active">Syarat Jurusan</li>
+            <li class="active">Email Interview Template</li>
 	    </ul><!-- /.breadcrumb --
 	    <!-- /section:basics/content.searchbox -->
     </div>
@@ -34,13 +37,13 @@
     					    		<strong>Syarat Pendidikan</strong>
     					    	</a>
     					    </li>
-    					    <li class="active">
+    					    <li class="">
     					    	<a href="#" data-toggle="tab" aria-expanded="true" id="tab-3">
     					    		<i class="blue bigger-120"></i>
     					    		<strong>Syarat Jurusan</strong>
     					    	</a>
     					    </li>
-                            <li class="">
+                            <li class="active">
                                 <a href="#" data-toggle="tab" aria-expanded="true" id="tab-4">
                                     <i class="blue bigger-120"></i>
                                     <strong>Email Interview Template</strong>
@@ -49,28 +52,18 @@
     		            </ul>
     		            <input type="hidden" id="tab_job_posting_id" value="<?php echo getVarClean('job_posting_id','int',0); ?>">
     		            <input type="hidden" id="tab_job_code" value="<?php echo getVarClean('job_code','str',''); ?>">
-    		            
-    		        </div>
 
+    		        </div>
+    		        
     		        <div class="tab-content no-border">
     		            <div class="row">
-    		                <div class="col-xs-12">     
-                                <div class="alert alert-block alert-success">
-                                    <button data-dismiss="alert" class="close" type="button">
-										<i class="ace-icon fa fa-times"></i>
-									</button>
-                                    <i class="ace-icon fa fa-lightbulb-o green"></i> Jika lowongan yang bersangkutan terbuka untuk semua jurusan perkuliahan, maka syarat jurusan tidak perlu diisi.
-                                </div>
-                            </div>
-                        </div>
-    		            <div class="row">
-                            <div class="col-xs-12">
+                            <div class="col-xs-12">       
                                <table id="grid-table"></table>
-                               <div id="grid-pager"></div>
+                               <div id="grid-pager"></div>    
                             </div>
-                        </div>
+                        </div>    
     		        </div>
-    		    </div>
+    		    </div>  
     	    </div>
             <!-- PAGE CONTENT ENDS -->
     	</div><!-- /.col -->
@@ -82,28 +75,28 @@
         $( "#tab-1" ).on( "click", function() {
             loadContent("recruitment-p_job_posting.php");
         });
-
+        
         $( "#tab-2" ).on( "click", function() {
             var the_id = $("#tab_job_posting_id").val();
             var the_code = $("#tab_job_code").val();
-
+            
             loadContentWithParams("recruitment-p_job_education.php", {
                 job_posting_id: the_id,
                 job_code: the_code
             });
         });
 
-        $( "#tab-4" ).on( "click", function() {
+        $( "#tab-3" ).on( "click", function() {
             var the_id = $("#tab_job_posting_id").val();
             var the_code = $("#tab_job_code").val();
-
-            loadContentWithParams("recruitment-p_email_template.php", {
+            
+            loadContentWithParams("recruitment-p_job_major.php", {
                 job_posting_id: the_id,
                 job_code: the_code
             });
         });
     });
-
+    
     jQuery(function($) {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
@@ -113,43 +106,73 @@
         });
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."recruitment.p_job_major_controller/read"; ?>',
+            url: '<?php echo WS_JQGRID."recruitment.p_email_template_controller/read"; ?>',
             postData : {job_posting_id : $("#tab_job_posting_id").val()},
             datatype: "json",
             mtype: "POST",
             colModel: [
-                {label: 'ID', name: 'job_major_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
+                {label: 'ID', name: 'email_tpl_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
                 {label: 'Job Posting ID', name: 'job_posting_id', width: 5, sorttype: 'number', editable: true, hidden: true},
-
-                {label: 'Jurusan', name: 'major_id', width: 250, align: "left", editable: true, hidden:true,
-                    editrules: {edithidden: true, required:true},
-                    edittype: 'select',
+                {label: 'Subject Email',name: 'email_tpl_subject', width: 200, sortable: true, editable: true,
                     editoptions: {
-                        dataUrl: '<?php echo WS_JQGRID."recruitment.p_job_major_controller/html_select_options_major"; ?>',
-                        dataInit: function(elem) {
-                            $(elem).width(250);  // set the width which you need
+                        size: 50,
+                        maxlength:100,
+                        defaultValue: 'Interview PDAM Tirtawening'
+                    },
+                    editrules: {required: true},
+                    formoptions: {
+                        elmsuffix:'<i data-placement="left" class="orange"> Subject Email Silahkan Diubah </i>'
+                    }
+                },
+                {label: 'Keterangan',name: 'email_tpl_description', width: 200, sortable: true, editable: true,
+                    editoptions: {
+                        size: 80,
+                        maxlength:255
+                    }
+                },
+                {label: 'Isi Email', name: 'email_tpl_content', width: 150, editable: true, 
+                    editrules:{
+                       required:false, 
+                       edithidden:true
+                    }, 
+                    hidden:true,
+                    align: "left",
+                    edittype: 'custom',
+                    editoptions: {
+                        "custom_element":function( value  , options) {
+                            var elm = $('<textarea class="mceEditor"></textarea>');
+                            elm.val( value );
+                            // give the editor time to initialize
+                            setTimeout( function() {
+                                try {
+                                    tinymce.remove("#" + options.id);
+                                } catch(ex) {}
+                                tinymce.init({ mode:"specific_textareas", width:650, height:"300", editor_selector : "mceEditor", statusbar:false, menubar:false,
+                                    plugins: [
+                                        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                                        'searchreplace wordcount visualblocks visualchars code fullscreen',
+                                        'insertdatetime media nonbreaking save table contextmenu directionality',
+                                        'emoticons template paste textcolor colorpicker textpattern imagetools'
+                                    ],
+                                    toolbar1: 'insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+                                    toolbar2: 'print | forecolor backcolor emoticons',
+                                    image_advtab: true
+                                });
+                            }, 100);
+                            
+                            return elm;
                         },
-                        postData : {
-                            job_posting_id : $("#tab_job_posting_id").val(),
-                            major_id : function(){
-                                var selRowId =  jQuery("#grid-table").jqGrid ('getGridParam', 'selrow');
-                                var major_id = jQuery("#grid-table").jqGrid('getCell', selRowId, 'major_id');
-                                
-                                return major_id;
-                            }
-                        },
-                        buildSelect: function (data) {
-                            if(data !== 'object' ) return data;
-
-                            var response = $.parseJSON(data);
-                            if(response.success == false) {
-                                showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
-                                return "";
+                        "custom_value":function( element, oper, gridval) {
+                            if(oper === 'get') {
+                                return tinymce.get('email_tpl_content').getContent({format: 'row'});
+                            } else if( oper === 'set') {
+                                if(tinymce.get('email_tpl_content')) {
+                                    tinymce.get('email_tpl_content').setContent( gridval );
+                                }
                             }
                         }
                     }
                 },
-                {label: 'Jurusan', name: 'major_code', width: 150, align: "left", editable: false},
                 {label: 'Tgl Pembuatan', name: 'created_date', width: 120, align: "left", editable: false},
                 {label: 'Dibuat Oleh', name: 'created_by', width: 120, align: "left", editable: false},
                 {label: 'Tgl Update', name: 'updated_date', width: 120, align: "left", editable: false},
@@ -166,7 +189,7 @@
             shrinkToFit: true,
             multiboxonly: true,
             onSelectRow: function (rowid) {
-                var celValue = $('#grid-table').jqGrid('getCell', rowid, 'job_major_id');
+                var celValue = $('#grid-table').jqGrid('getCell', rowid, 'job_edu_id');
 
             },
             sortorder:'',
@@ -190,8 +213,8 @@
 
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."recruitment.p_job_major_controller/crud"; ?>',
-            caption: "Syarat Jurusan :: "+$("#tab_job_code").val()
+            editurl: '<?php echo WS_JQGRID."recruitment.p_email_template_controller/crud"; ?>',
+            caption: "Email Interview :: " + $("#tab_job_code").val()
 
         });
 
@@ -232,10 +255,12 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
 
-                    /*$("#USER_NAME").prop("readonly", true);*/
+                    form.css({"height": 0.50*screen.height+"px"});
+                    form.css({"width": 0.60*screen.width+"px"});
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
+                    $(".mce-widget").hide();
                 },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
@@ -247,12 +272,12 @@
             },
             {
                 //new record form
-                editData: {
+                editData: { 
                     job_posting_id: function() {
                         return $("#tab_job_posting_id").val();
                     }
                 },
-                closeAfterAdd: false,
+                closeAfterAdd: true,
                 clearAfterAdd : true,
                 closeOnEscape:true,
                 recreateForm: true,
@@ -268,6 +293,8 @@
                         .wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
 
+                    form.css({"height": 0.50*screen.height+"px"});
+                    form.css({"width": 0.60*screen.width+"px"});
                 },
                 beforeInitData:function(form_id) {
                     jQuery("#grid-table").jqGrid('resetSelection');
@@ -275,17 +302,18 @@
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
+                    $(".mce-widget").hide();
                 },
                 afterSubmit:function(response,postdata) {
                     var response = jQuery.parseJSON(response.responseText);
                     if(response.success == false) {
                         return [false,response.message,response.responseText];
                     }
-
-                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                    
+                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>'); 
                     var tinfoel = $(".tinfo").show();
                     tinfoel.delay(3000).fadeOut();
-
+                          
                     return [true,"",response.responseText];
                 }
             },
@@ -442,11 +470,11 @@
     }
 
     function responsive_jqgrid(grid_selector, pager_selector) {
-
+                
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
-
+ 
     }
 
 </script>

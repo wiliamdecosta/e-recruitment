@@ -29,7 +29,7 @@
     					    	</a>
     					    </li>
     					    <li class="active">
-    					    	<a href="#" data-toggle="tab" aria-expanded="true">
+    					    	<a href="#" data-toggle="tab" aria-expanded="true" id="tab-2">
     					    		<i class="blue bigger-120"></i>
     					    		<strong>Syarat Pendidikan</strong>
     					    	</a>
@@ -40,6 +40,12 @@
     					    		<strong>Syarat Jurusan</strong>
     					    	</a>
     					    </li>
+                            <li class="">
+                                <a href="#" data-toggle="tab" aria-expanded="true" id="tab-4">
+                                    <i class="blue bigger-120"></i>
+                                    <strong>Email Interview Template</strong>
+                                </a>
+                            </li>
     		            </ul>
     		            <input type="hidden" id="tab_job_posting_id" value="<?php echo getVarClean('job_posting_id','int',0); ?>">
     		            <input type="hidden" id="tab_job_code" value="<?php echo getVarClean('job_code','str',''); ?>">
@@ -82,6 +88,16 @@
             var the_code = $("#tab_job_code").val();
             
             loadContentWithParams("recruitment-p_job_major.php", {
+                job_posting_id: the_id,
+                job_code: the_code
+            });
+        });
+
+        $( "#tab-4" ).on( "click", function() {
+            var the_id = $("#tab_job_posting_id").val();
+            var the_code = $("#tab_job_code").val();
+            
+            loadContentWithParams("recruitment-p_email_template.php", {
                 job_posting_id: the_id,
                 job_code: the_code
             });

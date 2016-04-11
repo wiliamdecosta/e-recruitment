@@ -31,7 +31,7 @@
     		        <div class="tabbable">
     		            <ul class="nav nav-tabs padding-18 tab-size-bigger tab-color-blue">
     					    <li class="active">
-    					    	<a href="#" data-toggle="tab" aria-expanded="true">
+    					    	<a href="#" data-toggle="tab" aria-expanded="true" id="tab-1">
     					    		<i class="blue bigger-120"></i>
     					    		<strong>Pembukaan Lowongan</strong>
     					    	</a>
@@ -48,6 +48,12 @@
     					    		<strong>Syarat Jurusan</strong>
     					    	</a>
     					    </li>
+                            <li class="">
+                                <a href="#" data-toggle="tab" aria-expanded="true" id="tab-4">
+                                    <i class="blue bigger-120"></i>
+                                    <strong>Email Inteview Template</strong>
+                                </a>
+                            </li>
     		            </ul>
     		            <input type="hidden" id="tab_job_posting_id" value="">
     		            <input type="hidden" id="tab_job_code" value="">
@@ -103,6 +109,19 @@
                 return false;
             }
             loadContentWithParams("recruitment-p_job_major.php", {
+                job_posting_id: the_id,
+                job_code : the_code
+            });
+        });
+
+        $( "#tab-4" ).on( "click", function() {
+            var the_id = $("#tab_job_posting_id").val();
+            var the_code = $("#tab_job_code").val();
+            if(the_id == "") {
+                showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Pilih salah satu baris data');
+                return false;
+            }
+            loadContentWithParams("recruitment-p_email_template.php", {
                 job_posting_id: the_id,
                 job_code : the_code
             });
