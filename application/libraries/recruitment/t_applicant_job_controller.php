@@ -347,7 +347,8 @@ class T_applicant_job_controller {
 
 		$data = array('success' => false, 'message' => '');
 		$job_posting_id = getVarClean('job_posting_id', 'int', 0);
-		
+		$email_tpl_id = getVarClean('email_tpl_id', 'int', 0);
+
 		try{
 		    $table->db->trans_begin(); //Begin Trans
 		        
@@ -363,16 +364,23 @@ class T_applicant_job_controller {
     		    if( $num_records > 0 ) {
     		        $ci->load->model('email_sender');
                     $email_sender = $ci->email_sender;
-                    $email_sender->email()->set_newline("\r\n");
-    		    }
+                    
+                    $ci->load->model('recruitment/p_email_template');
+                    $email_template = $ci->p_email_template;
+
+                    $email_content = $email_template->get($email_tpl_id);
+                }
     		    
     		    for($i = 0; $i < $num_records; $i++) {
+
     		        /* Step 1: send email per applicant */
     		        $email_sender->email()->clear();
+                    $email_sender->email()->set_newline("\r\n");
     		        $email_sender->email()->from($email_sender->get_config('smtp_user'),'PDAM Tirtawening');
                     $email_sender->email()->to( trim(strtolower($items[$i]['applicant_email'])) );
-                    $email_sender->email()->subject('Recruitment Inteview');
-                    $email_sender->email()->message('Hi '.$items[$i]['applicant_fullname'].' Here is the info you requested.');
+                    $email_sender->email()->subject($email_content['email_tpl_subject']);
+                    $email_sender->email()->message( htmlentities( html_entity_decode($email_sender->getHTMLTagOpener()." ".$email_content['email_tpl_content']." ".$email_sender->getHTMLTagCloser())) );
+
                     if(! $email_sender->email()->send() ) {
                         throw new Exception($email_sender->email()->print_debugger());    
                     }

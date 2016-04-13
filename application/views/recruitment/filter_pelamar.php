@@ -88,20 +88,32 @@
                             </div>
                     </div>
                 </div>
-                                
-                <div class="col-xs-12">
-                    <div>
-                        <button class="btn btn-primary" id="set_approve_pelamar">
-                            <i class="ace-icon glyphicon glyphicon-check"></i>
-                            Approve Pelamar
-                        </button>
-                        <button class="btn btn-success" id="send_email_pelamar">
-                            <i class="ace-icon fa fa-envelope bigger-120"></i>
-                            <span id="send_email_pelamar_text">Email Interview</span>
-                        </button>
-                    </div>
-                </div>
                 
+                <div class="col-xs-5">
+                    <button class="btn btn-sm btn-primary" id="set_approve_pelamar">
+                        <i class="ace-icon glyphicon glyphicon-check"></i>
+                        Approve Pelamar
+                    </button>   
+                </div>                
+                
+                <div class="col-xs-3">
+                    <div class="input-group">
+                        <input id="form_email_template_id" type="text" placeholder="Icon ID" style="display:none;">
+                         <input id="form_email_template_subject" readonly class="form-control" type="text" placeholder="Pilih Template Email">
+                         <span class="input-group-btn">
+                            <button class="btn btn-sm btn-success" type="button" id="btn_lov_email_template">
+                                <span class="ace-icon fa fa-search icon-on-right bigger-130"></span>
+                            </button>
+                         </span>
+                     </div>
+                </div>
+                <div class="col-xs-4">
+                     <button class="btn btn-sm btn-success" id="send_email_pelamar">
+                         <i class="ace-icon fa fa-envelope bigger-120"></i>
+                         <span id="send_email_pelamar_text">Email Interview</span>
+                     </button>
+                </div>
+
                 <div class="col-xs-12">
                     <div class="space-4"></div>
                     <table id="grid-table-detail"></table>
@@ -116,7 +128,97 @@
     </div><!-- /.row -->
 </div>
 
+<?php $this->load->view('recruitment_lov/lov_p_email_template.php'); ?>
+
 <script>
+
+    jQuery(function($) {
+
+        $("#btn_lov_email_template").on("click", function() {
+            
+            var grid = $("#grid-table-detail");
+            var data = grid.jqGrid('getGridParam', 'postData');
+            var job_posting_id = data.job_posting_id;
+
+            modal_lov_email_template_show('form_email_template_id','form_email_template_subject', job_posting_id);
+        });
+        
+        $('#send_email_pelamar').on('click', function() {
+
+             if( $("#form_email_template_id").val() == "" ) {
+                showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Silahkan pilih template email interview');    
+                return;
+             }
+
+             var grid = $("#grid-table-detail");
+             var data = grid.jqGrid('getGridParam', 'postData');
+             var job_posting_id = data.job_posting_id;
+             var email_tpl_id = $("#form_email_template_id").val();
+
+             BootstrapDialog.confirm({
+                 title:'Email Interview',
+                 type : BootstrapDialog.TYPE_WARNING,
+                 message: 'Apakah Anda yakin untuk mengirim email interview ke pelamar-pelamar yang telah diapprove?',
+                 btnCancelLabel: 'Tidak, Batalkan',
+                 btnOKLabel: 'Ya, Yakin',
+                 callback: function(result) {
+                     if(result) {
+                         $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/send_email_interview"; ?>',
+                             { 
+                               job_posting_id: job_posting_id ,
+                               email_tpl_id : email_tpl_id
+                             },
+                             function( response ) {
+                                 if(response.success == false) {
+                                    showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Perhatian', response.message);
+                                 }else {
+                                    showBootDialog(true, BootstrapDialog.TYPE_SUCCESS, 'Berhasil', response.message);
+                                    grid.trigger("reloadGrid");
+                                 }
+                             }
+                         );
+                     }
+                 }
+             });
+        });
+        
+        
+        $('#set_approve_pelamar').on('click', function() {
+            
+            var grid = $("#grid-table-detail");
+            var cellIDs = grid.jqGrid("getGridParam", "selarrrow");
+             
+            if( cellIDs.length > 0) {
+                
+                BootstrapDialog.confirm({
+                    title:'Approve Confirmation',
+                    type : BootstrapDialog.TYPE_INFO,
+                    message: 'Apakah Anda yakin untuk menyetujui '+ cellIDs.length +' pelamar yang bersangkutan?',
+                    btnCancelLabel: 'Tidak, Batalkan',
+                    btnOKLabel: 'Ya, Yakin',
+                    callback: function(result) {
+                        if(result) {
+                            $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/approve_applicants"; ?>',
+                                {items: cellIDs.toString() },
+                                function( response ) {
+                                    if(response.success == false) {
+                                        showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Perhatian', response.message);
+                                    }else {
+                                        showBootDialog(true, BootstrapDialog.TYPE_SUCCESS, 'Berhasil', response.message);
+                                        grid.trigger("reloadGrid");
+                                    }
+                                }
+                            );
+                        }
+                    }
+                });
+                
+            }else {
+                showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Silahkan checklist pelamar-pelamar yang ingin diapprove');
+            }
+             
+        });
+    });
 
     jQuery(function($) {
         var grid_selector = "#grid-table";
@@ -439,72 +541,6 @@
             }
         );
 
-        
-        $('#send_email_pelamar').on('click', function() {
-             var grid = $("#grid-table-detail");
-             var data = grid.jqGrid('getGridParam', 'postData');
-             var job_posting_id = data.job_posting_id;
-             
-             BootstrapDialog.confirm({
-			     title:'Email Interview',
-			     type : BootstrapDialog.TYPE_WARNING,
-			     message: 'Apakah Anda yakin untuk mengirim email interview ke pelamar-pelamar yang telah diapprove?',
-			     btnCancelLabel: 'Tidak, Batalkan',
-                 btnOKLabel: 'Ya, Yakin',
-			     callback: function(result) {
-    		         if(result) {
-    		             $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/send_email_interview"; ?>',
-                             {job_posting_id: job_posting_id },
-                             function( response ) {
-                                 if(response.success == false) {
-                                     showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Perhatian', response.message);
-                                 }else {
-                         	        showBootDialog(true, BootstrapDialog.TYPE_SUCCESS, 'Berhasil', response.message);
-                                     grid.trigger("reloadGrid");
-                                 }
-                             }
-                         );
-    		         }
-			     }
-			 });
-        });
-        
-        
-        $('#set_approve_pelamar').on('click', function() {
-            
-            var grid = $("#grid-table-detail");
-            var cellIDs = grid.jqGrid("getGridParam", "selarrrow");
-             
-            if( cellIDs.length > 0) {
-                
-                BootstrapDialog.confirm({
-				    title:'Approve Confirmation',
-				    type : BootstrapDialog.TYPE_INFO,
-				    message: 'Apakah Anda yakin untuk menyetujui '+ cellIDs.length +' pelamar yang bersangkutan?',
-				    btnCancelLabel: 'Tidak, Batalkan',
-                    btnOKLabel: 'Ya, Yakin',
-				    callback: function(result) {
-    			        if(result) {
-    			            $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/approve_applicants"; ?>',
-                                {items: cellIDs.toString() },
-                                function( response ) {
-                                    if(response.success == false) {
-                                        showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Perhatian', response.message);
-                                    }else {
-                            	        showBootDialog(true, BootstrapDialog.TYPE_SUCCESS, 'Berhasil', response.message);
-                                        grid.trigger("reloadGrid");
-                                    }
-                                }
-                            );
-    			        }
-				    }
-				});
-                
-            }else {
-                showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Silahkan checklist pelamar-pelamar yang ingin diapprove');
-            }
-             
-        });
         
         /* --------- jqgrid detail --------- */
         jQuery("#grid-table-detail").jqGrid({

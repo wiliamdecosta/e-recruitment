@@ -23,11 +23,11 @@ class Email_sender extends  CI_Model {
         $this->config_email['smtp_user']  = 'wiliamdecosta@gmail.com';
         $this->config_email['smtp_pass']  = 'xxx';
 		$this->config_email['mailtype']   = 'html';
-		$this->config_email['charset']    = 'iso-8859-1';
-        $this->config_email['validation'] = true;
-        
+		$this->config_email['charset']    = 'utf-8';
+                
         $this->load->library('email', $this->config_email);
-        $this->mail_ = $this->email;        
+        $this->mail_ = $this->email;
+
 	}
 	
 	public function email() {
@@ -39,4 +39,19 @@ class Email_sender extends  CI_Model {
             return $this->config_email;
 	    return $this->config_email[$conf];
 	}
+
+    public function getHTMLTagOpener() {
+
+        return '<html>
+                    <head>
+                        <title> Email Interview </title>
+                        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                    </head>
+                    <body>';
+    }
+
+    public function getHTMLTagCloser() {
+        return '    </body>
+                </html>';
+    }
 }
