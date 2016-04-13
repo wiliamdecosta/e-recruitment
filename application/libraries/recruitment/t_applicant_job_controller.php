@@ -379,7 +379,7 @@ class T_applicant_job_controller {
     		        $email_sender->email()->from($email_sender->get_config('smtp_user'),'PDAM Tirtawening');
                     $email_sender->email()->to( trim(strtolower($items[$i]['applicant_email'])) );
                     $email_sender->email()->subject($email_content['email_tpl_subject']);
-                    $email_sender->email()->message( htmlentities( html_entity_decode($email_sender->getHTMLTagOpener()." ".$email_content['email_tpl_content']." ".$email_sender->getHTMLTagCloser())) );
+                    $email_sender->email()->message( html_entity_decode($email_content['email_tpl_content']) );
 
                     if(! $email_sender->email()->send() ) {
                         throw new Exception($email_sender->email()->print_debugger());    
