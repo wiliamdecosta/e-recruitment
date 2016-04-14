@@ -365,7 +365,7 @@
 
                     jQuery("#form_email_template_id").val("");
                     jQuery("#form_email_template_subject").val("");   
-                    
+
                     jQuery("#detail_placeholder").show();
                     responsive_jqgrid('#grid-table-detail', '#grid-pager-detail');
                 }
@@ -610,7 +610,7 @@
                     }
                 },
                 {label: 'Jurusan', name: 'major_code', width: 150, align: "left", editable: false},
-                {label: 'Asal Kota', name: 'applicant_city', width: 150, align: "left", editable: false},
+                {label: 'Asal Kota', name: 'applicant_city', width: 170, align: "left", editable: false},
                 {label: 'Status', name: 'applicant_status_id', width: 120, align: "left", editable: true, hidden:true,
                     editrules: {edithidden: true, required:false},
                     edittype: 'select',
