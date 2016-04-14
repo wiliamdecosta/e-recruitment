@@ -362,6 +362,10 @@
                     jQuery("#send_email_pelamar_text").html('Email Interview Ke Pelamar Approve ('+ celCode + ' - ' + no_lowongan +')');
                     jQuery("#grid-table-detail").trigger("reloadGrid");
                     jQuery("#info-apply-job").html("Informasi Apply Job ( "+ no_lowongan +" ) : ");
+
+                    jQuery("#form_email_template_id").val("");
+                    jQuery("#form_email_template_subject").val("");   
+                    
                     jQuery("#detail_placeholder").show();
                     responsive_jqgrid('#grid-table-detail', '#grid-pager-detail');
                 }

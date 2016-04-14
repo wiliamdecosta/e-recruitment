@@ -58,8 +58,7 @@
         modal_lov_email_template_set_field_value(the_id_field, the_code_field); 
         $("#modal_lov_email_template_job_posting_id").val( p_job_posting_id );
         $("#modal_lov_email_template").modal({backdrop: 'static'});
-
-        modal_lov_email_template_prepare_table();
+        modal_lov_email_template_prepare_table(p_job_posting_id);
     }
         
     function modal_lov_email_template_set_field_value(the_id_field, the_code_field) {
@@ -78,14 +77,16 @@
          $("#modal_lov_email_template").modal("toggle");
     }
     
-    function modal_lov_email_template_prepare_table() {
+    function modal_lov_email_template_prepare_table(p_job_posting_id) {
 
         var grid_selector = "#grid-table-lov_email_template";
         var pager_selector = "#grid-pager-lov_email_template";
+        
+        $(grid_selector).jqGrid('GridUnload');
 
         jQuery("#grid-table-lov_email_template").jqGrid({
             url: '<?php echo WS_JQGRID."recruitment.p_email_template_controller/read"; ?>',
-            postData : {job_posting_id : $("#modal_lov_email_template_job_posting_id").val()},
+            postData : {job_posting_id : p_job_posting_id},
             datatype: "json",
             mtype: "POST",
             colModel: [
