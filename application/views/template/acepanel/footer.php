@@ -158,31 +158,14 @@
 			});
 
 			function loadContent(id) {
-			    clearContentArea();
-                /*$("#main-content").html('<div align="center"><h3 class="smaller lighter grey"> <i class="ace-icon fa fa-spinner fa-spin orange bigger-300"></i> <br/> Loading . . . </h3></div>');
-			    setTimeout( function(){
-            	    $.post( "<?php echo BASE_URL.'panel/load_content/'; ?>" + id, function( data ) {
-                        $( "#main-content" ).html( data );
-                    });
-       		    }, 500 );*/
-			    
+			    clearContentArea();	    
 			    $.post( "<?php echo BASE_URL.'panel/load_content/'; ?>" + id, function( data ) {
                     $( "#main-content" ).html( data );
                 });
 			}
 			
 			function loadContentWithParams(id, params) {
-			    clearContentArea();
-                /*$("#main-content").html('<div align="center"><h3 class="smaller lighter grey"> <i class="ace-icon fa fa-spinner fa-spin orange bigger-300"></i> <br/> Loading . . . </h3></div>');
-			    setTimeout( function(){
-			        $.post( "<?php echo BASE_URL.'panel/load_content/'; ?>" + id,
-                        params,
-                        function( data ) {
-                            $( "#main-content" ).html( data );
-                        }
-                    );
-       		    }, 500 );*/
-       		    
+			    clearContentArea();       		    
        		    $.post( "<?php echo BASE_URL.'panel/load_content/'; ?>" + id,
                     params,
                     function( data ) {
@@ -194,6 +177,7 @@
 			
 			function clearContentArea() {
 			    $(".aside").remove();
+                $(".mce-widget").remove();
 			}
 			
 			/* called by ace.settings-skin.js */
