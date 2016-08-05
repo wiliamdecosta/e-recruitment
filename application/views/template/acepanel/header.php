@@ -16,10 +16,10 @@
 		<!-- page specific plugin styles -->
 		<!-- jQgrid -->
 		<link rel="stylesheet" href="<?php echo BS_CSS_PATH; ?>ui.jqgrid.css" />
-		
+
 		<!-- Date picker -->
         <link rel="stylesheet" href="<?php echo BS_CSS_PATH; ?>datepicker.css" />
-    
+
 		<!-- text fonts -->
 		<link rel="stylesheet" href="<?php echo BS_CSS_PATH; ?>ace-fonts.css" />
 
@@ -70,7 +70,7 @@
         <script src="<?php echo BS_JS_PATH; ?>date-time/bootstrap-datepicker.js"></script>
 		<script src="<?php echo BS_JS_PATH; ?>jqGrid/jquery.jqGrid.src.js"></script>
 		<script src="<?php echo BS_JS_PATH; ?>jqGrid/i18n/grid.locale-en.js"></script>
-		
+
 		<!--[if lte IE 8]>
 		  <script src="<?php echo BS_JS_PATH; ?>excanvas.js"></script>
 		<![endif]-->
@@ -81,6 +81,8 @@
 		<link rel="stylesheet" href="<?php echo BS_PATH; ?>bootdialog/bootstrap-dialog.min.css" />
 		<script src="<?php echo BS_PATH; ?>bootdialog/bootstrap-dialog.min.js"></script>
 
+		<link rel="stylesheet" href="<?php echo BS_PATH; ?>bootgrid/jquery.bootgrid.css"/>
+
 		<script>
 		    function showBootDialog(bootclosable, boottype, boottitle, bootmessage ) {
 		        BootstrapDialog.show({
@@ -90,15 +92,15 @@
     		    	message: bootmessage
 			    });
 		    }
-            
+
             jQuery.fn.center = function () {
-                
+
                 if(this.width() > $(window).width()) {
-                    this.css("width", $(window).width()-40);        
+                    this.css("width", $(window).width()-40);
                 }
                 this.css("top",($(window).height() - this.height() ) / 2+$(window).scrollTop() + "px");
                 this.css("left",( $(window).width() - this.width() ) / 2+$(window).scrollLeft() + "px");
-                
+
                 return this;
             }
 

@@ -5,24 +5,25 @@
 * @version 07/05/2015 12:18:00
 */
 class T_applicant_job_controller {
-    
+
     function read() {
-		
+
 		$page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',10);
         $sidx = getVarClean('sidx','str','is_approve DESC, applicant_job_id');
         $sord = getVarClean('sord','str','DESC');
-            	       
+
     	$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
-        
+
         $job_posting_id = getVarClean('job_posting_id','int',0);
-        
+        $is_approve = getVarClean('is_approve','str','');
+
     	try {
-            
+
             $ci = & get_instance();
 		    $ci->load->model('recruitment/t_applicant_job');
 		    $table = $ci->t_applicant_job;
-		    
+
 		    $req_param = array(
                 "sort_by" => $sidx,
                 "sord" => $sord,
@@ -40,66 +41,73 @@ class T_applicant_job_controller {
             // Filter Table
             $req_param['where'] = array("applicant_job.job_posting_id = ".$job_posting_id,
                                         "upper(applicant_status.code) = 'ACTIVE'");
-            
+
+            if(!empty($is_approve)) {
+                $req_param['where'][]  = "applicant_job.is_approve = '".$is_approve."'";
+                if($is_approve == 'Y') {
+                    $req_param['where'][] = "applicant_job.send_email_date is not null";
+                }
+            }
+
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
-            
+
             if ($count > 0) $total_pages = ceil($count / $limit);
             else $total_pages = 0;
-            
+
             if ($page > $total_pages) $page = $total_pages;
             $start = $limit * $page - ($limit); // do not put $limit*($page - 1)
-    
+
             $req_param['limit'] = array(
                 'start' => $start,
                 'end' => $limit
             );
             $table->setJQGridParam($req_param);
-            
+
             if ($page == 0) $data['page'] = 1;
             else $data['page'] = $page;
-            
+
             $data['total'] = $total_pages;
             $data['records'] = $count;
-    
+
             $data['rows'] = $table->getAll();
             $data['success'] = true;
-            
+
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }
 
     	return $data;
     }
-        
+
     function crud() {
-        
+
         $data = array();
-        $oper = getVarClean('oper', 'str', '');                
+        $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
                 $data = $this->create();
             break;
-            
+
             case 'edit' :
-                $data = $this->update();    
+                $data = $this->update();
             break;
-            
+
             case 'del' :
-                $data = $this->destroy();   
+                $data = $this->destroy();
             break;
         }
-        
+
         return $data;
     }
-    
-    
+
+
     function create() {
 
     	$ci = & get_instance();
 		$ci->load->model('recruitment/t_applicant_job');
 		$table = $ci->t_applicant_job;
-				
+
 		$data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false);
 
 		$jsonItems = getVarClean('items', 'str', '');
@@ -117,16 +125,16 @@ class T_applicant_job_controller {
 			$numItems = count($items);
 			for($i=0; $i < $numItems; $i++){
         		try{
-        		    
+
         		    $table->db->trans_begin(); //Begin Trans
 
                     	$table->setRecord($items[$i]);
                     	$table->create();
-            		            		
+
             		$table->db->trans_commit(); //Commit Trans
-            		
+
         		}catch(Exception $e){
-        		    
+
         		    $table->db->trans_rollback(); //Rollback Trans
         			$errors[] = $e->getMessage();
         		}
@@ -144,18 +152,18 @@ class T_applicant_job_controller {
 
 			try{
 			    $table->db->trans_begin(); //Begin Trans
-			    	
+
         	        $table->setRecord($items);
             	    $table->create();
-                
+
                 $table->db->trans_commit(); //Commit Trans
-                
+
     	        $data['success'] = true;
     	        $data['message'] = 'Data added successfully';
-        
+
 	        }catch (Exception $e) {
 	            $table->db->trans_rollback(); //Rollback Trans
-	            
+
 	            $data['message'] = $e->getMessage();
                 $data['rows'] = $items;
 	        }
@@ -189,16 +197,16 @@ class T_applicant_job_controller {
 			for($i=0; $i < $numItems; $i++){
         		try{
         		    $table->db->trans_begin(); //Begin Trans
-        		    
+
                 		$table->setRecord($items[$i]);
                 		$table->update();
-                		
+
                     $table->db->trans_commit(); //Commit Trans
-                    
+
             		$items[$i] = $table->get($items[$i][$table->pkey]);
         		}catch(Exception $e){
         		    $table->db->trans_rollback(); //Rollback Trans
-        		    
+
         			$errors[] = $e->getMessage();
         		}
         	}
@@ -215,19 +223,19 @@ class T_applicant_job_controller {
 
 			try{
 			    $table->db->trans_begin(); //Begin Trans
-			    
+
     	        	$table->setRecord($items);
         	        $table->update();
-                
+
                 $table->db->trans_commit(); //Commit Trans
-                
+
     	        $data['success'] = true;
     	        $data['message'] = 'Data update successfully';
 
 	            $data['rows'] = $table->get($items[$table->pkey]);
 	        }catch (Exception $e) {
 	            $table->db->trans_rollback(); //Rollback Trans
-	            
+
 	            $data['message'] = $e->getMessage();
                 $data['rows'] = $items;
 	        }
@@ -249,7 +257,7 @@ class T_applicant_job_controller {
 
 		try{
 		    $table->db->trans_begin(); //Begin Trans
-		    
+
 			$total = 0;
             if (is_array($items)){
                 foreach ($items as $key => $value){
@@ -272,9 +280,9 @@ class T_applicant_job_controller {
 
             $data['success'] = true;
             $data['message'] = $total.' Data deleted successfully';
-            
+
             $table->db->trans_commit(); //Commit Trans
-            
+
         }catch (Exception $e) {
             $table->db->trans_rollback(); //Rollback Trans
             $data['message'] = $e->getMessage();
@@ -285,9 +293,9 @@ class T_applicant_job_controller {
         return $data;
 
     }
-    
-    
-    
+
+
+
     function disapprove_applicants() {
     	$ci = & get_instance();
 		$ci->load->model('recruitment/t_applicant_job');
@@ -298,13 +306,13 @@ class T_applicant_job_controller {
         $total_disapprove = count(explode(",", $items));
 		try{
 		    $table->db->trans_begin(); //Begin Trans
-		    
-    		    $table->disapprove_applicants($items);	
+
+    		    $table->disapprove_applicants($items);
                 $data['success'] = true;
                 $data['message'] = $total_disapprove.' Pelamar telah dinyatakan tidak disetujui';
-            
+
             $table->db->trans_commit(); //Commit Trans
-            
+
         }catch (Exception $e) {
             $table->db->trans_rollback(); //Rollback Trans
             $data['message'] = $e->getMessage();
@@ -313,7 +321,7 @@ class T_applicant_job_controller {
         return $data;
 
     }
-    
+
     function approve_applicants() {
     	$ci = & get_instance();
 		$ci->load->model('recruitment/t_applicant_job');
@@ -324,13 +332,13 @@ class T_applicant_job_controller {
         $total_disapprove = count(explode(",", $items));
 		try{
 		    $table->db->trans_begin(); //Begin Trans
-		    
-    		    $table->approve_applicants($items);	
+
+    		    $table->approve_applicants($items);
                 $data['success'] = true;
                 $data['message'] = $total_disapprove.' Pelamar telah diapprove';
-            
+
             $table->db->trans_commit(); //Commit Trans
-            
+
         }catch (Exception $e) {
             $table->db->trans_rollback(); //Rollback Trans
             $data['message'] = $e->getMessage();
@@ -339,7 +347,33 @@ class T_applicant_job_controller {
         return $data;
 
     }
-    
+
+    function passing_applicants() {
+        $ci = & get_instance();
+        $ci->load->model('recruitment/t_applicant_job');
+        $table = $ci->t_applicant_job;
+
+        $data = array('success' => false, 'message' => '');
+        $items = getVarClean('items', 'str', '');
+        $total_lulus = count(explode(",", $items));
+        try{
+            $table->db->trans_begin(); //Begin Trans
+
+                $table->passing_applicants($items);
+                $data['success'] = true;
+                $data['message'] = $total_lulus.' Pelamar dinyatakan lulus';
+
+            $table->db->trans_commit(); //Commit Trans
+
+        }catch (Exception $e) {
+            $table->db->trans_rollback(); //Rollback Trans
+            $data['message'] = $e->getMessage();
+        }
+
+        return $data;
+
+    }
+
     function send_email_interview() {
     	$ci = & get_instance();
 		$ci->load->model('recruitment/t_applicant_job');
@@ -351,26 +385,26 @@ class T_applicant_job_controller {
 
 		try{
 		    $table->db->trans_begin(); //Begin Trans
-		        
+
     		    /*execute send email query here */
     		    $table->setCriteria("applicant_job.job_posting_id = ".$job_posting_id);
     		    $table->setCriteria("upper(applicant_job.is_approve) = 'Y'");
     		    $table->setCriteria("upper(applicant_job.is_send_email) = 'N'");
     		    $table->setCriteria("upper(applicant_status.code) = 'ACTIVE'");
-    		    
+
     		    $items = $table->getAll(0,-1);
     		    $num_records = count($items);
-    		    
+
     		    if( $num_records > 0 ) {
     		        $ci->load->model('email_sender');
                     $email_sender = $ci->email_sender;
-                    
+
                     $ci->load->model('recruitment/p_email_template');
                     $email_template = $ci->p_email_template;
 
                     $email_content = $email_template->get($email_tpl_id);
                 }
-    		    
+
     		    for($i = 0; $i < $num_records; $i++) {
 
     		        /* Step 1: send email per applicant */
@@ -382,17 +416,17 @@ class T_applicant_job_controller {
                     $email_sender->email()->message( html_entity_decode($email_content['email_tpl_content']) );
 
                     if(! $email_sender->email()->send() ) {
-                        throw new Exception($email_sender->email()->print_debugger());    
+                        throw new Exception($email_sender->email()->print_debugger());
                     }
     		        /* Step 2: update send email status and send date */
     		        $table->setEmailStatus($items[$i]['applicant_job_id']);
     		    }
-    		    
+
                 $data['success'] = true;
                 $data['message'] = $num_records.' email interview telah dikirim kepada '.$num_records.' Pelamar yang diapprove';
-            
+
             $table->db->trans_commit(); //Commit Trans
-            
+
         }catch (Exception $e) {
             $table->db->trans_rollback(); //Rollback Trans
             $data['message'] = $e->getMessage();
@@ -401,8 +435,8 @@ class T_applicant_job_controller {
         return $data;
 
     }
-    
-    
+
+
     function statistic_information() {
     	$ci = & get_instance();
 		$ci->load->model('recruitment/t_applicant_job');
@@ -410,19 +444,20 @@ class T_applicant_job_controller {
 
 		$data = array('success' => false, 'message' => '');
 		$job_posting_id = getVarClean('job_posting_id', 'int', 0);
-		
+
 		try{
 		    $table->db->trans_begin(); //Begin Trans
-    		    
+
     		    $data['total_pelamar'] = $table->statisticInformation('total_pelamar', $job_posting_id);
     		    $data['total_pelamar_approve'] = $table->statisticInformation('total_pelamar_approve', $job_posting_id);
-    		    $data['email_terkirim'] = $table->statisticInformation('email_terkirim', $job_posting_id);
-    		    
+    		    $data['total_pelamar_lulus'] = $table->statisticInformation('total_pelamar_lulus', $job_posting_id);
+                $data['email_terkirim'] = $table->statisticInformation('email_terkirim', $job_posting_id);
+
                 $data['success'] = true;
                 $data['message'] = '';
-            
+
             $table->db->trans_commit(); //Commit Trans
-            
+
         }catch (Exception $e) {
             $table->db->trans_rollback(); //Rollback Trans
             $data['message'] = $e->getMessage();

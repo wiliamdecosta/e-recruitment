@@ -45,10 +45,13 @@
 		<script src="<?php echo BS_JS_PATH; ?>ace/ace.settings-skin.js"></script>
 		<script src="<?php echo BS_JS_PATH; ?>ace/ace.widget-on-reload.js"></script>
 		<script src="<?php echo BS_JS_PATH; ?>ace/ace.searchbox-autocomplete.js"></script>
-        
+
         <!-- start blocked page when there is a post/get request -->
         <script src="<?php echo BS_JS_PATH; ?>jquery.blockUI.js"></script>
         <script src="<?php echo BS_JS_PATH; ?>jquery.ui.touch-punch.js"></script>
+
+        <script src="<?php echo BS_PATH; ?>bootgrid/jquery.bootgrid.min.js"></script>
+
         <script type="text/javascript">
             $(document).ready(function () {
                 // Ajax setup csrf token.
@@ -59,7 +62,7 @@
                     cache: false
                 });
            });
-            
+
             $(document).ajaxStart(function () {
                 //Global Jquery UI Block
                 $(document).ajaxStart($.blockUI({
@@ -69,61 +72,61 @@
                         padding: '5px',
                         backgroundColor: 'transparent',
                         '-webkit-border-radius': '10px',
-                        '-moz-border-radius': '10px', 
+                        '-moz-border-radius': '10px',
                         color: '#ff892a'
                     }
-        
+
                 })).ajaxStop($.unblockUI);
             });
-            
-            
+
+
             $(window).on('resize.jqGrid', function () {
-                
+
                 /*form modal*/
                 if($("#editmodgrid-table").width() > $(window).width()) {
-                    $("#editmodgrid-table").css("width", $(window).width()-20);        
+                    $("#editmodgrid-table").css("width", $(window).width()-20);
                 }else {
-                    $("#editmodgrid-table").css("width", getMaxChildWidth($("#editmodgrid-table")) + 120);  
+                    $("#editmodgrid-table").css("width", getMaxChildWidth($("#editmodgrid-table")) + 120);
                 }
-                
+
                 $("#editmodgrid-table").css("top",($(window).height() - $("#editmodgrid-table").height() ) / 2+$(window).scrollTop() + "px");
                 $("#editmodgrid-table").css("left",( $(window).width() - $("#editmodgrid-table").width() ) / 2+$(window).scrollLeft() + "px");
-                
+
                 /*search modal */
-                
+
                 if($("#searchmodfbox_grid-table").width() > $(window).width()) {
-                    $("#searchmodfbox_grid-table").css("width", $(window).width()-20);        
+                    $("#searchmodfbox_grid-table").css("width", $(window).width()-20);
                 }else {
-                    $("#searchmodfbox_grid-table").css("width", 500);  
+                    $("#searchmodfbox_grid-table").css("width", 500);
                 }
-            
+
             });
-            
-            
+
+
             function getMaxChildWidth(sel) {
                 max = 0;
                 $(sel).find('input[type=text],input[type=password],textarea,select,iframe').each(function() {
                     c_width = parseInt($(this).width());
                     if (c_width > max) {
                         max = c_width;
-                    }    
+                    }
                 })
                 return max;
             }
 
         </script>
         <!-- end blocked page -->
-        
+
 		<script type="text/javascript">
-            
+
 			jQuery(function($) {
-			    
+
 			    setInitialTheme();
 			    setTimeout( function(){
 			        $("body").show();
 			        loadContent('dashboard.php');
 			    }, 500);
-			    
+
 			    $("#btn-logout").on(ace.click_event, function() {
 					BootstrapDialog.confirm({
 					    title:'Logout Confirmation',
@@ -149,49 +152,49 @@
 				    var menu_id = $(this).attr('data-source');
 				    loadContent(menu_id);
 				});
-				
+
 				$("#main-container").on(ace.click_event,function(){
 				    $("#sidebar").removeClass("display");
 				});
-				
-				
+
+
 			});
 
 			function loadContent(id) {
-			    clearContentArea();	    
+			    clearContentArea();
 			    $.post( "<?php echo BASE_URL.'panel/load_content/'; ?>" + id, function( data ) {
                     $( "#main-content" ).html( data );
                 });
 			}
-			
+
 			function loadContentWithParams(id, params) {
-			    clearContentArea();       		    
+			    clearContentArea();
        		    $.post( "<?php echo BASE_URL.'panel/load_content/'; ?>" + id,
                     params,
                     function( data ) {
                         $( "#main-content" ).html( data );
                     }
                 );
-       		    
+
 			}
-			
+
 			function clearContentArea() {
 			    $(".aside").remove();
                 $(".mce-widget").remove();
 			}
-			
+
 			/* called by ace.settings-skin.js */
 			function updateVarTheme(skin_class) {
-			    $.post( "<?php echo WS_URL.'base.variables_controller/set_theme'; ?>", 
-        		    { var_name: 'panel-theme', var_value: skin_class },                
+			    $.post( "<?php echo WS_URL.'base.variables_controller/set_theme'; ?>",
+        		    { var_name: 'panel-theme', var_value: skin_class },
         		    function( response ) {
         		        if(response.success == false) showBootDialog(false, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
         		    }
     		    );
 		    }
-		    
+
 		    function setInitialTheme() {
-		        $.post( "<?php echo WS_URL.'base.variables_controller/get_theme'; ?>", 
+		        $.post( "<?php echo WS_URL.'base.variables_controller/get_theme'; ?>",
 		            { var_name: 'panel-theme' },
         		    function( response ) {
         		        if(response.success == false) {
@@ -205,7 +208,7 @@
         		    }
     		    );
 		    }
-		    
+
         </script>
 
 

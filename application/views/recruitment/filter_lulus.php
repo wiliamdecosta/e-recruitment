@@ -1,16 +1,10 @@
 <script src="<?php echo BS_PATH; ?>tinymce/tinymce.min.js"></script>
 <script src="<?php echo BS_PATH; ?>tinymce/jquery.tinymce.min.js"></script>
 <style>
-    .approve-bg {
-        background: #A6E4FD !important;
-        font-size:inherit;
-    }
-
-    .email-sent-bg {
+    .lulus-bg {
         background: #BFFA37 !important;
         font-size:inherit;
     }
-
 </style>
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
@@ -22,7 +16,7 @@
             <li>
 	    		<a href="#">Lowongan</a>
 	    	</li>
-            <li class="active">Filter Pelamar</li>
+            <li class="active">Filter Pelamar Lulus</li>
 	    </ul><!-- /.breadcrumb --
 	    <!-- /section:basics/content.searchbox -->
     </div>
@@ -47,9 +41,10 @@
                     <div class="space-2"></div>
                     <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong class="grey">Keterangan Warna Record:</strong>
                     <div class="space-2"></div>
-                    <label class="approve-bg" style="padding:5px;"> &nbsp; </label> Pelamar Diapprove <br>
-                    <label class="email-sent-bg" style="padding:5px;"> &nbsp; </label> Email interview telah dikirim ke Pelamar
+                    <label class="lulus-bg" style="padding:5px;"> &nbsp; </label> Pelamar Dinyatakan Lulus <br>
+                    <i>Data pelamar dibawah ini adalah pelamar-pelamar yang telah diapprove dan diinterview</i>
                 </div>
+
                 <div class="col-xs-7" style="margin-bottom:50px;">
                     <div class="space-2"></div>
                     <div>
@@ -81,8 +76,8 @@
                                         <i class="ace-icon fa fa-envelope"></i>
                                     </div>
                                     <div class="infobox-data">
-                                        <span class="infobox-data-number" id="info-box-email-terkirim">...</span>
-                                        <div class="infobox-content">Email Terkirim</div>
+                                        <span class="infobox-data-number" id="info-box-pelamar-lulus">...</span>
+                                        <div class="infobox-content">Pelamar Lulus</div>
                                     </div>
                                 </div>
                             </div>
@@ -90,27 +85,16 @@
                 </div>
 
                 <div class="col-xs-5">
-                    <button class="btn btn-sm btn-primary" id="set_approve_pelamar">
+                    <button class="btn btn-sm btn-success" id="set_pelamar_lulus">
                         <i class="ace-icon glyphicon glyphicon-check"></i>
-                        Approve Pelamar
+                        Set Pelamar Lulus
                     </button>
                 </div>
 
-                <div class="col-xs-3">
-                    <div class="input-group">
-                        <input id="form_email_template_id" type="text" placeholder="Icon ID" style="display:none;">
-                         <input id="form_email_template_subject" readonly class="form-control" type="text" placeholder="Pilih Template Email">
-                         <span class="input-group-btn">
-                            <button class="btn btn-sm btn-success" type="button" id="btn_lov_email_template">
-                                <span class="ace-icon fa fa-search icon-on-right bigger-130"></span>
-                            </button>
-                         </span>
-                     </div>
-                </div>
-                <div class="col-xs-4">
-                     <button class="btn btn-sm btn-success" id="send_email_pelamar">
-                         <i class="ace-icon fa fa-envelope bigger-120"></i>
-                         <span id="send_email_pelamar_text">Email Interview</span>
+                <div class="col-xs-4 col-xs-offset-3">
+                     <button class="btn btn-sm btn-primary" id="download_daftar_lulus">
+                         <i class="ace-icon fa fa-pdf bigger-120"></i>
+                         <span id="download_daftar_lulus_text">Download Pelamar Lulus</span>
                      </button>
                 </div>
 
@@ -134,56 +118,20 @@
 
     jQuery(function($) {
 
-        $("#btn_lov_email_template").on("click", function() {
 
-            var grid = $("#grid-table-detail");
-            var data = grid.jqGrid('getGridParam', 'postData');
-            var job_posting_id = data.job_posting_id;
-
-            modal_lov_email_template_show('form_email_template_id','form_email_template_subject', job_posting_id);
-        });
-
-        $('#send_email_pelamar').on('click', function() {
-
-             if( $("#form_email_template_id").val() == "" ) {
-                showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Silahkan pilih template email interview');
-                return;
-             }
+        $('#download_daftar_lulus').on('click', function() {
 
              var grid = $("#grid-table-detail");
              var data = grid.jqGrid('getGridParam', 'postData');
              var job_posting_id = data.job_posting_id;
-             var email_tpl_id = $("#form_email_template_id").val();
 
-             BootstrapDialog.confirm({
-                 title:'Email Interview',
-                 type : BootstrapDialog.TYPE_WARNING,
-                 message: 'Apakah Anda yakin untuk mengirim email interview ke pelamar-pelamar yang telah diapprove?',
-                 btnCancelLabel: 'Tidak, Batalkan',
-                 btnOKLabel: 'Ya, Yakin',
-                 callback: function(result) {
-                     if(result) {
-                         $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/send_email_interview"; ?>',
-                             {
-                               job_posting_id: job_posting_id ,
-                               email_tpl_id : email_tpl_id
-                             },
-                             function( response ) {
-                                 if(response.success == false) {
-                                    showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Perhatian', response.message);
-                                 }else {
-                                    showBootDialog(true, BootstrapDialog.TYPE_SUCCESS, 'Berhasil', response.message);
-                                    grid.trigger("reloadGrid");
-                                 }
-                             }
-                         );
-                     }
-                 }
-             });
+             var url = "<?php echo base_url().'pdf_pelamar_lulus/show?id=';?>" + job_posting_id;
+             window.open(url, "PDF Peserta Lulus", "height=500,width=500,resizeable=yes,menubar=no,toolbar=no,titlebar=yes");
+
         });
 
 
-        $('#set_approve_pelamar').on('click', function() {
+        $('#set_pelamar_lulus').on('click', function() {
 
             var grid = $("#grid-table-detail");
             var cellIDs = grid.jqGrid("getGridParam", "selarrrow");
@@ -191,14 +139,14 @@
             if( cellIDs.length > 0) {
 
                 BootstrapDialog.confirm({
-                    title:'Approve Confirmation',
+                    title:'Passing Confirmation',
                     type : BootstrapDialog.TYPE_INFO,
-                    message: 'Apakah Anda yakin untuk menyetujui '+ cellIDs.length +' pelamar yang bersangkutan?',
+                    message: 'Apakah Anda yakin untuk menyatakan '+ cellIDs.length +' pelamar yang bersangkutan lulus?',
                     btnCancelLabel: 'Tidak, Batalkan',
                     btnOKLabel: 'Ya, Yakin',
                     callback: function(result) {
                         if(result) {
-                            $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/approve_applicants"; ?>',
+                            $.post( '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/passing_applicants"; ?>',
                                 {items: cellIDs.toString() },
                                 function( response ) {
                                     if(response.success == false) {
@@ -214,7 +162,7 @@
                 });
 
             }else {
-                showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Silahkan checklist pelamar-pelamar yang ingin diapprove');
+                showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Silahkan checklist pelamar-pelamar statusnya yang akan diluluskan');
             }
 
         });
@@ -355,16 +303,15 @@
                 if (rowid != null) {
                     grid_detail.jqGrid('setGridParam', {
                         url: '<?php echo WS_JQGRID."recruitment.t_applicant_job_controller/read"; ?>',
-                        postData: {job_posting_id: rowid}
+                        postData: {
+                            job_posting_id: rowid,
+                            is_approve: 'Y'
+                        }
                     });
                     var strCaption = 'Daftar Pelamar :: ' + celCode + ' - ' + no_lowongan;
                     grid_detail.jqGrid('setCaption', strCaption);
-                    jQuery("#send_email_pelamar_text").html('Email Interview Ke Pelamar Approve ('+ celCode + ' - ' + no_lowongan +')');
+                    jQuery("#download_daftar_lulus_text").html('Download Pelamar Lulus ('+ celCode + ' - ' + no_lowongan +')');
                     jQuery("#grid-table-detail").trigger("reloadGrid");
-                    jQuery("#info-apply-job").html("Informasi Apply Job ( "+ no_lowongan +" ) : ");
-
-                    jQuery("#form_email_template_id").val("");
-                    jQuery("#form_email_template_subject").val("");
 
                     jQuery("#detail_placeholder").show();
                     responsive_jqgrid('#grid-table-detail', '#grid-pager-detail');
@@ -553,6 +500,11 @@
             colModel: [
                 {label: 'ID Applicant Job', name: 'applicant_job_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
                 {label: 'ID Applicant', name: 'applicant_id', width: 5, sorttype: 'number', editable: true, hidden: true},
+                {label: 'Status Lulus',name: 'passed_status',width: 120, align: "left",editable: true,
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: {value: {'Y': 'Lulus', 'N': 'Tidak Lulus', '':'-'}}
+                },
                 {label: 'No.Registrasi',name: 'applicant_no_reg',width: 120, align: "left",editable: true,
                     editoptions: {
                         size: 20,
@@ -787,10 +739,8 @@
                 // openicon : "ace-icon fa fa-chevron-right center orange"
             },
             rowattr: function (rd) {
-                if (rd.is_send_email == 'Y') {
-                    return {"class": "email-sent-bg"};
-                }else if(rd.is_approve == 'Y') {
-                    return {"class": "approve-bg"};
+                if (rd.passed_status == 'Y') {
+                    return {"class": "lulus-bg"};
                 }
             }
 
@@ -835,12 +785,16 @@
                     form.css({"height": 0.50*screen.height+"px"});
                     form.css({"width": 0.60*screen.width+"px"});
 
-                    form.parent().find('#sData').hide();
+                    //form.parent().find('#sData').hide();
                     form.find('input[type="text"], textarea').prop("style", "border:0px; background:#ffffff !important; ");
                     form.find('select').prop("style", "border:0px;-webkit-appearance: none;-moz-appearance: none;appearance: none;");
 
                     form.find('input[type="text"]').prop("readonly", true);
                     form.find('select').prop("disabled", true);
+
+                    $("#passed_status").prop("disabled", false);
+                    $("#passed_status").prop("style", "border:1px solid #000000;");
+
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
@@ -1225,14 +1179,6 @@
     }
 
     function style_edit_form(form) {
-        //enable datepicker on "sdate" field and switches for "stock" field
-        form.find('input[name=sdate]').datepicker({format: 'yyyy-mm-dd', autoclose: true})
-
-        form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
-        form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
-        //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
-        //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
-
 
         //update buttons classes
         var buttons = form.next().find('.EditButton .fm-button');
@@ -1319,7 +1265,7 @@
                 }else {
                     $("#info-box-pelamar").html( response.total_pelamar);
                     $("#info-box-pelamar-approve").html( response.total_pelamar_approve );
-                    $("#info-box-email-terkirim").html( response.email_terkirim );
+                    $("#info-box-pelamar-lulus").html( response.total_pelamar_lulus );
                 }
             }
         );

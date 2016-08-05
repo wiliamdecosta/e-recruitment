@@ -1,3 +1,6 @@
+<script src="<?php echo BS_PATH; ?>tinymce/tinymce.min.js"></script>
+<script src="<?php echo BS_PATH; ?>tinymce/jquery.tinymce.min.js"></script>
+
 <div id="breadcrumbs" class="breadcrumbs">
     <div id="breadcrumbs" class="breadcrumbs">
 	    <ul class="breadcrumb">
@@ -8,7 +11,7 @@
             <li>
 	    		<a href="#">Parameter</a>
 	    	</li>
-            <li class="active">Jenis Dokumen Lamaran</li>
+            <li class="active">Pengumuman Peserta Lulus</li>
 	    </ul><!-- /.breadcrumb --
 	    <!-- /section:basics/content.searchbox -->
     </div>
@@ -29,7 +32,56 @@
     </div><!-- /.row -->
 </div>
 
+<?php $this->load->view('recruitment_lov/lov_job_posting.php'); ?>
+
 <script>
+
+    function showLovLowongan(id, code) {
+        modal_lov_job_posting_show(id, code);
+    }
+
+    function clearLovLowongan() {
+        $('#form_job_posting_id').val('');
+        $('#form_posting_no').val('');
+    }
+
+    function setLinkPdf(id) {
+        var url = "<?php echo base_url().'pdf_pelamar_lulus/show?id='; ?>" + id;
+        if(id == "") {
+            url = "";
+        }
+        $("#file_upload").val(url);
+    }
+
+    function sendMailInfo(job_posting_id, posting_no, announcement_id ) {
+
+        BootstrapDialog.confirm({
+             title:'Send Email Announcement To Applicants',
+             type : BootstrapDialog.TYPE_WARNING,
+             message: 'Apakah Anda yakin untuk mengirim email pengumuman kepada para pelamar-pelamar yang lulus untuk lowongan : '+ posting_no +' ?',
+             btnCancelLabel: 'Tidak, Batalkan',
+             btnOKLabel: 'Ya, Yakin',
+             callback: function(result) {
+                 if(result) {
+                     $.post( '<?php echo WS_JQGRID."recruitment.p_announcement_controller/send_email_announcement"; ?>',
+                         {
+                           job_posting_id: job_posting_id,
+                           posting_no : posting_no,
+                           announcement_id : announcement_id
+                         },
+                         function( response ) {
+                             if(response.success == false) {
+                                showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Perhatian', response.message);
+                             }else {
+                                showBootDialog(true, BootstrapDialog.TYPE_SUCCESS, 'Berhasil', response.message);
+                             }
+                         }
+                     );
+                 }
+             }
+         });
+
+    }
 
     jQuery(function($) {
         var grid_selector = "#grid-table";
@@ -40,25 +92,155 @@
         });
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."recruitment.p_doc_type_controller/read"; ?>',
+            url: '<?php echo WS_JQGRID."recruitment.p_announcement_controller/read"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
-                {label: 'ID', name: 'p_doc_type_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Jenis Dokumen',name: 'code',width: 150, align: "left",editable: true,
+                {label: 'ID', name: 'announcement_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
+                {label: 'Kirim Email Info', name: 'job_posting_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        var posting_no = rowObject['posting_no'];
+                        var announcement_id = rowObject['announcement_id'];
+                        return '<button type="button" class="btn btn-xs btn-primary" onclick="sendMailInfo('+cellvalue+', \''+posting_no+'\', \''+announcement_id+'\')"> Send Mail </button>';
+                    }
+                },
+                {label: 'Judul Pengumuman',name: 'announcement_title',width: 225, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'Keterangan',name: 'description',width: 200, align: "left",editable: true,
-                    edittype:'textarea',
+                {label: 'Untuk Lowongan', name: 'posting_no', width: 200, align: "left", editable: false},
+                {
+                    label: 'Untuk Lowongan',
+                    name: 'job_posting_id',
+                    width: 150,
+                    sortable: true,
+                    editable: true,
+                    hidden: true,
+                    editrules: {edithidden: true, number:true, required:true},
+                    edittype: 'custom',
                     editoptions: {
-                        rows: 2,
-                        cols:50
+                        "custom_element":function( value  , options) {
+                            var elm = $('<span></span>');
+
+                            // give the editor time to initialize
+                            setTimeout( function() {
+                                elm.append('<input id="form_job_posting_id" type="text"  style="display:none;" onChange="setLinkPdf(this.value);">'+
+                                        '<input id="form_posting_no" disabled type="text" class="col-xs-4 jqgrid-required" placeholder="Pilih Lowongan">'+
+                                        '<button class="btn btn-warning btn-sm" type="button" onclick="showLovLowongan(\'form_job_posting_id\',\'form_posting_no\')">'+
+                                        '   <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>'+
+                                        '</button>');
+                                $("#form_job_posting_id").val(value);
+                                elm.parent().removeClass('jqgrid-required');
+                            }, 100);
+
+                            return elm;
+                        },
+                        "custom_value":function( element, oper, gridval) {
+
+                            if(oper === 'get') {
+                                return $("#form_job_posting_id").val();
+                            } else if( oper === 'set') {
+                                $("#form_job_posting_id").val(gridval);
+                                var gridId = this.id;
+                                // give the editor time to set display
+                                setTimeout(function(){
+                                    var selectedRowId = $("#"+gridId).jqGrid ('getGridParam', 'selrow');
+                                    if(selectedRowId != null) {
+                                        var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'posting_no');
+                                        $("#form_posting_no").val( code_display );
+                                    }
+                                },100);
+                            }
+                        }
                     }
                 },
+                {label: 'Link PDF',name: 'file_upload',width: 225, align: "left",editable: true, hidden:true,
+                    edittype: 'text',
+                    editoptions: {
+                        size: 50,
+                        maxlength:32
+                    },
+                    editrules: {edithidden:true, required: false}
+                },
+                {label: 'Link PDF',name: 'file_upload',width: 225, align: "left",editable: false,
+                    formatter:function(cellvalue, options, rowObject) {
+                        if(cellvalue == "" || cellvalue == null) {
+                            return '';
+                        }else {
+                            return '<a href="'+cellvalue+'" target="_blank">Download PDF</a>';
+                        }
+                    }
+                },
+                {label: 'Publish ?',name: 'publish_status', width: 100, sortable: true, editable: true,
+                    align: 'center',
+                    editrules: {required:true, edithidden: true},
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: {value: {'Y': 'YES', 'N': 'NO'}}
+                },
+                {label: 'Tgl Pengumuman', name: 'announcement_date', width: 160, editable: true,
+                    edittype:"text",
+                    editrules: {required: true},
+                    editoptions: {
+                        // dataInit is the client-side event that fires upon initializing the toolbar search field for a column
+                        // use it to place a third party control to customize the toolbar
+                        dataInit: function (element) {
+                           $(element).datepicker({
+                                autoclose: true,
+                                format: 'yyyy-mm-dd',
+                                orientation : 'top',
+                                todayHighlight : true
+                            });
+                        }
+                    }
+                },
+                {label: 'Isi Pengumuman', name: 'announcement_letter', width: 150, editable: true,
+                    editrules:{
+                       required:false,
+                       edithidden:true
+                    },
+                    hidden:true,
+                    align: "left",
+                    edittype: 'custom',
+                    editoptions: {
+                        "custom_element":function( value  , options) {
+                            var elm = $('<textarea class="mceEditor"></textarea>');
+                            elm.val( value );
+                            // give the editor time to initialize
+                            setTimeout( function() {
+                                try {
+                                    tinymce.remove("#" + options.id);
+                                } catch(ex) {}
+                                tinymce.init({ mode:"specific_textareas", width:650, height:"300", editor_selector : "mceEditor", statusbar:false, menubar:false,
+                                    plugins: [
+                                        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                                        'searchreplace wordcount visualblocks visualchars code fullscreen',
+                                        'insertdatetime media nonbreaking save table contextmenu directionality',
+                                        'emoticons template paste textcolor colorpicker textpattern imagetools'
+                                    ],
+                                    toolbar1: 'insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+                                    toolbar2: 'print | forecolor backcolor emoticons | link',
+                                    image_advtab: true
+                                });
+                            }, 100);
+
+                            return elm;
+                        },
+                        "custom_value":function( element, oper, gridval) {
+                            if(oper === 'get') {
+                                return tinymce.get('announcement_letter').getContent({format: 'row'});
+                            } else if( oper === 'set') {
+                                if(tinymce.get('announcement_letter')) {
+                                    tinymce.get('announcement_letter').setContent( gridval );
+                                }
+                            }
+                        }
+                    }
+                },
+                {label: 'Tgl Pengiriman Email', name: 'send_mail_date', width: 120, align: "left", editable: false},
                 {label: 'Tgl Pembuatan', name: 'created_date', width: 120, align: "left", editable: false},
                 {label: 'Dibuat Oleh', name: 'created_by', width: 120, align: "left", editable: false},
                 {label: 'Tgl Update', name: 'updated_date', width: 120, align: "left", editable: false},
@@ -72,10 +254,10 @@
             rownumbers: true, // show row numbers
             rownumWidth: 35, // the width of the row numbers columns
             altRows: true,
-            shrinkToFit: true,
+            shrinkToFit: false,
             multiboxonly: true,
             onSelectRow: function (rowid) {
-                var celValue = $('#grid-table').jqGrid('getCell', rowid, 'p_doc_type_id');
+                var celValue = $('#grid-table').jqGrid('getCell', rowid, 'announcement_id');
 
             },
             sortorder:'',
@@ -99,8 +281,8 @@
 
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."recruitment.p_doc_type_controller/crud"; ?>',
-            caption: "Jenis Dokumen Lamaran"
+            editurl: '<?php echo WS_JQGRID."recruitment.p_announcement_controller/crud"; ?>',
+            caption: "Pengumuman Pelamar Lulus"
 
         });
 
@@ -140,7 +322,10 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
 
-                    /*$("#USER_NAME").prop("readonly", true);*/
+                    form.css({"height": 0.50*screen.height+"px"});
+                    form.css({"width": 0.60*screen.width+"px"});
+
+                    $("#file_upload").prop("readonly", true);
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
@@ -170,6 +355,14 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
                         .wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
+
+                    form.css({"height": 0.50*screen.height+"px"});
+                    form.css({"width": 0.60*screen.width+"px"});
+                    $("#file_upload").prop("readonly", true);
+
+                    setTimeout(function() {
+                        clearLovLowongan();
+                    },100);
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
@@ -240,6 +433,37 @@
         );
 
     });
+
+    /*function ajaxFileUpload(id)
+    {
+
+        $.ajax ({
+                type:'POST',
+                url: '',
+                secureuri: true,
+                fileElementId: 'file_upload',
+                dataType: 'json',
+                data: { id: id },
+                processData: true, // Don't process the files
+                contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                success: function (data, status) {
+                    if (typeof (data.success) != 'undefined') {
+                        if (data.success == true) {
+                            return;
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                    else {
+                        return alert('Failed to upload file!');
+                    }
+                },
+                error: function (data, status, e) {
+                    return alert('Failed to upload file!');
+                }
+            }
+        );
+    }*/
 
     function serializeJSON(postdata) {
         var items;

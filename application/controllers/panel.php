@@ -9,9 +9,9 @@ class Panel extends CI_Controller {
 	    }else {
 	        redirect('application/index');
 	    }
-		
+
 	}
-	
+
 	function load_content($id) {
 	    try {
 	        $file_exist = true;
@@ -21,31 +21,31 @@ class Panel extends CI_Controller {
 	        if(count($file) > 1) {
 	            if(strtolower(substr($file[1],-4)) != ".php")
 	                $file[1] .= ".php";
-	            
+
 	            if(file_exists(APPPATH."views/".$file[0].'/'.$file[1])) {
 	                $this->load->view($file[0].'/'.$file[1]);
 	            }else {
-	                $file_exist = false;   
+	                $file_exist = false;
 	            }
-	            
+
 	            $url_file = APPPATH."views/".$file[0].'/'.$file[1];
 	        }else {
 	            if(strtolower(substr($id,-4)) != ".php")
 	                $id .= ".php";
-	                
+
 	            if(file_exists(APPPATH."views/".$id)) {
 	                $this->load->view($id);
 	            }else {
-	                $file_exist = false;   
+	                $file_exist = false;
 	            }
-	            
+
 	            $url_file = APPPATH."views/".$id;
 	        }
-	        
+
 	        if(!$file_exist) {
-	            $this->load->view("error_404.php");        
+	            $this->load->view("error_404.php");
 	        }
-	        	        
+
 	    }catch(Exception $e) {
 	        echo "
     	        <script>
@@ -58,7 +58,7 @@ class Panel extends CI_Controller {
 	        exit;
 	    }
 	}
-	
+
 }
 
 /* End of file pages.php */
