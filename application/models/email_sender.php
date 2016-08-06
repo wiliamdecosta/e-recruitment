@@ -17,11 +17,11 @@ class Email_sender extends  CI_Model {
         parent::__construct();
 
 		$this->config_email['protocol']   = 'smtp';
-		$this->config_email['mail_path']  = 'ssl://smtp.gmail.com';
-        $this->config_email['smtp_host']  = 'ssl://smtp.gmail.com';
+		$this->config_email['mail_path']  = 'ssl://mail.pambdg.co.id';
+        $this->config_email['smtp_host']  = 'ssl://mail.pambdg.co.id';
         $this->config_email['smtp_port']  = 465;
-        $this->config_email['smtp_user']  = 'wiliamdecosta@gmail.com';
-        $this->config_email['smtp_pass']  = 'xxx';
+        $this->config_email['smtp_user']  = 'recruitment@pambdg.co.id';
+        $this->config_email['smtp_pass']  = '060708';
 		$this->config_email['mailtype']   = 'html';
 		$this->config_email['charset']    = 'utf-8';
 
