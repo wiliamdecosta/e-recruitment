@@ -193,24 +193,24 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--<div class="row">
+                                            <div class="row">
                                                 <div class="form-group">
                                                     <div class="col-md-12">
-                                                        <label>Nama Lengkap</label>
-                                                        <input type="text" value="" class="form-control input-lg">
+                                                        <label>Nama Lengkap *</label>
+                                                        <input type="text" value="" class="form-control" name="full_name" id="full_name">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="form-group">
                                                     <div class="col-md-12">
-                                                        <label>Nomor KTP</label>
-                                                        <input type="text" value="" class="form-control input-lg">
+                                                        <label>Nomor KTP *</label>
+                                                        <input type="text" value="" class="form-control" name="ktp_number" id="ktp_number">
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row">
+                                           <!-- <div class="row">
                                                 <div class="form-group">
                                                     <div class="col-md-6">
                                                         <label>Nomor Handphone</label>
@@ -282,10 +282,17 @@
                                 password: "required",
                                 password_again: {
                                     equalTo: "#password"
+                                },
+                                full_name: "required",
+                                ktp_number: {
+                                    required : true,
+                                    digits: true,
+                                    minlength: 16,
+                                    maxlength: 16
                                 }
+
                             },
                             messages: {
-                                name: "Please specify your name",
                                 email: {
                                     required: "Email tidak boleh kosong",
                                     email: "Email harus valid"
@@ -298,16 +305,24 @@
                             e.preventDefault(); // avoid to execute the actual submit of the form.
 
                             if($("#formRegister").valid() == true){
-                                var url = "<?php echo site_url('register/register_action');?>"; // the script where you handle the form input.
+                                var url = "<?php echo site_url('register/register_action');?>";
                                 $.ajax({
                                     type: "POST",
                                     url: url,
                                     dataType : 'json',
-                                    data: $("#formRegister").serialize(), // serializes the form's elements.
+                                    data: $("#formRegister").serialize(),
                                     success: function(data)
                                     {
-                                        swal('',data.message,'success'); // show response from the php script.
-                                        window.location = '<?php echo base_url();?>';
+                                        if(data.success != true){
+                                            swal('',data.message,'error');
+                                            $("#formRegister")[0].reset();
+                                        }else{
+
+                                        }
+
+                                        swal('',data.message,'success');
+                                        $("#formRegister")[0].reset();
+                                        //window.location = '<?php echo site_url('login');?>';
                                     }
                                 });
                             }

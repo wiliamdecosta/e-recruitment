@@ -136,6 +136,37 @@ class P_applicant extends Abstract_model {
 		return true;
 	}
 
+	public function createUserRegister($email,$password,$ktp_number,$full_name,$activation){
+		$id = $this->generate_id('recruitment','p_applicant','applicant_id');
+		$data = array('applicant_id' => $id,
+			'applicant_status_id' => 3,
+			'applicant_username' => $email,
+			'applicant_password' => md5($password),
+			'applicant_fullname' => $full_name,
+			'applicant_ktp_no' => $ktp_number,
+			'applicant_email' => $email,
+			'activation' => $activation
+		);
+
+		$this->db->insert('recruitment.p_applicant', $data);
+		return $this->db->affected_rows();
+
+	}
+
+	public function updateUserActivation($email, $token){
+		$ip = $this->input->ip_address();
+		$data = array(
+			'activation'=>$token,
+			'activation_ip'=>$ip
+		);
+		$this->db->set('applicant_status_id',1);
+		$this->db->set('activation_date',"NOW()",FALSE);
+		$this->db->where(array('applicant_email' => $email,'activation' => $token, 'applicant_status_id' => 3 ));
+		$this->db->update('recruitment.p_applicant',$data);
+
+		return $this->db->affected_rows();
+	}
+
 }
 
 /* End of file P_applicant.php */

@@ -37,7 +37,6 @@ class P_doc_type_controller {
 
             // Filter Table
             $req_param['where'] = array();
-            
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
             

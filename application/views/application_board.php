@@ -242,7 +242,6 @@
 
                     foreach($items as $item):
                 ?>
-                    
                     <div class="col-xs-6 col-md-3 col-centered">
                         <div class="widget-box <?php echo ($item['is_on']) ? "widget-color-green":"widget-color-dark lighter"; ?>">
                         	<div class="widget-header center">

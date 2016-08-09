@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('_CRUD/abstract_model');
+$autoload['model'] = array('_CRUD/abstract_model','email_sender');
 
 
 /* End of file autoload.php */
