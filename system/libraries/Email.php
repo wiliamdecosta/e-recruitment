@@ -95,6 +95,7 @@ class CI_Email {
 			$this->_smtp_auth = ($this->smtp_user == '' AND $this->smtp_pass == '') ? FALSE : TRUE;
 			$this->_safe_mode = ((boolean)@ini_get("safe_mode") === FALSE) ? FALSE : TRUE;
 		}
+		date_default_timezone_set('Asia/Jakarta');
 
 		log_message('debug', "Email Class Initialized");
 	}
