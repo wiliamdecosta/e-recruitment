@@ -95,7 +95,6 @@ class CI_Email {
 			$this->_smtp_auth = ($this->smtp_user == '' AND $this->smtp_pass == '') ? FALSE : TRUE;
 			$this->_safe_mode = ((boolean)@ini_get("safe_mode") === FALSE) ? FALSE : TRUE;
 		}
-		date_default_timezone_set('Asia/Jakarta');
 
 		log_message('debug', "Email Class Initialized");
 	}
@@ -703,10 +702,12 @@ class CI_Email {
 	 */
 	protected function _set_date()
 	{
+		date_default_timezone_set('Asia/Jakarta');
 		$timezone = date("Z");
 		$operator = (strncmp($timezone, '-', 1) == 0) ? '-' : '+';
 		$timezone = abs($timezone);
 		$timezone = floor($timezone/3600) * 100 + ($timezone % 3600 ) / 60;
+		
 
 		return sprintf("%s %s%04d", date("D, j M Y H:i:s"), $operator, $timezone);
 	}
