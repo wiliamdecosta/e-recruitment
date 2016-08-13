@@ -21,7 +21,8 @@ class P_job_posting extends Abstract_model {
 								'posting_min_ipk'	    => array('nullable' => false, 'type' => 'float', 'unique' => false, 'display' => 'Min.IPK'),
 								'is_active'	            => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Is Active'),
 								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Vacancy Letter'),
-								
+								'publish_status'	    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Status Publish'),
+
 								/* khusus untuk created_date, created_by, updated_date, updated_by --> nullable : true */
 								'created_date'	        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Creation Date'),
 								'created_by'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Created By'),
@@ -29,7 +30,7 @@ class P_job_posting extends Abstract_model {
 								'updated_by'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Updated By')
 							);
 
-	public $selectClause 	= "job_posting.job_posting_id, job_posting.job_id, job_posting.posting_date, job_posting.posting_short_desc, job_posting.posting_min_ipk, job_posting.posting_no, job_posting.is_active, job_posting.description,
+	public $selectClause 	= "job_posting.job_posting_id, job_posting.job_id, job_posting.posting_date, job_posting.posting_short_desc, job_posting.posting_min_ipk, job_posting.posting_no, job_posting.is_active, job_posting.publish_status, job_posting.description,
 	                                job_posting.created_date, job_posting.created_by, job_posting.updated_date, job_posting.updated_by,
 	                                job.job_code
 	                            ";
@@ -48,11 +49,11 @@ class P_job_posting extends Abstract_model {
 	function validate() {
 	    $ci =& get_instance();
 	    $user_name = $ci->session->userdata('user_name');
-	    
+
 		if($this->actionType == 'CREATE') {
 			//do something
 			$this->record[$this->pkey] = $this->generate_id('recruitment','p_job_posting','job_posting_id');
-			
+
 			$this->record['created_date'] = date('Y-m-d');
             $this->record['created_by'] = $user_name;
             $this->record['updated_date'] = date('Y-m-d');
