@@ -32,7 +32,11 @@ class M_user extends CI_Model {
 
 
     public function getApplicantItem($email) {
-        $sql = "SELECT * FROM recruitment.p_applicant WHERE applicant_email = '".$email."'";
+        $sql = "SELECT *, ".
+				" EXTRACT(DAY FROM applicant_date_of_birth) as day, ".
+				" EXTRACT(MONTH FROM applicant_date_of_birth) as month, ".
+				" EXTRACT(YEAR FROM applicant_date_of_birth) as year ".
+ 				" FROM recruitment.p_applicant WHERE applicant_email = '".$email."'";
         $qs = $this->db->query($sql)->row();
         return $qs;
     }

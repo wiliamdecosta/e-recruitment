@@ -33,6 +33,11 @@ class Applicant extends CI_Controller
         $this->load->view('applicant/applicant_detail',$data);
     }
 
+    public function updateData(){
+        print_r($this->input->post());
+        exit;
+    }
+
 }
 
 /* End of file pages.php */

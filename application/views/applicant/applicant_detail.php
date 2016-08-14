@@ -4,12 +4,12 @@
             <img src="<?php echo base_url(); ?>/assets/img/no_img.png" style="border:1px solid #021a40;">
         </div>
         <div class="col-md-9">
-            <form id="formLogin" method="post">
+            <form id="formBiodata" method="post">
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-12">
                             <label>Nama Lengkap *</label>
-                            <input type="text" value="<?php echo $row->applicant_fullname; ?>" class="form-control">
+                            <input type="text" name="inFullName" value="<?php echo $row->applicant_fullname; ?>" class="form-control" style="text-transform:uppercase" />
                         </div>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                     <div class="form-group">
                         <div class="col-md-12">
                             <label>Nomor KTP *</label>
-                            <input type="text" value="<?php echo $row->applicant_ktp_no; ?>" class="form-control">
+                            <input type="text" name="inKTP" value="<?php echo $row->applicant_ktp_no; ?>" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <div class="col-md-12">
                             <label>Email *</label>
-                            <input type="text" value="<?php echo $row->applicant_email; ?>" class="form-control" disabled>
+                            <input type="text" name="inEmail" value="<?php echo $row->applicant_email; ?>" class="form-control" disabled>
                         </div>
                     </div>
                 </div>
@@ -33,34 +33,45 @@
                     <div class="form-group">
                         <div class="col-md-6">
                             <label>Nomor Handphone</label>
-                            <input type="text" value="<?php echo $row->applicant_hp; ?>" class="form-control">
+                            <input type="text" name="inHP" value="<?php echo $row->applicant_hp; ?>" class="form-control">
                         </div>
 
                         <div class="col-md-6">
                             <label>Nomor Telepon</label>
-                            <input type="text" value="<?php echo $row->applicant_telp; ?>" class="form-control">
+                            <input type="text" name="inTelp" value="<?php echo $row->applicant_telp; ?>" class="form-control">
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="form-group">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label>Tanggal Lahir</label>
-                            <input type="text" value="<?php echo $row->applicant_date_of_birth; ?>" class="form-control">
+                            <?php echo hari('Pilih Hari',$row->day);?>
                         </div>
-                        <div class="col-md-6">
-                            <label>Kota Asal</label>
-                            <input type="text" value="<?php echo $row->applicant_city; ?>" class="form-control">
+                        <div class="col-md-3">
+                            <label>&nbsp;</label>
+                            <?php echo bulan('Pilih Bulan',$row->month);?>
                         </div>
+                        <div class="col-md-3">
+                            <label>&nbsp; </label>
+                            <?php echo tahun('Pilih Tahun',$row->year);?>
+                        </div>
+
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-12">
+                            <label>Kota Asal</label>
+                            <input type="text" name="inKotaAsal" value="<?php echo $row->applicant_city; ?>" class="form-control" style="text-transform:uppercase">
+                        </div>
+                        &nbsp;
+                        <div class="col-md-12">
                             <label>Alamat *</label>
                     <textarea maxlength="5000"
-                              class="form-control" name="message" id="message"
+                              class="form-control" name="inAddress" id="inAddress"
                               value="<?php echo $row->applicant_address; ?>"><?php echo $row->applicant_address; ?></textarea>
                         </div>
 
@@ -71,7 +82,7 @@
                            value="<?php echo
                            $this->security->get_csrf_hash(); ?>">
                     <div class="col-md-12">
-                        <a type="submit" class="btn btn-primary btn-block" id="update_profile">Update Profile</a>
+                        <button type="submit" class="btn btn-primary btn-block" id="update_profile">Update Profile</button>
                     </div>
                 </div>
 
@@ -86,19 +97,15 @@
 </div>
 <script type="text/javascript">
     $( document ).ready(function() {
-        $("#formRegister").validate({
+        $("#formBiodata").validate({
             rules: {
-                name: "required",
-                email: {
+                inName: "required",
+                inEmail: {
                     required: true,
                     email: true
                 },
-                password: "required",
-                password_again: {
-                    equalTo: "#password"
-                },
-                full_name: "required",
-                ktp_number: {
+                inFullName: "required",
+                inKTP: {
                     required : true,
                     digits: true,
                     minlength: 16,
@@ -115,27 +122,27 @@
         });
     });
 
-    $("#formRegister").submit(function(e) {
+    $("#formBiodata").submit(function(e) {
         e.preventDefault(); // avoid to execute the actual submit of the form.
 
-        if($("#formRegister").valid() == true){
-            var url = "<?php echo site_url('register/register_action');?>";
+        if($("#formBiodata").valid() == true){
+            var url = "<?php echo site_url('applicant/updateData');?>";
             $.ajax({
                 type: "POST",
                 url: url,
                 dataType : 'json',
-                data: $("#formRegister").serialize(),
+                data: $("#formBiodata").serialize(),
                 success: function(data)
                 {
                     if(data.success != true){
-                        swal('',data.message,'error');
-                        $("#formRegister")[0].reset();
+                      //  swal('',data.message,'error');
+                        $("#formBiodata")[0].reset();
                     }else{
 
                     }
 
                     swal('',data.message,'success');
-                    $("#formRegister")[0].reset();
+                    $("#formBiodata")[0].reset();
                     //window.location = '<?php echo site_url('login');?>';
                 }
             });
@@ -157,7 +164,7 @@
 </script>
 <script>
 
-    $('#update_profile').click(function () {
+   /* $('#update_profile').click(function () {
         swal('', 'Profile berhasil diupdate', 'success');
-    })
+    })*/
 </script>
