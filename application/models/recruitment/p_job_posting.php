@@ -22,6 +22,7 @@ class P_job_posting extends Abstract_model {
 								'is_active'	            => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Is Active'),
 								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Vacancy Letter'),
 								'publish_status'	    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Status Publish'),
+								'gender'	    		=> array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Gender'),
 
 								/* khusus untuk created_date, created_by, updated_date, updated_by --> nullable : true */
 								'created_date'	        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Creation Date'),
@@ -32,7 +33,7 @@ class P_job_posting extends Abstract_model {
 
 	public $selectClause 	= "job_posting.job_posting_id, job_posting.job_id, job_posting.posting_date, job_posting.posting_short_desc, job_posting.posting_min_ipk, job_posting.posting_no, job_posting.is_active, job_posting.publish_status, job_posting.description,
 	                                job_posting.created_date, job_posting.created_by, job_posting.updated_date, job_posting.updated_by,
-	                                job.job_code
+	                                job.job_code,job_posting.gender
 	                            ";
 	public $fromClause 		= "recruitment.p_job_posting as job_posting
 	                            LEFT JOIN recruitment.p_job AS job ON job_posting.job_id = job.job_id";

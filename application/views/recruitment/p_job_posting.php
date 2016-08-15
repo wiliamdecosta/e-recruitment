@@ -108,6 +108,7 @@
                 showBootDialog(true, BootstrapDialog.TYPE_INFO, 'Perhatian', 'Pilih salah satu baris data');
                 return false;
             }
+
             loadContentWithParams("recruitment-p_job_major.php", {
                 job_posting_id: the_id,
                 job_code : the_code
@@ -173,7 +174,7 @@
                     },
                     editrules: {required: true}
                 },
-                {label: 'Min.IPK',name: 'posting_min_ipk', width: 125, sortable: true, editable: true,
+                {label: 'Batasan Min.IPK',name: 'posting_min_ipk', width: 125, sortable: true, editable: true,
                     editoptions: {
                         size: 10,
                         maxlength:4
@@ -182,6 +183,13 @@
                     formoptions: {
                         elmsuffix:'<i data-placement="left" class="orange"> Contoh : 2.75 </i>'
                     }
+                },
+                {label: 'Batasan Gender ?',name: 'gender', width: 150, sortable: true, editable: true,
+                    align: 'center',
+                    editrules: {required:false, edithidden: true},
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: {value: {'': 'Semua Gender', 'L': 'Hanya Laki-laki', 'P':'Hanya Perempuan'}}
                 },
                 {label: 'Nomor Lowongan',name: 'posting_no', width: 200, sortable: true, editable: true,
                     editoptions: {
