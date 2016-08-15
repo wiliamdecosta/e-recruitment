@@ -167,6 +167,13 @@
                     }
                 },
                 {label: 'Kode Lamaran', name: 'job_code', width: 150, align: "left", editable: false},
+                {label: 'Nomor Lowongan',name: 'posting_no', width: 200, sortable: true, editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:10
+                    },
+                    editrules: {required: true}
+                },
                 {label: 'Deskripsi',name: 'posting_short_desc', width: 200, sortable: true, editable: true,
                     editoptions: {
                         size: 50,
@@ -191,13 +198,6 @@
                     formatter: 'select',
                     editoptions: {value: {'': 'Semua Gender', 'L': 'Hanya Laki-laki', 'P':'Hanya Perempuan'}}
                 },
-                {label: 'Nomor Lowongan',name: 'posting_no', width: 200, sortable: true, editable: true,
-                    editoptions: {
-                        size: 30,
-                        maxlength:10
-                    },
-                    editrules: {required: true}
-                },
                 {label: 'Tgl Posting', name: 'posting_date', width: 120, editable: true,
                     edittype:"text",
                     editrules: {required: true},
@@ -219,16 +219,19 @@
                     editrules: {required:true, edithidden: true},
                     edittype: 'select',
                     formatter: 'select',
-                    editoptions: {value: {'Y': 'YES', 'N': 'NO'}}
+                    editoptions: {value: {'Y': 'YES', 'N': 'NO'}},
+                    formoptions: {
+                        elmsuffix:'<i data-placement="left" class="orange"> YES = Lowongan aktif (Enabled); NO = Lowongan tidak aktif (Disabled).</i>'
+                    }
                 },
-                {label: 'Publish ?',name: 'publish_status', width: 130, sortable: true, editable: true,
+                {label: 'Publish Frontend ?',name: 'publish_status', width: 130, sortable: true, editable: true,
                     align: 'center',
                     editrules: {required:true, edithidden: true},
                     edittype: 'select',
                     formatter: 'select',
                     editoptions: {value: {'Y': 'YES', 'N': 'NO'}},
                     formoptions: {
-                        elmsuffix:'<i data-placement="left" class="orange"> YES = Lowongan ditampilkan pada halaman depan.</i>'
+                        elmsuffix:'<i data-placement="left" class="orange"> YES = Lowongan ditampilkan pada halaman depan, NO = Lowongan tidak ditampilkan.</i>'
                     }
                 },
                 {label: 'Vacancy Letter', name: 'description', width: 150, editable: true,
