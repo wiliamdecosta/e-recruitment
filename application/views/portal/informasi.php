@@ -1,61 +1,38 @@
 <div class="row">
     <div class="col-md-12">
         <div class="blog-posts">
-
+            <?php foreach($announcer as $row){?>
             <article class="post post-large">
-
-
                 <div class="post-date">
-                    <span class="day">15</span>
-                    <span class="month">Juni</span>
+                    <span class="day"><?php echo date("d", strtotime($row->announcement_date));?></span>
+                    <span class="month"><?php echo date("M", strtotime($row->announcement_date));?></span>
                 </div>
 
                 <div class="post-content">
-
-                    <h2><a href="#">Pengumuman Hasil Tes Bahasa Inggris Calon PNS PDAM Bandung </a></h2>
-                    <p>Berikut hasil pengumuman calon PNS PDAM Bandung..</p>
+                    <h2><a href="#" id="<?php echo $row->announcement_id?>" class="title_announcer"><?php echo $row->announcement_title;?> </a></h2>
+                    <!--<p><?php /*echo html_entity_decode(substr($row->announcement_letter,0,60));*/?></p>-->
 
                     <div class="post-meta">
-                        <span><i class="fa fa-user"></i> By <a href="#">Admin</a> </span>
-                        <a href="#" class="btn btn-xs btn-primary pull-right readmore"
-                            id="<?php echo site_url('portal/pengumuman'); ?>">Read more...</a>
+                        <span><i class="fa fa-user"></i> By <a href="#"><?php echo $row->created_by?></a> </span>
+                        <!--<br>&nbsp;&nbsp;<br>
+                        <a href="#" class="btn btn-xs btn-primary"
+                           id="<?php /*echo $row->announcement_id*/?>">Read more...</a>-->
                     </div>
 
                 </div>
             </article>
-
-            <article class="post post-large">
-
-                <div class="post-date">
-                    <span class="day">22</span>
-                    <span class="month">Juni</span>
-                </div>
-
-                <div class="post-content">
-
-                    <h2><a href="#">Pengumuman Peserta Lulus Rekrutmen CPNS PDAM 2016</a></h2>
-                    <p>Berikut hasil pengumuman calon PNS PDAM Bandung..</p>
-
-                    <div class="post-meta">
-                        <span><i class="fa fa-user"></i> By <a href="#">Admin</a> </span>
-                        <a href="#" class="btn btn-xs btn-primary pull-right readmore"
-                           id="<?php echo site_url('portal/pengumuman'); ?>">Read more...</a>
-                    </div>
-
-                </div>
-            </article>
-
-
+        <?php }?>
         </div>
     </div>
 
     <script type="text/javascript">
-        $('.readmore').click(function () {
-            var url = $(this).attr('id');
+        $('.title_announcer').click(function () {
+            var url = "<?php echo site_url('portal/getAnnouncer');?>";
+            var id = $(this).attr('id');
             $.ajax({
                 type: 'POST',
                 url: url,
-                data: {},
+                data: {id:id},
                 success: function (data) {
                     $("#mid_content").html(data);
                 },

@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database','session');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url','security_check','request','utilities');
+$autoload['helper'] = array('url','security_check','request','utilities','htmlgenerate');
 
 
 /*
@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('_CRUD/abstract_model','email_sender');
+$autoload['model'] = array('_CRUD/abstract_model','email_sender','mcrud');
 
 
 /* End of file autoload.php */

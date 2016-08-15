@@ -57,6 +57,28 @@ class P_job extends Abstract_model {
 		return true;
 	}
 
+	public function getListJob(){
+		//$q = $this->db->get('recruitment.p_job');
+		$sql = "select a.*,b.job_code,b.job_name from recruitment.p_job_posting AS a
+			  inner join recruitment.p_job AS b ON a.job_id = b.job_id
+			  WHERE a.is_active = 'Y' and publish_status = 'Y'
+			 ";
+
+		$q = $this->db->query($sql);
+		return $q->result();
+	}
+
+	public function getListPengumuman(){
+		if($this->input->post('id')){
+			$this->db->where('announcement_id',$this->input->post('id'));
+		}
+		$this->db->where('publish_status','Y');
+		$q = $this->db->get('recruitment.p_announcement');
+		return $q->result();
+	}
+
+
+
 }
 
 /* End of file p_job.php */

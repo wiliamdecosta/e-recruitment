@@ -136,7 +136,7 @@ if (!function_exists('generatehtml')) {
         echo "</select>";
     }
 
-    function buatcombo_new($nama, $id, $table, $field, $pk, $kondisi, $default_select,$order_by,$order_type)
+    function combo($nama, $id, $table, $field, $pk, $kondisi, $default_select,$order_by,$order_type,$selected)
     {
         $CI =& get_instance();
         $CI->load->model('mcrud');
@@ -153,7 +153,12 @@ if (!function_exists('generatehtml')) {
         }
 
         foreach ($data as $r) {
-            echo " <option value=" . $r->$pk . ">" . strtoupper($r->$field) . "</option>";
+            if ($selected == $r->$pk ) {
+                echo "<option value=" . $selected . " selected>" . strtoupper($r->$field) . "</option>";
+            } else {
+                echo " <option value=" . $r->$pk . ">" . strtoupper($r->$field) . "</option>";
+            }
+
         }
         echo "</select>";
     }

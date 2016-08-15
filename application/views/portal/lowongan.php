@@ -14,15 +14,10 @@
                     </div>
                 </div>
 
-                <!-- <div class="post-date">
-                    <span class="day">10</span>
-                    <span class="month">Jan</span>
-                </div> -->
-
-
         </div>
     </div>
 </div>
+
 <div class="row">
     <h4> Silahkan login untuk apply lamaran.</h4>
     <div class="col-md6">
@@ -44,34 +39,29 @@
             </tr>
             </thead>
             <tbody>
+            <?php
+            $i = 1;
+            foreach($job as $row){
+
+                ?>
+
             <tr>
                 <td>
-                    1
+                   <?php echo $i;?>
                 </td>
                 <td>
-                    HRD0002
+                    <?php echo $row->posting_no;?>
                 </td>
                 <td>
-                    HRD
+                    <?php echo $row->job_code;?>
                 </td>
                 <td>
-                    Human Resource Departement
+                    <?php echo $row->job_name;?>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    2
-                </td>
-                <td>
-                    IT0001
-                </td>
-                <td>
-                    IT
-                </td>
-                <td>
-                    Information Technology
-                </td>
-            </tr>
+            <?php $i++;
+            }
+            ?>
             </tbody>
         </table>
     </div>

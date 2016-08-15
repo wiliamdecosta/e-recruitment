@@ -167,6 +167,40 @@ class P_applicant extends Abstract_model {
 		return $this->db->affected_rows();
 	}
 
+	public function addDokumenApplicant($filename){
+		$id = $this->generate_id('recruitment','p_applicant_doc','p_applicant_doc_id');
+		$data = array(
+			"p_applicant_doc_id" => $id,
+			"p_doc_type_id" => $this->input->post('doc_type_id'),
+			"applicant_id" => $this->session->userdata('applicant_id'),
+			"applicant_doc_file" => $filename
+		);
+
+		$this->db->insert('recruitment.p_applicant_doc', $data);
+		return $this->db->affected_rows();
+
+	}
+
+	public function delDocApplicant(){
+		$doc_type_id = $this->input->post('doc_type');
+
+		$this->db->where(array(
+			'p_doc_type_id' => $doc_type_id,
+			'applicant_id' => $this->session->userdata('applicant_id')
+		));
+
+		$this->db->delete('recruitment.p_applicant_doc');
+		return $this->db->affected_rows();
+	}
+
+	public function getApplicantDetail(){
+		$this->db->where('applicant_id', $this->session->userdata('applicant_id'));
+		$q = $this->db->get('recruitment.p_applicant');
+		return $q->row();
+	}
+
+
+
 }
 
 /* End of file P_applicant.php */
