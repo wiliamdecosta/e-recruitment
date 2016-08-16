@@ -222,6 +222,13 @@
                     },
                     editrules: {required: false, number:true, minValue:0, maxValue: 4}
                 },
+                {label: 'Batasan Gender ?',name: 'gender', width: 150, sortable: true, editable: true,
+                    align: 'center',
+                    editrules: {required:false, edithidden: true},
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: {value: {'': 'Semua Gender', 'L': 'Hanya Laki-laki', 'P':'Hanya Perempuan'}}
+                },
                 {label: 'Nomor Lowongan',name: 'posting_no', width: 200, sortable: true, editable: true,
                     editoptions: {
                         size: 30,
@@ -519,6 +526,13 @@
                         maxlength:60
                     },
                     editrules: {required: false}
+                },
+                {label: 'Jenis Kelamin',name: 'gender', width: 120, sortable: true, editable: true,
+                    align: 'center',
+                    editrules: {required:false, edithidden: true},
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: {value: {'L': 'Laki-laki', 'P':'Perempuan'}}
                 },
                 {label: 'IPK',name: 'applicant_ipk', width: 85, hidden:false, sortable: true, editable: true,
                     editoptions: {

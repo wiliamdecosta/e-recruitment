@@ -17,7 +17,7 @@ class P_applicant extends Abstract_model {
 								'major_id'	            => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'Jurusan'),
 								'education_id'	        => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'Pendidikan Terakhir'),
 								'applicant_status_id'	=> array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'Status Pelamar'),
-								
+
 								'applicant_username'	=> array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Username'),
 								'applicant_password'	=> array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Password'),
 								'applicant_fullname'	=> array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Nama Lengkap'),
@@ -29,7 +29,8 @@ class P_applicant extends Abstract_model {
 								'applicant_ipk'         => array('nullable' => false, 'type' => 'float', 'unique' => false, 'display' => 'IPK'),
 								'applicant_address'     => array('nullable' =>  false, 'type' => 'str', 'unique' => false, 'display' => 'Alamat'),
 								'applicant_city'        => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Kota'),
-								
+								'gender'                => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Gender'),
+
 								/* khusus untuk created_date, created_by, updated_date, updated_by --> nullable : true */
 								'created_date'	        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Creation Date'),
 								'created_by'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Created By'),
@@ -47,7 +48,8 @@ class P_applicant extends Abstract_model {
 	                           applicant.created_date,
 	                           applicant.created_by,
 	                           applicant.updated_date,
-	                           applicant.updated_by
+	                           applicant.updated_by,
+                               applicant.gender
 	                           ";
 	public $fromClause 		= "recruitment.p_applicant as applicant
 	                                LEFT JOIN recruitment.p_applicant_status as applicant_status ON applicant.applicant_status_id = applicant_status.applicant_status_id
@@ -57,7 +59,7 @@ class P_applicant extends Abstract_model {
 	public $refs			= array();
 
 	public $comboDisplay	= array();
-    
+
     public $fromFrontPage = false;
 	function __construct() {
 		parent::__construct();
@@ -65,71 +67,71 @@ class P_applicant extends Abstract_model {
 
 	function validate() {
 	    $ci =& get_instance();
-	    
+
 	    if(!$this->fromFrontPage)
 	        $user_name = $ci->session->userdata('user_name');
 	    else
 	        $user_name = 'applicant';
-	    
+
 		if($this->actionType == 'CREATE') {
 			//do something
 			$this->record['applicant_fullname'] = strtoupper(trim($this->record['applicant_fullname']));
             $this->record['applicant_city'] = strtoupper(trim($this->record['applicant_city']));
-            
+
             if (isset($this->record['applicant_username'])){
                 if (strlen($this->record['applicant_username']) < 8) throw new Exception('Mininum Username 8 Karakter');
-                
+
                 $this->record['applicant_username'] = strtolower(trim($this->record['applicant_username']));
             }
-            
+
             if (isset($this->record['applicant_password'])){
                 if (strlen($this->record['applicant_password']) < 8) throw new Exception('Mininum password 8 Karakter');
-                
+
                 $this->record['applicant_password'] = md5($this->record['applicant_password']);
             }
-            
-            
+
+
             if (isset($this->record['applicant_email'])){
                 if(!isValidEmail( $this->record['applicant_email'] )) {
                     throw new Exception("Your email address format is incorrect");
                 }
             }
-            
-            
+
+
             if (isset($this->record['applicant_ktp_no'])){
                 if (strlen($this->record['applicant_ktp_no']) < 16) throw new Exception('No.KTP harus 16 Karakter');
             }
-            
+
 			$this->record[$this->pkey] = $this->generate_id('recruitment','p_applicant','applicant_id');
-			
+
 			$this->record['created_date'] = date('Y-m-d');
             $this->record['created_by'] = $user_name;
             $this->record['updated_date'] = date('Y-m-d');
             $this->record['updated_by'] = $user_name;
-            
+
 		}else {
 			//do something
-			
+
 			$this->record['applicant_fullname'] = strtoupper(trim($this->record['applicant_fullname']));
             $this->record['applicant_city'] = strtoupper(trim($this->record['applicant_city']));
-            
+
             unset($this->record['applicant_username']); /* asumsi : username tidak boleh diupdate */
-                
-                
+
+
             if(isset($this->record['applicant_password']) and empty($this->record['applicant_password'])) {
                 unset($this->record['applicant_password']);
             }
-            
+
             if (isset($this->record['applicant_email'])){
                 if(!isValidEmail( $this->record['applicant_email'] )) {
                     throw new Exception("Your email address format is incorrect");
                 }
             }
-            
+
             if (isset($this->record['applicant_ktp_no'])){
                 if (strlen($this->record['applicant_ktp_no']) < 16) throw new Exception('No.KTP harus 16 Karakter');
             }
-            
+
 			$this->record['updated_date'] = date('Y-m-d');
             $this->record['updated_by'] = $user_name;
 		}

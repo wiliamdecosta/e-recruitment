@@ -1,7 +1,7 @@
 <style>
     .blocked-bg {
-        background: #FFD2D2 !important; 
-        font-size:inherit; 
+        background: #FFD2D2 !important;
+        font-size:inherit;
     }
 </style>
 
@@ -67,6 +67,13 @@
                     },
                     editrules: {required: true}
                 },
+                {label: 'Jenis Kelamin',name: 'gender', width: 120, sortable: true, editable: true,
+                    align: 'center',
+                    editrules: {required:false, edithidden: true},
+                    edittype: 'select',
+                    formatter: 'select',
+                    editoptions: {value: {'L': 'Laki-laki', 'P':'Perempuan'}}
+                },
                 {label: 'IPK',name: 'applicant_ipk', width: 85, hidden:false, sortable: true, editable: true,
                     editoptions: {
                         size: 10,
@@ -77,7 +84,7 @@
                         elmsuffix:'<i data-placement="left" class="orange"> Contoh : 2.75 </i>'
                     }
                 },
-                {label: 'Pendidikan Terakhir', name: 'education_id', width: 120, align: "left", editable: true, hidden:true, 
+                {label: 'Pendidikan Terakhir', name: 'education_id', width: 120, align: "left", editable: true, hidden:true,
                     editrules: {edithidden: true, required:true},
                     edittype: 'select',
                     editoptions: {
@@ -94,8 +101,8 @@
                     }
                 },
                 {label: 'Pendidikan Terakhir', name: 'education_code', width: 150, align: "left", editable: false},
-                
-                {label: 'Jurusan', name: 'major_id', width: 150, align: "left", editable: true, hidden:true, 
+
+                {label: 'Jurusan', name: 'major_id', width: 150, align: "left", editable: true, hidden:true,
                     editrules: {edithidden: true, required:true},
                     edittype: 'select',
                     editoptions: {
@@ -113,7 +120,7 @@
                 },
                 {label: 'Jurusan', name: 'major_code', width: 150, align: "left", editable: false},
                 {label: 'Asal Kota', name: 'applicant_city', width: 150, align: "left", editable: false},
-                {label: 'Status', name: 'applicant_status_id', width: 120, align: "left", editable: true, hidden:true, 
+                {label: 'Status', name: 'applicant_status_id', width: 120, align: "left", editable: true, hidden:true,
                     editrules: {edithidden: true, required:true},
                     edittype: 'select',
                     editoptions: {
@@ -130,7 +137,7 @@
                     }
                 },
                 {label: 'Status', name: 'status_code', width: 150, align: "left", editable: false},
-                
+
                 {label: 'Username',name: 'applicant_username',width: 150, align: "left",editable: true,
                     edittype: 'text',
                     editoptions: {
@@ -270,10 +277,10 @@
                 repeatitems: false
             },
             loadComplete: function (response) {
-                if(response.success == false) { 
+                if(response.success == false) {
                     showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
                 }
-                
+
                 var table = this;
                 setTimeout(function () {
                     updatePagerIcons(table);
@@ -283,7 +290,7 @@
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."recruitment.p_applicant_controller/crud"; ?>',
             caption: "Daftar Pelamar",
-            
+
             subGrid: true, // set the subGrid property to true to show expand buttons for each row
             subGridRowExpanded: showApplicantDocs, // javascript function that will take care of showing the child grid
             subGridWidth : 40,
@@ -340,7 +347,7 @@
                     style_edit_form(form);
                     form.css({"height": 0.50*screen.height+"px"});
                     form.css({"width": 0.60*screen.width+"px"});
-                    
+
                     $("#applicant_username").prop("readonly", true);
                 },
                 afterShowForm: function(form) {
@@ -373,7 +380,7 @@
                     style_edit_form(form);
                     form.css({"height": 0.50*screen.height+"px"});
                     form.css({"width": 0.60*screen.width+"px"});
-                    
+
                     $("#tr_applicant_password", form).show();
                 },
                 afterShowForm: function(form) {
@@ -384,11 +391,11 @@
                     if(response.success == false) {
                         return [false,response.message,response.responseText];
                     }
-                    
-                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>'); 
+
+                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>');
                     var tinfoel = $(".tinfo").show();
                     tinfoel.delay(3000).fadeOut();
-                          
+
                     return [true,"",response.responseText];
                 }
             },
@@ -427,7 +434,7 @@
                     var form = $(e[0]);
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
                     style_search_form(form);
-                    
+
                     form.closest('.ui-jqdialog').center();
                 },
                 afterRedraw: function () {
@@ -445,7 +452,7 @@
         );
 
     });
-    
+
     function showDocFile(url) {
         var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
         var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
@@ -461,17 +468,17 @@
         if (window.focus) {
             newWindow.focus();
         }
-        return;         
+        return;
     }
-    
+
     function showApplicantDocs(parentRowID, parentRowKey) {
-        
+
         var childGridID = parentRowID + "_applicant_docs_table";
         var childGridPagerID = parentRowID + "_applicant_docs_pager";
-        
+
         var parentGrid = $('#grid-table');
         var celValue = parentGrid.jqGrid ('getCell', parentRowKey, 'applicant_fullname');
-        
+
         $('#' + parentRowID).append('<br><span class="label label-success">'+
                                     'Data Dokumen Pelamar :: '+ celValue +
                                     '</span>');
@@ -497,7 +504,7 @@
             postData:{ applicant_id: encodeURIComponent(parentRowKey) },
             colModel: [
                 {label: 'ID', name: 'p_applicant_doc_id', key: true, width:125, sorttype:'number', editable: true, hidden:true },
-                {label: 'Jenis Dokumen', name: 'p_doc_type_id', width: 150, align: "left", editable: true, hidden:true, 
+                {label: 'Jenis Dokumen', name: 'p_doc_type_id', width: 150, align: "left", editable: true, hidden:true,
                     editrules: {edithidden: true, required:true},
                     edittype: 'select',
                     editoptions: {
@@ -537,10 +544,10 @@
                 repeatitems: false
             },
             loadComplete: function (response) {
-                if(response.success == false) { 
+                if(response.success == false) {
                     showBootDialog(true, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
                 }
-                
+
                 var table = this;
                 setTimeout(function () {
                     updatePagerIcons(table);
@@ -553,9 +560,9 @@
             pgtext: null,         // disable pager text like 'Page 0 of 10'
             viewrecords: false    // disable current view record text like 'View 1-10 of 100'
         });
-        
+
         jQuery("#"+childGridID).jqGrid('navGrid',"#"+childGridPagerID,
-            {   
+            {
                 edit: false,
                 editicon: 'ace-icon fa fa-pencil blue',
                 add: false,
@@ -636,11 +643,11 @@
                     if(response.success == false) {
                         return [false,response.message,response.responseText];
                     }
-                    
-                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>'); 
+
+                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>');
                     var tinfoel = $(".tinfo").show();
                     tinfoel.delay(3000).fadeOut();
-                          
+
                     return [true,"",response.responseText];
                 }
             },
@@ -679,7 +686,7 @@
                     var form = $(e[0]);
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
                     style_search_form(form);
-                    
+
                     form.closest('.ui-jqdialog').center();
                 },
                 afterRedraw: function () {
@@ -694,10 +701,10 @@
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
                 }
             }
-        );    
-        
+        );
+
     }
-    
+
     function serializeJSON(postdata) {
         var items;
         if(postdata.oper != 'del') {
@@ -797,11 +804,11 @@
     }
 
     function responsive_jqgrid(grid_selector, pager_selector) {
-                
+
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
- 
+
     }
 
 </script>
