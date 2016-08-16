@@ -14,23 +14,23 @@ class P_job_posting extends Abstract_model
     public $alias = "job_posting";
 
     public $fields = array(
-        'job_posting_id' => array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'ID P_job_posting'),
-        'job_id' => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'ID Job'),
-        'posting_date' => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Tgl Posting'),
-        'posting_no' => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Nomor Lowongan'),
-        'posting_short_desc' => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Deskripsi'),
-        'posting_min_ipk' => array('nullable' => false, 'type' => 'float', 'unique' => false, 'display' => 'Min.IPK'),
-        'is_active' => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Is Active'),
-        'description' => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Vacancy Letter'),
-        'publish_status' => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Status Publish'),
+					        'job_posting_id' => array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'ID P_job_posting'),
+					        'job_id' => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'ID Job'),
+					        'posting_date' => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Tgl Posting'),
+					        'posting_no' => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Nomor Lowongan'),
+					        'posting_short_desc' => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Deskripsi'),
+					        'posting_min_ipk' => array('nullable' => false, 'type' => 'float', 'unique' => false, 'display' => 'Min.IPK'),
+					        'is_active' => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Is Active'),
+					        'description' => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Vacancy Letter'),
+					        'publish_status' => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Status Publish'),
+					        'gender'	    		=> array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Gender'),
 
-        /* khusus untuk created_date, created_by, updated_date, updated_by --> nullable : true */
-        'created_date' => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Creation Date'),
-        'created_by' => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Created By'),
-        'updated_date' => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Updated Date'),
-        'updated_by' => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Updated By')
-    );
-								'gender'	    		=> array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Gender'),
+					        /* khusus untuk created_date, created_by, updated_date, updated_by --> nullable : true */
+					        'created_date' => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Creation Date'),
+					        'created_by' => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Created By'),
+					        'updated_date' => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Updated Date'),
+					        'updated_by' => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Updated By')
+    				);
 
     public $selectClause = "job_posting.job_posting_id, job_posting.job_id, job_posting.posting_date, job_posting.posting_short_desc, job_posting.posting_min_ipk, job_posting.posting_no, job_posting.is_active, job_posting.publish_status, job_posting.description,
 	                                job_posting.created_date, job_posting.created_by, job_posting.updated_date, job_posting.updated_by,
@@ -40,7 +40,7 @@ class P_job_posting extends Abstract_model
 	                            LEFT JOIN recruitment.p_job AS job ON job_posting.job_id = job.job_id";
 
     public $refs = array('recruitment.p_job_education' => 'job_posting_id',
-        'recruitment.p_job_major' => 'job_posting_id');
+        					'recruitment.p_job_major' => 'job_posting_id');
 
     public $comboDisplay = array();
 
