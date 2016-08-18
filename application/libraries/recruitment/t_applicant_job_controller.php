@@ -389,7 +389,7 @@ class T_applicant_job_controller {
     		    /*execute send email query here */
     		    $table->setCriteria("applicant_job.job_posting_id = ".$job_posting_id);
     		    $table->setCriteria("upper(applicant_job.is_approve) = 'Y'");
-    		    $table->setCriteria("upper(applicant_job.is_send_email) = 'N'");
+    		    $table->setCriteria("(upper(applicant_job.is_send_email) = 'N' OR applicant_job.is_send_email is null) ");
     		    $table->setCriteria("upper(applicant_status.code) = 'ACTIVE'");
 
     		    $items = $table->getAll(0,-1);
