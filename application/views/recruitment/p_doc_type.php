@@ -28,7 +28,7 @@
     	</div><!-- /.col -->
     </div><!-- /.row -->
 </div>
-<?php echo WS_JQGRID;?>
+
 <script>
 
     jQuery(function($) {

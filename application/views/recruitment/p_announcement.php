@@ -240,7 +240,7 @@
                         }
                     }
                 },
-                {label: 'Tgl Pengiriman Email', name: 'send_mail_date', width: 120, align: "left", editable: false},
+                {label: 'Tgl Pengiriman Email', name: 'send_mail_date', width: 160, align: "left", editable: false},
                 {label: 'Tgl Pembuatan', name: 'created_date', width: 120, align: "left", editable: false},
                 {label: 'Dibuat Oleh', name: 'created_by', width: 120, align: "left", editable: false},
                 {label: 'Tgl Update', name: 'updated_date', width: 120, align: "left", editable: false},
