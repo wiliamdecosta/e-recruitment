@@ -238,7 +238,8 @@ class P_job_posting extends Abstract_model
             "job_posting_id" => $job_posting_id,
             "applicant_id" => $this->session->userdata('applicant_id'),
             "applicant_no_reg" => $noreg,
-            "is_approve" => 'N'
+            "is_approve" => 'N',
+			"is_send_email" => 'N'
 
         );
         $this->db->set('created_date', 'NOW()', FALSE);
