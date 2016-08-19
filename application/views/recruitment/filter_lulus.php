@@ -981,9 +981,11 @@
                         }
                     }
                 },
+                {label: 'MD5 Email', name: 'md5_email', width: 120, hidden:true, align: "left", editable: false},
                 {label: 'Preview',name: 'link_file',width: 80, align: "center",editable: false,
                     formatter: function(cellvalue, options, rowObject) {
-                        return '<a href="#'+childGridID+'" onclick="showDocFile(\'<?php echo UPLOAD_PATH;?>'+cellvalue+'\');"> <i class="ace-icon fa fa-download bigger-130"></i> </a>';
+                        var md5_email = rowObject['md5_email'];
+                        return '<a href="#'+childGridID+'" onclick="showDocFile(\'<?php echo UPLOAD_PATH;?>'+md5_email+'/'+cellvalue+'\');"> <i class="ace-icon fa fa-download bigger-130"></i> </a>';
                     }
                 },
                 {label: 'Jenis Dokumen', name: 'doc_type_code', width: 150, align: "left", editable: false},

@@ -18,7 +18,7 @@ class P_applicant_doc extends Abstract_model {
 								'p_doc_type_id'	        => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'ID Doc Type'),
 								'applicant_doc_file'	=> array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'File Name'),
 								'description'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Deskripsi'),
-								
+
 								/* khusus untuk created_date, created_by, updated_date, updated_by --> nullable : true */
 								'created_date'	        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Creation Date'),
 								'created_by'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Created By'),
@@ -26,17 +26,19 @@ class P_applicant_doc extends Abstract_model {
 								'updated_by'	        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Updated By')
 							);
 
-	public $selectClause 	= "applicant_doc.*, applicant_doc.applicant_doc_file as link_file,
+	public $selectClause 	= "applicant_doc.*, applicant_doc.applicant_doc_file as link_file, md5(applicant.applicant_email) as md5_email,
 	                               doc_type.code as doc_type_code";
 	public $fromClause 		= "recruitment.p_applicant_doc as applicant_doc
-	                            LEFT JOIN recruitment.p_doc_type as doc_type ON applicant_doc.p_doc_type_id = doc_type.p_doc_type_id";
+	                            LEFT JOIN recruitment.p_doc_type as doc_type ON applicant_doc.p_doc_type_id = doc_type.p_doc_type_id
+								LEFT JOIN recruitment.p_applicant as applicant ON applicant_doc.applicant_id = applicant.applicant_id
+	                            ";
 
 	public $refs			= array();
 
 	public $comboDisplay	= array();
-    
+
     public $fromFrontPage = false;
-    
+
 	function __construct() {
 		parent::__construct();
 	}
@@ -47,17 +49,17 @@ class P_applicant_doc extends Abstract_model {
 	        $user_name = $ci->session->userdata('user_name');
 	    else
 	        $user_name = 'applicant';
-	    
+
 		if($this->actionType == 'CREATE') {
 			//do something
-			
+
 			//chek duplicate
 			if($this->isDuplicate()) {
-			    throw new Exception('Duplikasi data : Jenis dokumen yang bersangkutan sudah ada.');    
+			    throw new Exception('Duplikasi data : Jenis dokumen yang bersangkutan sudah ada.');
 			}
-			
+
 			$this->record[$this->pkey] = $this->generate_id('recruitment','p_applicant_doc','p_applicant_doc_id');
-			
+
 			$this->record['created_date'] = date('Y-m-d');
             $this->record['created_by'] = $user_name;
             $this->record['updated_date'] = date('Y-m-d');
@@ -65,19 +67,19 @@ class P_applicant_doc extends Abstract_model {
 
 		}else {
 			//do something
-			
+
 			if($this->isDuplicate($this->record[$this->pkey])) {
-			    throw new Exception('Duplikasi data : Jenis dokumen yang bersangkutan sudah ada.');    
+			    throw new Exception('Duplikasi data : Jenis dokumen yang bersangkutan sudah ada.');
 			}
-			
+
 			$this->record['updated_date'] = date('Y-m-d');
             $this->record['updated_by'] = $user_name;
 		}
 		return true;
 	}
-    
+
     public function isDuplicate($id = "") {
-		
+
 		$query = "SELECT COUNT(1) AS isduplicate FROM ".$this->table. " WHERE applicant_id = ".$this->record['applicant_id']." AND p_doc_type_id = ".$this->record['p_doc_type_id'];
 		if($id != "") {
 			$query .= " AND ".$this->pkey." != ".$this->db->escape($id);
@@ -88,7 +90,7 @@ class P_applicant_doc extends Abstract_model {
 
 		$countitems = $row['isduplicate'];
 		$query->free_result();
-		
+
 		if($countitems > 0) return true;
 
 		return false;
