@@ -186,9 +186,19 @@
                         size: 10,
                         maxlength:4
                     },
-                    editrules: {required: true, number:true, minValue:0, maxValue: 4},
+                    editrules: {required: false, number:true, minValue:0, maxValue: 100},
                     formoptions: {
                         elmsuffix:'<i data-placement="left" class="orange"> Contoh : 2.75 </i>'
+                    }
+                },
+                {label: 'Batasan Usia',name: 'posting_max_age', width: 125, sortable: true, editable: true,
+                    editoptions: {
+                        size: 10,
+                        maxlength:4
+                    },
+                    editrules: {required: false, number:true, minValue:0, maxValue: 100},
+                    formoptions: {
+                        elmsuffix:'<i data-placement="left" class="orange"> Contoh : 30 </i>'
                     }
                 },
                 {label: 'Batasan Gender ?',name: 'gender', width: 150, sortable: true, editable: true,

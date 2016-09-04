@@ -26,6 +26,11 @@
     	<div class="col-xs-12">
     		<!-- PAGE CONTENT BEGINS -->
     		<div class="row">
+                <div class="col-xs-3">
+                    <p>
+                        <button id="btn-download-excel" class="btn btn-sm btn-success"><i class="fa fa-download"></i> Excel Pelamar</button>
+                    </p>
+                </div>
         		<div class="col-xs-offset-9">
         		    <span class="ace-icon fa fa-info-circle bigger-120 light grey"> </span> <strong class="grey">Keterangan Warna Record:</strong>  <br>
                     <label class="blocked-bg" style="padding:5px;"> &nbsp; </label> Status Blocked <br>
@@ -813,4 +818,13 @@
 
     }
 
+</script>
+
+<script>
+    $(function(e) {
+        $('#btn-download-excel').on('click', function(){
+            var url = "<?php echo base_url().'excel_pelamar/download_pelamar'; ?>";
+            window.location = url;
+        });
+    });
 </script>

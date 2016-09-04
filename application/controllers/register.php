@@ -5,7 +5,14 @@ class Register extends CI_Controller
 
     function index()
     {
-        $this->load->view('portal/register');
+        $this->load->model('base/variables','variables');
+        $enabled_frontend = $this->variables->get_var('frontend-enabled');
+
+        if($enabled_frontend == 'N') {
+            $this->load->view('portal/disabled_page');
+        }else {
+            $this->load->view('portal/register');
+        }
     }
 
     public function register_action()

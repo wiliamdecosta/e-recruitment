@@ -42,7 +42,7 @@ class T_applicant_job extends Abstract_model {
 	                            applicant.applicant_username, applicant.applicant_fullname,  applicant.applicant_ktp_no,
 	                            applicant.applicant_email, applicant.applicant_telp,  applicant.applicant_hp,
 	                            applicant.applicant_date_of_birth, applicant.applicant_ipk, applicant.applicant_address,  applicant.applicant_city,
-	                            applicant_status.code AS status_code, applicant.gender,
+	                            applicant_status.code AS status_code, applicant.gender, applicant.created_date as tgl_daftar,
 	                            education.education_code,
 	                            major.major_code";
 	public $fromClause 		= "recruitment.t_applicant_job AS applicant_job

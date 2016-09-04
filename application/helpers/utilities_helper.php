@@ -1,5 +1,5 @@
 <?php
-	
+
 function jsonDecode($data) {
 
 	if (empty($data)) return array();
@@ -13,7 +13,7 @@ function jsonDecode($data) {
     return $items;
 }
 
-function isValidEmail($email){ 
+function isValidEmail($email){
     return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/@.+\./', $email);
 }
 
@@ -23,6 +23,15 @@ function html_spaces($number=1) {
         $result .= "&nbsp;";
     }
     return $result;
+}
+
+function startExcel($filename = "laporan.xls") {
+
+   header("Content-type: application/vnd.ms-excel");
+   header("Content-Disposition: attachment; filename=$filename");
+   header("Expires: 0");
+   header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+   header("Pragma: public");
 }
 
 ?>

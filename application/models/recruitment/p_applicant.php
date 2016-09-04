@@ -56,7 +56,9 @@ class P_applicant extends Abstract_model {
 	                                LEFT JOIN recruitment.p_education as education ON applicant.education_id = education.education_id
 	                                LEFT JOIN recruitment.p_college_major as major ON applicant.major_id = major.major_id";
 
-	public $refs			= array();
+	public $refs			= array('recruitment.p_applicant_doc' => 'applicant_id',
+                                    'recruitment.t_applicant_job' => 'applicant_id'
+                                    );
 
 	public $comboDisplay	= array();
 

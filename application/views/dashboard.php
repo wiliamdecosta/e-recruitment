@@ -92,5 +92,55 @@
 
         </div>
     </div>
+    <div class="space-16"></div>
+    <div class="row">
+        <div class="col-md-3 col-md-offset-4">
+            <h4 class="blue">Enabled Front End ? </h4>
+            <?php
+                $ci = & get_instance();
+                $ci->load->model('base/variables');
+                $table = $ci->variables;
+
+                $enabled = $table->get_var('frontend-enabled');
+                $checked = '';
+                if($enabled == 'Y' or empty($enabled)) {
+                    $checked = 'checked';
+                }
+            ?>
+            <label>
+                <input type="checkbox" <?php echo $checked; ?> class="ace ace-switch ace-switch-5" id="check-frontend-enabled">
+                <span class="lbl"></span>
+            </label>
+        </div>
+    </div>
     <?php endif; ?>
 </div>
+
+<script>
+$(function(e) {
+
+    $('#check-frontend-enabled').change(function() {
+        if($(this).is(":checked")) {
+            setEnable('Y');
+        }else {
+            setEnable('N');
+        }
+    });
+});
+
+function setEnable(enabled) {
+
+    $.post( "<?php echo WS_URL.'base.variables_controller/set_var'; ?>",
+        { var_name: 'frontend-enabled',
+          var_value: enabled,
+        },
+        function( response ) {
+            if(response.success == false) {
+                showBootDialog(false, BootstrapDialog.TYPE_WARNING, 'Attention', response.message);
+            }else {
+
+            }
+        }
+    );
+}
+</script>

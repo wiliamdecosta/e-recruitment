@@ -191,6 +191,11 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID',name: 'job_posting_id', key: true, width: 35, sorttype: 'number', sortable: true, editable: true, hidden:true},
+                {label: 'Excel Pelamar Lulus',name: '',width: 155, align: "center",editable: false,
+                    formatter:function(cellvalue, options, rowObject) {
+                        return '<a class="btn btn-success btn-xs" href="#" onclick="downloadExcelPelamar('+rowObject['job_posting_id']+')"><i class="fa fa-download"></i> Pelamar</a>';
+                    }
+                },
                 {label: 'Kode Lamaran', name: 'job_id', width: 120, align: "left", editable: true, hidden:true,
                     editrules: {edithidden: true},
                     edittype: 'select',
@@ -1287,4 +1292,11 @@
         );
     }
 
+</script>
+
+<script>
+    function downloadExcelPelamar(job_posting_id) {
+        var url = "<?php echo base_url().'excel_pelamar/download_pelamar_lulus?job_posting_id='; ?>"+job_posting_id;
+        window.location = url;
+    }
 </script>
