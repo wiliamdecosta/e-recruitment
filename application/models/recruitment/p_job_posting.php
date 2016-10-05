@@ -84,7 +84,7 @@ class P_job_posting extends Abstract_model
         if ($job_gender != "") {
             if ($job_gender !== $app_gender) {
                 $out['success'] = false;
-                $out['message'] = "Maaf anda tidak memenuhi syarat kualifikasi. Ref : Gender";
+                $out['message'] = "Maaf anda tidak memenuhi syarat kualifikasi. Ref : Jenis Kelamin";
                 echo json_encode($out);
                 exit;
             }
@@ -100,13 +100,13 @@ class P_job_posting extends Abstract_model
         }
 
         //2.Cek Kelengkapan
-        /*$dok = $this->checkDok();
+        $dok = $this->checkDok();
         if(count($dok) > 0){
             $out['success'] = false;
-            $out['message'] = "Dokumen  <b>".implode(" , ",$dok) . "</b> harus dilengkapi!!!" ;
+            $out['message'] = "Dokumen  ,".implode(" , ",$dok) . ", harus dilengkapi!!!" ;
             echo json_encode($out);
             exit;
-        }*/
+        }
 
         //3.Cek Syarat
 

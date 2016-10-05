@@ -42,8 +42,10 @@
                         <img alt="Porto" width="211" height="34" data-sticky-width="82" data-sticky-height="40"
                              data-sticky-top="33" src="<?php echo base_url();?>assets/img/tirtawening.png">
                     </p>
-                    <p class="pull-right">
-                        <i class="fa fa-map-marker"></i> Jl. Badak Singa No. 10 Jln Tamansari, Bandung
+                    <p class="pull-right" style="float: right">
+<!--                        <i class="fa fa-map-marker"></i> Jl. Badak Singa No. 10 Jln Tamansari, Bandung-->
+                    <h4 class="heading-primary pull-right" style="margin-top:10px">Welcome, <strong><?php echo $this->session->userdata('applicant_fullname');?></strong></h4>
+
                     </p>
                 </div>
             </div>

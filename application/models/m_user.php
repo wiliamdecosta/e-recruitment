@@ -60,6 +60,7 @@ class M_user extends CI_Model
         $inKotaAsal = strtoupper($this->input->post('inKotaAsal'));
         $inAddress = ucfirst($this->input->post('inAddress'));
         $inIPK = floatval($this->input->post('inIPK'));
+        $jk = $this->input->post('sl_jk');
 
         $dateofbirth = $tahun . '-' . $bulan . '-' . $hari;
         $applicant_id = $this->session->userdata('applicant_id');
@@ -74,7 +75,8 @@ class M_user extends CI_Model
             'applicant_date_of_birth' => $dateofbirth,
             'applicant_address' => $inAddress,
             'applicant_city' => $inKotaAsal,
-            'applicant_ipk' => $inIPK
+            'applicant_ipk' => $inIPK,
+            'gender' => $jk
         );
 
         $this->db->where('applicant_id', $applicant_id);

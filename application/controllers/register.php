@@ -24,6 +24,13 @@ class Register extends CI_Controller
         $password = $this->input->post('password');
         $activation = md5(uniqid(rand(),true));
 
+        if(strlen($password) < 7){
+            $out['success'] = false;
+            $out['message'] = 'Minimal password adalah 6 karakter !';
+            echo json_encode($out);
+            exit;
+        }
+
         $email_count = $this->email_check($email);
         if ($email_count > 0) {
             $out['success'] = false;

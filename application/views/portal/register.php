@@ -279,7 +279,11 @@
                                     required: true,
                                     email: true
                                 },
-                                password: "required",
+                                password: {
+                                    required : true,
+                                    minlength:6,
+                                    maxlength:50
+                                },
                                 password_again: {
                                     equalTo: "#password"
                                 },
@@ -317,12 +321,11 @@
                                             swal('',data.message,'error');
                                             $("#formRegister")[0].reset();
                                         }else{
-
+                                            swal('',data.message,'success');
+                                            $("#formRegister")[0].reset();
+                                            window.location = '<?php echo site_url('login');?>';
                                         }
 
-                                        swal('',data.message,'success');
-                                        $("#formRegister")[0].reset();
-                                        //window.location = '<?php echo site_url('login');?>';
                                     }
                                 });
                             }

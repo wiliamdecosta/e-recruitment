@@ -218,7 +218,11 @@
                                     required: true,
                                     email: true
                                 },
-                                password: "required"
+                                password: {
+                                    required : true,
+                                    minlength:6,
+                                    maxlength:50
+                                }
                             },
                             messages: {
                                 email: {

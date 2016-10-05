@@ -7,10 +7,18 @@
             <form id="formBiodata" method="post">
                 <div class="row">
                     <div class="form-group">
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                             <label>Nama Lengkap *</label>
                             <input type="text" name="inFullName" value="<?php echo $row->applicant_fullname; ?>"
                                    class="form-control" style="text-transform:uppercase"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Jenis Kelamin *</label>
+                            <select name="sl_jk" id="sl_jk" class="form-control">
+                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="L">Laki - Laki</option>
+                                <option value="P">Perempuan</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -121,6 +129,8 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#sl_jk").val('<?php echo $row->gender; ?>');
+
         $("#formBiodata").validate({
             rules: {
                 inName: "required",
@@ -143,13 +153,17 @@
                 inIPK: {
                     required: true,
                     number: true
-                }
+                },
+                sl_jk: "required"
 
             },
             messages: {
                 email: {
                     required: "Email tidak boleh kosong",
                     email: "Email harus valid"
+                },
+                sl_jk: {
+                    required: "Pilih jenis kelamin "
                 }
             }
         });
